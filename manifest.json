@@ -3,7 +3,7 @@
 	"name": "Taskorator",
 	"version": "2026.05.11",
 	"minAppVersion": "1.8.0",
-	"description": "An Obsidian plugin to automatically generate daily tasks based on customizable templates and schedule tags.",
+	"description": "Automatically generate daily tasks based on customizable templates and schedule tags.",
 	"author": "Omar Ashraf (omr)",
 	"authorUrl": "",
 	"isDesktopOnly": false

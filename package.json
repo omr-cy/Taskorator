@@ -1,7 +1,7 @@
 {
   "name": "taskorator",
   "version": "2026.05.11",
-  "description": "Automatically generate daily tasks based on customizable templates in Obsidian.",
+  "description": "Automatically generate daily tasks based on customizable templates and schedule tags.",
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",
