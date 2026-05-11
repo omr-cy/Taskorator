@@ -1,6 +1,6 @@
 {
   "name": "taskorator",
-  "version": "1.1.0",
+  "version": "2026.05.11",
   "description": "Automatically generate daily tasks based on customizable templates in Obsidian.",
   "main": "main.js",
   "scripts": {

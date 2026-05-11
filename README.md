@@ -2,6 +2,14 @@
 
 Automatically generate daily tasks based on customizable templates in Obsidian.
 
+---
+
+### 📦 [Download Latest Release](https://github.com/omr-cyber/Taskorator/releases/latest)
+[![Latest Release](https://img.shields.io/github/v/release/omr-cyber/Taskorator?label=latest%20release&style=for-the-badge)](https://github.com/omr-cyber/Taskorator/releases/latest)
+[![GitHub All Releases](https://img.shields.io/github/downloads/omr-cyber/Taskorator/total?style=for-the-badge)](https://github.com/omr-cyber/Taskorator/releases)
+
+---
+
 [English](#english) | [العربية](#arabic) | [中文](#chinese)
 
 ---
@@ -13,6 +21,17 @@ Automatically generate daily tasks based on customizable templates in Obsidian.
 
 **Taskorator** is an Obsidian plugin that automatically generates daily task notes based on customizable templates. It helps you maintain a consistent daily task tracking system with minimal effort.
 
+### 📥 Download & Installation
+
+You can find all versions and manual installation artifacts on our **[GitHub Releases Page](https://github.com/omr-cyber/Taskorator/releases)**.
+
+#### Manual Installation (Recommended)
+1. Download the `Taskorator.zip` from the [Latest Release](https://github.com/omr-cyber/Taskorator/releases/latest).
+2. Extract the `Taskorator` folder into your vault's `.obsidian/plugins/` directory.
+3. Reload Obsidian and enable the plugin in **Settings > Community Plugins**.
+
+*Alternatively, you can download `main.js`, `manifest.json`, and `styles.css` individually and place them in `.obsidian/plugins/taskorator/`.*
+
 ### 🚀 Features
 
 - 🤖 **Automatic Generation**: Automatically creates daily task notes based on your preferred schedule (Daily or Workdays only).
@@ -23,6 +42,7 @@ Automatically generate daily tasks based on customizable templates in Obsidian.
 - 🎨 **Customizable Templates**: Design your own task templates with variables.
 - 📆 **Conditional Content**: Use `#every` tags to only include specific tasks on certain days (e.g., `#every monday, friday`).
 - 📱 **Mobile Friendly**: Works perfectly on both desktop and mobile Obsidian.
+- ⚡ **Manual Generation**: Instantly generate or update today's tasks with a single click from the settings.
 
 ### ⚙️ Configuration
 
@@ -32,6 +52,7 @@ After installation, configure the plugin in Settings:
 2. **Path Configuration**: Set your Root Directory or Single File Path.
 3. **Template**: Customize your task daily layout.
 4. **Auto Generate**: Choose the frequency (None, Daily, or Workdays).
+5. **Add Task Manually**: Use the "Add Today's Task" button to generate tasks on demand.
 
 ### 🖋️ Template Variables & Tags
 
@@ -52,10 +73,23 @@ You can hide specific lines or entire header blocks based on the day of the week
 
 ### 📥 Installation
 
+#### Manual Installation (Recommended for Beta)
+1. Download `main.js`, `manifest.json`, and `styles.css` from the [latest release](https://github.com/omr-cyber/Taskorator/releases/latest).
+2. Create a folder named `taskorator` in your vault's `.obsidian/plugins/` directory.
+3. Move the downloaded files into that folder.
+4. Reload Obsidian and enable the plugin in Settings > Community Plugins.
+
+#### Via Obsidian (Coming Soon)
 1. Open Obsidian and go to Settings.
 2. Navigate to Community Plugins and click "Browse".
 3. Search for "Taskorator".
 4. Click Install, then Enable.
+
+### 📄 License
+
+This project is licensed under the **MIT License**.
+
+**Disclaimer of Responsibility**: The author is **NOT** responsible for any issues, data loss, or damages resulting from the use of this plugin. Use it at your own risk. The code is open for anyone to use, modify, and build upon.
 
 ---
 
@@ -65,6 +99,12 @@ You can hide specific lines or entire header blocks based on the day of the week
 ### ✨ مقدمة
 
 **Taskorator** هو إضافة لـ Obsidian يقوم بتوليد ملاحظات المهام اليومية تلقائياً بناءً على قوالب قابلة للتخصيص. يساعدك على الحفاظ على نظام تتبع مهام يومي ثابت بأقل مجهود.
+
+### 📥 التحميل والإصدارات
+
+يمكنك العثور على جميع الإصدارات وملفات التثبيت اليدوي في [صفحة الإصدارات](https://github.com/omr-cyber/Taskorator/releases).
+
+**[تحميل أحدث إصدار](https://github.com/omr-cyber/Taskorator/releases/latest)**
 
 ### 🚀 المميزات
 
@@ -76,6 +116,7 @@ You can hide specific lines or entire header blocks based on the day of the week
 - 🎨 **قوالب قابلة للتخصيص**: صمم قوالب المهام الخاصة بك باستخدام المتغيرات.
 - 📆 **محتوى مشروط**: استخدم وسوم `#every` لتضمين مهام محددة فقط في أيام معينة (مثل `#every monday, friday`).
 - 📱 **صديق للجوال**: يعمل بشكل مثالي على كل من نسخة الحاسوب والجوال من Obsidian.
+- ⚡ **توليد يدوي**: قم بتوليد أو تحديث مهام اليوم فوراً بضغطة زر واحدة من الإعدادات.
 
 ### ⚙️ الإعدادات
 
@@ -85,6 +126,7 @@ You can hide specific lines or entire header blocks based on the day of the week
 2. **تهيئة المسار**: قم بتعيين الدليل الجذري أو مسار الملف المنفرد.
 3. **القالب**: خصص تخطيط مهامك اليومية.
 4. **التوليد التلقائي**: اختر التكرار (لا شيء، يومياً، أو أيام العمل).
+5. **إضافة مهمة يدوياً**: استخدم زر "إضافة مهام اليوم" لتوليد المهام عند الطلب.
 
 ### 🖋️ متغيرات القالب والوسوم
 
@@ -103,12 +145,11 @@ You can hide specific lines or entire header blocks based on the day of the week
     - [ ] الذهاب إلى النادي الرياضي
     ```
 
-### 📥 التثبيت
+### 📄 الترخيص
 
-1. افتح Obsidian وانتقل إلى الإعدادات.
-2. انتقل إلى "إضافات المجتمع" واضغط على "تصفح".
-3. ابحث عن "Taskorator".
-4. اضغط على تثبيت، ثم تفعيل.
+هذا المشروع مرخص بموجب **رخصة MIT**.
+
+**إخلاء المسؤولية**: المؤلف **غير مسؤول** بتاتاً عن أي مشاكل أو فقدان للبيانات أو أضرار ناتجة عن استخدام هذه الإضافة. استخدمها على مسؤوليتك الخاصة. الكود مفتوح لأي شخص لاستخدامه وتعديله والبناء عليه.
 
 ---
 
@@ -117,7 +158,13 @@ You can hide specific lines or entire header blocks based on the day of the week
 
 ### ✨ 介绍
 
-**每日任务自动生成器** 是一个 Obsidian 插件，可以根据自定义模板自动生成每日任务笔记。它帮助您以最小的努力维护一致的每日任务跟踪系统。
+**Taskorator** 是一个 Obsidian 插件，可以根据自定义模板自动生成每日任务笔记。它帮助您以最小的努力维护一致的每日任务跟踪系统。
+
+### 📥 下载与发布
+
+您可以在 [发布页面](https://github.com/omr-cyber/Taskorator/releases) 找到所有版本和手动安装包。
+
+**[下载最新版本](https://github.com/omr-cyber/Taskorator/releases/latest)**
 
 ### 🚀 功能特点
 
@@ -129,6 +176,7 @@ You can hide specific lines or entire header blocks based on the day of the week
 - 🎨 **可自定义模板**: 使用变量设计您自己的任务布局。
 - 📆 **条件内容**: 使用 `#every` 标签仅在特定日子包含特定任务（例如 `#every monday, friday`）。
 - 📱 **移动设备友好**: 在桌面和移动端完美运行。
+- ⚡ **手动生成**: 通过设置中的按钮一键生成或更新今日任务。
 
 ### 🖋️ 模板变量与标签
 
@@ -147,9 +195,8 @@ You can hide specific lines or entire header blocks based on the day of the week
     - [ ] 去健身房
     ```
 
-### 📥 安装
+### 📄 许可证
 
-1. 打开 Obsidian 设置。
-2. 导航到“社区插件”并点击“浏览”。
-3. 搜索 “Taskorator”。
-4. 点击安装并启用。
+本项目采用 **MIT 许可证**。
+
+**责任限制**: 作者对因使用本插件而导致的任何问题、数据丢失或损坏 **概不负责**。请自行承担使用风险。本项目代码开源，任何人均可自由使用、修改和二次开发。
