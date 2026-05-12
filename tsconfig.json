@@ -23,5 +23,13 @@
   },
   "include": [
     "src/**/*.ts"
+  ],
+  "files": [
+    "src/main.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build"
   ]
 } 

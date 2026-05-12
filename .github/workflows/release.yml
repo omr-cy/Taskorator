@@ -36,9 +36,7 @@ jobs:
       - name: Create Release Zip
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          mkdir -p taskorator
-          cp build/main.js build/manifest.json build/styles.css taskorator/ 2>/dev/null || :
-          zip -r Taskorator.zip taskorator
+          zip -j Taskorator.zip build/main.js build/manifest.json build/styles.css 2>/dev/null || :
 
       - name: Upload Release Assets
         if: startsWith(github.ref, 'refs/tags/')
