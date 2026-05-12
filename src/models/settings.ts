@@ -1,23 +1,23 @@
 /**
- * 自动生成模式枚举
+ * Auto generation mode enumeration
  */
 export enum AutoGenerateMode {
-    NONE = 'none',     // 关闭自动生成
-    DAILY = 'daily',   // 每日自动生成
-    WORKDAY = 'workday' // 仅工作日自动生成
+    NONE = 'none',     // Disable auto generation
+    DAILY = 'daily',   // Daily auto generation
+    WORKDAY = 'workday' // Only workday auto generation
 }
 
 /**
- * 存储模式枚举
+ * Storage mode enumeration
  */
 export enum StorageMode {
-    TRADITIONAL = 'traditional', // 传统模式（按年月文件夹归档）
-    SINGLE_FILE = 'single_file', // 单文件模式（每天覆盖同一个文件）
-    BOTH = 'both'                // 同时使用两种模式
+    TRADITIONAL = 'traditional', // Traditional mode (archive by year/month folders)
+    SINGLE_FILE = 'single_file', // Single file mode (overwrite the same file daily)
+    BOTH = 'both'                // Use both modes
 }
 
 /**
- * 设置界面语言
+ * Settings UI Language
  */
 export enum Language {
     AUTO = 'auto',
@@ -27,30 +27,30 @@ export enum Language {
 }
 
 /**
- * 插件设置接口
+ * Plugin settings interface
  */
 export interface TaskoratorSettings {
-    // 基础配置
-    storageMode: StorageMode;      // 存储模式
-    singleFilePath: string;        // 单文件模式下的文件路径
-    rootDir: string;               // 任务文件存放的根目录 (传统模式)
-    autoGenerateMode: AutoGenerateMode; // 自动生成模式
-    language: string;            // 界面语言
+    // Basic configuration
+    storageMode: StorageMode;      // Storage mode
+    singleFilePath: string;        // File path for single file mode
+    rootDir: string;               // Root directory for task files (traditional mode)
+    autoGenerateMode: AutoGenerateMode; // Auto-generation mode
+    language: string;            // UI language
 
-    // 模板配置
-    templateZh: string;            // 中文任务模板
-    templateEn: string;            // 英文任务模板
-    templateAr: string;            // 阿拉伯语任务模板
+    // Template configuration
+    templateZh: string;            // Chinese task template
+    templateEn: string;            // English task template
+    templateAr: string;            // Arabic task template
 
-    // 新增：用户自定义模板
+    // New: User-defined custom template
     customTemplate: string;
 
-    // 新增：标记是否使用自定义模板
+    // New: Flag for using custom template
     hasCustomTemplate: boolean;
 }
 
 /**
- * 默认中文模板
+ * Default Chinese template
  */
 export const DEFAULT_TEMPLATE_ZH = `## {{dateWithIcon}}（{{weekday}}）
 
@@ -72,7 +72,7 @@ export const DEFAULT_TEMPLATE_ZH = `## {{dateWithIcon}}（{{weekday}}）
 `;
 
 /**
- * 默认英文模板
+ * Default English template
  */
 export const DEFAULT_TEMPLATE_EN = `## {{dateWithIcon}} ({{weekday}})
 
@@ -97,7 +97,7 @@ export const DEFAULT_TEMPLATE_EN = `## {{dateWithIcon}} ({{weekday}})
 `;
 
 /**
- * 默认阿拉伯语模板
+ * Default Arabic template
  */
 export const DEFAULT_TEMPLATE_AR = `## {{dateWithIcon}} ({{weekday}})
 
@@ -122,7 +122,7 @@ export const DEFAULT_TEMPLATE_AR = `## {{dateWithIcon}} ({{weekday}})
 `;
 
 /**
- * 默认设置
+ * Default settings
  */
 export const DEFAULT_SETTINGS: TaskoratorSettings = {
     storageMode: StorageMode.TRADITIONAL,
@@ -133,6 +133,6 @@ export const DEFAULT_SETTINGS: TaskoratorSettings = {
     templateZh: DEFAULT_TEMPLATE_ZH,
     templateEn: DEFAULT_TEMPLATE_EN,
     templateAr: DEFAULT_TEMPLATE_AR,
-    customTemplate: '', // 默认为空，表示使用语言相关的默认模板
-    hasCustomTemplate: false // 默认不使用自定义模板
-}; 
+    customTemplate: '', // Default is empty, meaning use the language-specific default template
+    hasCustomTemplate: false // Default is not use custom template
+};

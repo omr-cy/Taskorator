@@ -1,6 +1,6 @@
 /**
- * 设置模块入口文件
- * 导出设置模块中的关键内容
+ * Settings module entry point
+ * Exports key contents from the settings module
  */
 
 import { DEFAULT_SETTINGS } from '../models/settings';

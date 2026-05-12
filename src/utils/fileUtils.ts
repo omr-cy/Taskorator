@@ -2,14 +2,14 @@ import { normalizePath, TFile, Vault } from "obsidian";
 import { getLocalizedMonthName } from "./dateUtils";
 
 /**
- * 文件操作工具函数
+ * File operation utility functions
  */
 
 /**
- * 确保目录存在，如果不存在则创建
- * @param vault Obsidian文件系统
- * @param path 目录路径
- * @returns 是否成功创建或已存在
+ * Ensure folder exists, create if it doesn't
+ * @param vault Obsidian vault
+ * @param path Folder path
+ * @returns Whether created successfully or already exists
  */
 export async function ensureFolderExists(vault: Vault, path: string): Promise<boolean> {
     try {
@@ -37,15 +37,15 @@ export async function ensureFolderExists(vault: Vault, path: string): Promise<bo
 }
 
 /**
- * 确保文件存在，如果不存在则创建
- * @param vault Obsidian文件系统
- * @param path 文件路径
- * @param content 文件内容
- * @returns 是否成功创建或已存在
+ * Ensure file exists, create if it doesn't
+ * @param vault Obsidian vault
+ * @param path File path
+ * @param content File content
+ * @returns Whether created successfully or already exists
  */
 export async function ensureFileExists(vault: Vault, path: string, content: string = ''): Promise<boolean> {
     try {
-        // 确保文件夹结构存在
+        // Ensure folder structure exists
         const normalizedPath = normalizePath(path);
         const folderPath = normalizedPath.substring(0, normalizedPath.lastIndexOf('/'));
         
@@ -56,11 +56,11 @@ export async function ensureFileExists(vault: Vault, path: string, content: stri
             }
         }
         
-        // 检查文件是否存在
+        // Check if file exists
         const file = vault.getAbstractFileByPath(normalizedPath);
         
         if (!file) {
-            // 创建文件并写入内容
+            // Create file and write content
             await vault.create(normalizedPath, content);
         }
         return true;
@@ -70,37 +70,37 @@ export async function ensureFileExists(vault: Vault, path: string, content: stri
 }
 
 /**
- * 向文件追加内容
- * @param vault Obsidian文件系统
- * @param path 文件路径
- * @param content 要追加的内容
- * @returns 是否成功追加
+ * Append content to file
+ * @param vault Obsidian vault
+ * @param path File path
+ * @param content Content to append
+ * @returns Whether appended successfully
  */
 export async function appendToFile(vault: Vault, path: string, content: string): Promise<boolean> {
     try {
         const normalizedPath = normalizePath(path);
         
-        // 确保文件存在
+        // Ensure file exists
         const fileExists = await ensureFileExists(vault, normalizedPath);
         if (!fileExists) {
             return false;
         }
 
-        // 获取文件对象
+        // Get file object
         const file = vault.getAbstractFileByPath(normalizedPath);
         if (!(file instanceof TFile)) {
             return false;
         }
         
-        // 读取文件当前内容
+        // Read current content of file
         const currentContent = await vault.read(file);
         
-        // 追加新内容
+        // Append new content
         const lastChar = currentContent.slice(-1);
         const separator = (lastChar === '\n' || currentContent === '') ? '' : '\n';
         const newContent = currentContent + separator + content;
         
-        // 将合并后的内容写回文件
+        // Write merged content back to file
         await vault.modify(file, newContent);
         
         return true;
@@ -110,26 +110,26 @@ export async function appendToFile(vault: Vault, path: string, content: string):
 }
 
 /**
- * 检查文件中是否包含指定内容
- * @param vault Obsidian文件系统
- * @param path 文件路径
- * @param content 要检查的内容
- * @returns 是否包含指定内容
+ * Check if file contains specified content
+ * @param vault Obsidian vault
+ * @param path File path
+ * @param content Content to check
+ * @returns Whether it contains the content
  */
 export async function fileContains(vault: Vault, path: string, content: string): Promise<boolean> {
     try {
         const normalizedPath = normalizePath(path);
         
-        // 获取文件对象
+        // Get file object
         const file = vault.getAbstractFileByPath(normalizedPath);
         if (!(file instanceof TFile)) {
             return false;
         }
 
-        // 读取文件内容
+        // Read file content
         const fileContent = await vault.read(file);
         
-        // 检查是否包含指定内容
+        // Check if it contains specified content
         return fileContent.includes(content);
     } catch (error) {
         return false;
@@ -137,16 +137,16 @@ export async function fileContains(vault: Vault, path: string, content: string):
 }
 
 /**
- * 根据当前日期生成任务文件路径
- * @param rootDir 根目录
- * @returns 任务文件路径，格式为：rootDir/year/monthName.md
+ * Generate task file path based on current date
+ * @param rootDir Root directory
+ * @returns Task file path, format: rootDir/year/monthName.md
  */
 export function getTaskFilePath(rootDir: string): string {
     const now = new Date();
     const year = now.getFullYear();
     const yearDir = year.toString();
     
-    // 使用本地化的月份名称
+    // Use localized month name
     const monthName = getLocalizedMonthName();
     
     const monthFile = `${monthName}.md`;
@@ -155,10 +155,10 @@ export function getTaskFilePath(rootDir: string): string {
 }
 
 /**
- * 检查今日任务是否已存在
- * @param vault Obsidian文件系统
- * @param rootDir 根目录
- * @returns 是否已存在
+ * Check if today's task already exists
+ * @param vault Obsidian vault
+ * @param rootDir Root directory
+ * @returns Whether it exists
  */
 export async function todayTaskExists(vault: Vault, rootDir: string): Promise<boolean> {
     const taskFilePath = getTaskFilePath(rootDir);

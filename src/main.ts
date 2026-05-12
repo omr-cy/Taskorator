@@ -7,36 +7,36 @@ import { TaskGenerator } from './taskGenerator';
 import { DAILY_TASK_ICON } from './ui/icons';
 
 /**
- * Taskorator 插件主类
+ * Taskorator plugin main class
  */
 export default class TaskoratorPlugin extends Plugin {
-    // 设置管理器
+    // Settings manager
     settingsManager: SettingsManager;
     
-    // 任务生成器
+    // Task generator
     taskGenerator: TaskGenerator;
 
     /**
-     * 插件加载时调用
+     * Called when the plugin is loaded
      */
     async onload() {
-        // 添加插件图标
+        // Add plugin icon
         addIcon('daily-task', DAILY_TASK_ICON);
         
-        // 初始化设置管理器
+        // Initialize settings manager
         this.settingsManager = new SettingsManager(this);
         await this.settingsManager.loadSettings();
         
-        // 初始化任务生成器
+        // Initialize task generator
         this.taskGenerator = new TaskGenerator(this.app, this.settingsManager);
         
-        // 设置语言
+        // Set language
         setCurrentLanguage(this.settingsManager.getCurrentLanguage());
         
-        // 添加设置标签页
+        // Add settings tab
         this.addSettingTab(new TaskoratorSettingTab(this.app, this));
         
-        // 添加手动生成任务命令
+        // Add manual task generation command
         this.addCommand({
             id: 'add-daily-task',
             name: getTranslation('commands.addDailyTask'),
@@ -45,34 +45,34 @@ export default class TaskoratorPlugin extends Plugin {
             }
         });
         
-        // 延迟10秒后检查是否需要自动生成任务
-        // 这样可以确保Obsidian完全加载，避免与启动过程冲突
+        // Check if auto-generation is needed after 10 seconds
+        // This ensures Obsidian is fully loaded to avoid conflicts during startup
         setTimeout(async () => {
             await this.checkAutoGenerate();
         }, 10000);
     }
     
     /**
-     * 插件卸载时调用
+     * Called when the plugin is unloaded
      */
     onunload() {
-        // 插件卸载清理工作
+        // Plugin unload cleanup
     }
     
     /**
-     * 检查是否需要自动生成任务
+     * Check if auto-generation is needed
      */
     private async checkAutoGenerate() {
         const settings = this.settingsManager.getSettings();
         
         switch (settings.autoGenerateMode) {
             case AutoGenerateMode.DAILY:
-                // 每天自动生成（静默模式，不打开文件）
+                // Auto-generate daily (silent mode, does not open file)
                 await this.taskGenerator.generateDailyTask(false, true);
                 break;
                 
             case AutoGenerateMode.WORKDAY:
-                // 工作日自动生成（静默模式，不打开文件）
+                // Auto-generate on workdays (silent mode, does not open file)
                 if (isWorkday()) {
                     await this.taskGenerator.generateDailyTask(false, true);
                 }
@@ -80,8 +80,9 @@ export default class TaskoratorPlugin extends Plugin {
                 
             case AutoGenerateMode.NONE:
             default:
-                // 不自动生成
+                // No auto-generation
                 break;
         }
     }
-} 
+}
+ 

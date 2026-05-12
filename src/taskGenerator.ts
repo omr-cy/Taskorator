@@ -7,8 +7,8 @@ import { renderTemplate } from "./utils/templateEngine";
 import { getCurrentDate } from "./utils/dateUtils";
 
 /**
- * 任务生成器
- * 负责创建任务文件和添加任务内容
+ * Task Generator
+ * Responsible for creating task files and adding task content
  */
 export class TaskGenerator {
     private app: App;
@@ -22,10 +22,10 @@ export class TaskGenerator {
     }
 
     /**
-     * 生成每日任务
-     * @param openFile 是否打开文件
-     * @param quietMode 静默模式，减少日志输出
-     * @returns 成功或失败
+     * Generate daily task
+     * @param openFile Whether to open the file
+     * @param quietMode Quiet mode, reduce log output
+     * @returns boolean indicating success
      */
     async generateDailyTask(openFile: boolean = true, quietMode: boolean = false): Promise<boolean> {
         try {
@@ -33,7 +33,7 @@ export class TaskGenerator {
             const storageMode = settings.storageMode;
             const date = getCurrentDate();
             
-            // 确定需要处理的路径和模式
+            // Determine paths and modes to process
             const traditionalRootDir = settings.rootDir.trim() || 'Tasks';
             const traditionalPath = getTaskFilePath(traditionalRootDir);
             const singlePath = settings.singleFilePath.trim() || 'Tasks.md';
@@ -43,7 +43,7 @@ export class TaskGenerator {
             if (storageMode === StorageMode.TRADITIONAL || storageMode === StorageMode.BOTH) {
                 pathsToProcess.push({ path: traditionalPath, mode: 'append' });
                 
-                // 确保文件夹存在
+                // Ensure folders exist
                 const pathParts = traditionalPath.split('/');
                 const year = pathParts.length > 1 ? pathParts[1] : '';
                 const yearFolder = `${traditionalRootDir}/${year}`;
@@ -54,7 +54,7 @@ export class TaskGenerator {
             if (storageMode === StorageMode.SINGLE_FILE || storageMode === StorageMode.BOTH) {
                 pathsToProcess.push({ path: singlePath, mode: 'overwrite' });
                 
-                // 确保父目录存在
+                // Ensure parent directory exists
                 const parts = singlePath.split('/');
                 if (parts.length > 1) {
                     const dirPath = parts.slice(0, parts.length - 1).join('/');
@@ -81,7 +81,7 @@ export class TaskGenerator {
             let alreadyExistsInAll = true;
             
             for (const item of pathsToProcess) {
-                // 确保文件存在
+                // Ensure file exists
                 await ensureFileExists(this.vault, item.path);
                 
                 const abstractFile = this.vault.getAbstractFileByPath(item.path);
@@ -101,7 +101,7 @@ export class TaskGenerator {
                         if (!fileToOpen) fileToOpen = item.path;
                     }
                 } else {
-                    // 覆盖模式（单文件）
+                    // Overwrite mode (single file)
                     await this.vault.modify(abstractFile, fullContent);
                     anyNewTaskCreated = true;
                     alreadyExistsInAll = false;
@@ -136,7 +136,7 @@ export class TaskGenerator {
             
             return false;
         } catch (error) {
-            // 显示错误通知
+            // Show error notice
             const errorMsg = error instanceof Error ? error.message : String(error);
             this.showErrorNotice(`${getTranslation('notification.error')} ${errorMsg}`);
             
@@ -145,16 +145,16 @@ export class TaskGenerator {
     }
     
     /**
-     * 手动添加任务
-（从命令面板或图标调用）
-     * @returns 成功或失败
+     * Manually add task
+     * (Called from command palette or icon)
+     * @returns boolean indicating success
      */
     async addTaskManually(): Promise<boolean> {
         try {
-            // 调用任务生成逻辑，打开文件
+            // Call task generation logic and open the file
             return await this.generateDailyTask(true);
         } catch (error) {
-            // 显示错误通知
+            // Show error notice
             const errorMsg = error instanceof Error ? error.message : String(error);
             this.showErrorNotice(`${getTranslation('notification.error')} ${errorMsg}`);
             
@@ -163,29 +163,29 @@ export class TaskGenerator {
     }
     
     /**
-     * 显示成功通知
+     * Show success notice
      */
     private showSuccessNotice(message: string): void {
         const notice = new Notice(message, 3500);
-        // 使用CSS类而不是内联样式
+        // Use CSS class instead of inline style
         notice.noticeEl.classList.add('daily-task-success-notice');
     }
     
     /**
-     * 显示警告通知
+     * Show warning notice
      */
     private showWarningNotice(message: string): void {
         const notice = new Notice(message, 3500);
-        // 使用CSS类而不是内联样式
+        // Use CSS class instead of inline style
         notice.noticeEl.classList.add('daily-task-warning-notice');
     }
     
     /**
-     * 显示错误通知
+     * Show error notice
      */
     private showErrorNotice(message: string): void {
         const notice = new Notice(message, 3500);
-        // 使用CSS类而不是内联样式
+        // Use CSS class instead of inline style
         notice.noticeEl.classList.add('daily-task-error-notice');
     }
 }

@@ -1,51 +1,51 @@
 /**
- * DOM操作工具类
- * 提供安全的DOM操作方法，避免使用innerHTML等不安全API
+ * DOM operation utility class
+ * Provides safe DOM operation methods, avoiding unsafe APIs like innerHTML
  */
 
 /**
- * 安全地设置元素内容，避免使用innerHTML
- * 将HTML字符串转换为DOM节点并添加到目标元素
- * @param targetEl 目标元素
- * @param htmlContent HTML内容字符串
+ * Safely set element content, avoiding innerHTML
+ * Convert HTML string to DOM nodes and add them to the target element
+ * @param targetEl Target element
+ * @param htmlContent HTML content string
  */
 export function setElementContent(targetEl: HTMLElement, htmlContent: string): void {
-    // 清空目标元素
+    // Clear target element
     while (targetEl.firstChild) {
         targetEl.removeChild(targetEl.firstChild);
     }
     
-    // 使用DOMParser安全地解析HTML内容
+    // Safely parse HTML content using DOMParser
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
     
-    // 安全地添加解析后的内容
+    // Safely add parsed content
     Array.from(doc.body.childNodes).forEach(node => {
         targetEl.appendChild(document.importNode(node, true));
     });
 }
 
 /**
- * 将文本内容按行分割并安全地添加到目标元素
- * @param targetEl 目标元素
- * @param textContent 要添加的文本内容
+ * Split text content into lines and safely add to target element
+ * @param targetEl Target element
+ * @param textContent Text content to add
  */
 export function setTextContentByLines(targetEl: HTMLElement, textContent: string): void {
-    // 清空目标元素
+    // Clear target element
     while (targetEl.firstChild) {
         targetEl.removeChild(targetEl.firstChild);
     }
     
-    // 将内容按行分割
+    // Split content by lines
     const lines = textContent.split('\n');
     
-    // 为每行创建一个div
+    // Create a div for each line
     lines.forEach((line, index) => {
         const lineEl = document.createElement('div');
         lineEl.textContent = line;
         targetEl.appendChild(lineEl);
         
-        // 如果不是最后一行，添加换行符
+        // If not the last line, add a newline character
         if (index < lines.length - 1) {
             targetEl.appendChild(document.createElement('br'));
         }
@@ -53,12 +53,12 @@ export function setTextContentByLines(targetEl: HTMLElement, textContent: string
 }
 
 /**
- * 创建带图标的按钮
- * @param container 父容器
- * @param iconName 图标名称
- * @param buttonText 按钮文本
- * @param cssClasses 附加CSS类名数组
- * @returns 按钮元素
+ * Create button with icon
+ * @param container Parent container
+ * @param iconName Icon name
+ * @param buttonText Button text
+ * @param cssClasses Additional CSS classes
+ * @returns Button element
  */
 export function createIconButton(
     container: HTMLElement,
@@ -66,35 +66,35 @@ export function createIconButton(
     buttonText: string,
     cssClasses: string[] = []
 ): HTMLButtonElement {
-    // 创建按钮元素
+    // Create button element
     const button = document.createElement('button');
     button.textContent = buttonText;
     
-    // 添加CSS类
+    // Add CSS classes
     if (cssClasses.length > 0) {
         button.classList.add('icon-button', ...cssClasses);
     } else {
         button.classList.add('icon-button');
     }
     
-    // 添加图标
+    // Add icon
     const icon = document.createElement('span');
     icon.classList.add('svg-icon', `lucide-${iconName}`);
     button.prepend(icon);
     
-    // 添加到容器
+    // Add to container
     container.appendChild(button);
     
     return button;
 }
 
 /**
- * 创建文本标记
- * @param container 父容器
- * @param text 文本内容
- * @param tagType 标签类型，默认为span
- * @param cssClasses 附加CSS类名数组
- * @returns 创建的元素
+ * Create text element
+ * @param container Parent container
+ * @param text Text content
+ * @param tagType Tag type, default is span
+ * @param cssClasses Additional CSS classes
+ * @returns Created element
  */
 export function createTextElement(
     container: HTMLElement,
@@ -105,7 +105,7 @@ export function createTextElement(
     const element = document.createElement(tagType);
     element.textContent = text;
     
-    // 添加CSS类
+    // Add CSS classes
     if (cssClasses.length > 0) {
         element.classList.add(...cssClasses);
     }
@@ -115,21 +115,22 @@ export function createTextElement(
 }
 
 /**
- * 清除元素中所有内联样式
- * @param element 目标元素
- * @param recursive 是否递归处理子元素
+ * Remove all inline styles from element
+ * @param element Target element
+ * @param recursive Whether to handle child elements recursively
  */
 export function removeInlineStyles(element: HTMLElement, recursive: boolean = true): void {
-    // 移除当前元素的内联样式
+    // Remove current element's inline style
     element.removeAttribute('style');
     
-    // 如果需要递归处理
+    // If recursive processing is needed
     if (recursive && element.children.length > 0) {
-        // 将HTMLCollection转为数组进行处理
+        // Convert HTMLCollection to array for processing
         Array.from(element.children).forEach(child => {
             if (child instanceof HTMLElement) {
                 removeInlineStyles(child, true);
             }
         });
     }
-} 
+}
+ 

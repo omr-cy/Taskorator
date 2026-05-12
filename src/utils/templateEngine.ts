@@ -7,12 +7,12 @@ import {
 } from "./dateUtils";
 
 /**
- * 模板变量渲染引擎
+ * Template variable rendering engine
  */
 
 /**
- * 获取当前时间
- * @returns 当前时间，如10:30
+ * Get current time
+ * @returns Current time, e.g., 10:30
  */
 function getCurrentTime(): string {
     const now = new Date();
@@ -178,15 +178,15 @@ export function filterTemplateByDay(template: string): string {
 }
 
 /**
- * 渲染模板内容，替换其中的变量
- * @param template 模板内容
- * @returns 渲染后的内容
+ * Render template content, replacing its variables
+ * @param template Template content
+ * @returns Rendered content
  */
 export function renderTemplate(template: string): string {
     // 1. Filter out days based on #every tag
     let filteredTemplate = filterTemplateByDay(template);
 
-    // 2. 定义变量映射
+    // 2. Define variable mapping
     const variableMap: Record<string, string | number> = {
         'date': getCurrentDate(),
         'dateWithIcon': getCurrentDateWithIcon(),
@@ -196,7 +196,7 @@ export function renderTemplate(template: string): string {
         'time': getCurrentTime()
     };
     
-    // 替换模板中的变量
+    // Replace variables in the template
     let renderedContent = filteredTemplate;
     for (const [variable, value] of Object.entries(variableMap)) {
         renderedContent = renderedContent.replace(
@@ -209,16 +209,17 @@ export function renderTemplate(template: string): string {
 }
 
 /**
- * 获取变量说明
- * @returns 变量说明，包括中英文
+ * Get variable descriptions
+ * @returns Variable descriptions
  */
 export function getTemplateVariables(): Record<string, string> {
     return {
-        'date': '当前日期 / Current date (YYYY-MM-DD)',
-        'dateWithIcon': '带图标的当前日期 / Current date with daily icon',
-        'weekday': '当前星期 / Current weekday',
-        'yearProgress': '年度进度百分比 / Year progress percentage',
-        'monthProgress': '月度进度百分比 / Month progress percentage',
-        'time': '当前时间 / Current time (HH:MM)'
+        'date': 'Current date (YYYY-MM-DD)',
+        'dateWithIcon': 'Current date with daily icon',
+        'weekday': 'Current weekday',
+        'yearProgress': 'Year progress percentage',
+        'monthProgress': 'Month progress percentage',
+        'time': 'Current time (HH:MM)'
     };
-} 
+}
+ 

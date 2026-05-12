@@ -1,17 +1,17 @@
 /**
- * 插件图标定义
- * 集中管理所有SVG图标，方便维护和重用
+ * Plugin icon definitions
+ * Centralized management of all SVG icons for easy maintenance and reuse
  */
 
 /**
- * 主插件图标 - 用于显示在侧边栏和设置中
+ * Main plugin icon - for sidebar and settings
  */
 export const DAILY_TASK_ICON = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
 </svg>`;
 
 /**
- * 设置图标 - 用于设置页面
+ * Settings icon - for settings page
  */
 export const SETTINGS_ICON = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="12" cy="12" r="3"></circle>
@@ -19,7 +19,7 @@ export const SETTINGS_ICON = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/
 </svg>`;
 
 /**
- * 添加任务图标 - 用于添加任务按钮
+ * Add task icon - for add task button
  */
 export const ADD_TASK_ICON = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -27,7 +27,7 @@ export const ADD_TASK_ICON = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/
 </svg>`;
 
 /**
- * 统计图标 - 用于任务统计功能
+ * Statistics icon - for task statistics features
  */
 export const STATISTICS_ICON = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <line x1="18" y1="20" x2="18" y2="10"></line>
@@ -36,7 +36,7 @@ export const STATISTICS_ICON = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.or
 </svg>`;
 
 /**
- * 重置图标 - 用于重置设置按钮
+ * Reset icon - for reset settings button
  */
 export const RESET_ICON = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M3 2v6h6"></path>
@@ -46,7 +46,7 @@ export const RESET_ICON = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/200
 </svg>`;
 
 /**
- * 模板图标 - 用于模板设置
+ * Template icon - for template settings
  */
 export const TEMPLATE_ICON = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -54,4 +54,5 @@ export const TEMPLATE_ICON = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/
     <line x1="16" y1="13" x2="8" y2="13"></line>
     <line x1="16" y1="17" x2="8" y2="17"></line>
     <polyline points="10 9 9 9 8 9"></polyline>
-</svg>`; 
+</svg>`;
+ 

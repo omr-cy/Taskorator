@@ -1,6 +1,3 @@
-/**
- * Obsidian核心API类型声明
- */
 
 declare module "obsidian" {
     export class Plugin {

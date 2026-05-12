@@ -5,10 +5,10 @@ import { getTranslation, setCurrentLanguage } from '../i18n/i18n';
 import { renderTemplate } from '../utils/templateEngine';
 import { TaskGenerator } from '../taskGenerator';
 import { setTextContentByLines, createIconButton, createTextElement } from '../utils/domUtils';
-// 导入主插件类型定义
+// Import main plugin type definition
 import TaskoratorPlugin from '../main';
 
-// CSS 相关常量（class名称）
+// CSS related constants (class names)
 const SettingsSectionCSS = "daily-task-settings-section";
 const ButtonCSS = "daily-task-button";
 const PreviewButtonCSS = "daily-task-preview-button";
@@ -25,16 +25,16 @@ const InputContainerCSS = "daily-task-input-container";
 const InputCSS = "daily-task-input";
 
 /**
- * 添加插件自定义样式
- * 注意：样式内容现在已移至外部CSS文件
+ * Add custom plugin styles
+ * Note: Styling content has now been moved to an external CSS file
  */
 function addCustomStyles() {
-    // 样式已移至src/styles.css，无需在此处添加内联样式
-    // 插件加载时会自动加载styles.css文件
+    // Styles moved to src/styles.css, no need to add inline styles here
+    // Styles.css will be loaded automatically when the plugin loads
 }
 
 /**
- * 插件设置标签页
+ * Plugin settings tab
  */
 export class TaskoratorSettingTab extends PluginSettingTab {
     plugin: Plugin;
@@ -43,23 +43,23 @@ export class TaskoratorSettingTab extends PluginSettingTab {
     previewEl: HTMLElement | null = null;
     addTaskButton: ButtonComponent | null = null;
     
-    // 目录输入框
+    // Directory input box
     rootDirInput: TextComponent | null = null;
     
-    // 标记设置是否已修改但未保存
+    // Flag for whether settings have been modified but not saved
     dirtySettings: boolean = false;
     
-    // 自动保存目录的方法
+    // Method to auto-save directory
     autoSaveRootDir: (value: string) => Promise<void>;
 
     constructor(app: App, plugin: Plugin) {
         super(app, plugin);
         this.plugin = plugin;
         
-        // 获取父插件中的设置管理器引用 - 使用类型断言为TaskoratorPlugin而不是any
+        // Get settings manager reference from parent plugin - cast to TaskoratorPlugin instead of any
         this.settingsManager = (plugin as TaskoratorPlugin).settingsManager;
         
-        // 创建任务生成器
+        // Create task generator
         this.taskGenerator = new TaskGenerator(app, this.settingsManager);
     }
 
@@ -80,7 +80,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         // Setting sections titles
         containerEl.createEl('h2', { text: getTranslation('settings.basicSettings') });
         
-        // 输出模式设置
+        // Output mode settings
         let singleFilePathSetting: Setting | null = null;
         let rootDirSetting: Setting | null = null;
         
@@ -110,12 +110,12 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                     });
             });
 
-        // 根目录设置
+        // Root directory settings
         rootDirSetting = new Setting(containerEl)
             .setName(getTranslation('settings.rootDir'))
             .setDesc(getTranslation('settings.rootDir.desc'));
             
-        // 创建输入框容器，使其可以包含额外元素
+        // Create input container to allow extra elements
         const inputContainer = document.createElement('div');
         inputContainer.classList.add(InputContainerCSS);
         rootDirSetting.controlEl.appendChild(inputContainer);
@@ -124,52 +124,52 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             .setValue(settings.rootDir)
             .onChange(async (value) => {
                 if (value.trim() !== '') {
-                    // 设置已更改，准备自动保存
+                    // Settings changed, prepare for auto-save
                     this.dirtySettings = true;
                     
-                    // 启动自动保存定时器
+                    // Start auto-save timer
                     this.autoSaveRootDir(value);
                 }
             });
         
-        // 给input元素设置类和placeholder属性
+        // Set class and placeholder attributes for input element
         if (this.rootDirInput && this.rootDirInput.inputEl) {
             this.rootDirInput.inputEl.classList.add(InputCSS);
             this.rootDirInput.inputEl.placeholder = 'DailyTasks';
         }
         
-        // 添加自动保存指示器
+        // Add auto-save indicator
         const saveIndicator = document.createElement('div');
         saveIndicator.classList.add(SaveIndicatorCSS);
         inputContainer.appendChild(saveIndicator);
         
-        // 创建保存成功图标
+        // Create save success icon
         const saveSuccessIcon = document.createElement('span');
         saveSuccessIcon.classList.add('svg-icon', 'lucide-check', SuccessIconCSS);
         saveIndicator.appendChild(saveSuccessIcon);
 
-        // 记录自动保存定时器
+        // Record auto-save timer
         let autoSaveTimer: number | null = null;
         
-        // 自动保存方法
+        // Auto-save method
         this.autoSaveRootDir = async (value: string) => {
-            // 清除之前的定时器
+            // Clear previous timer
             if (autoSaveTimer !== null) {
                 window.clearTimeout(autoSaveTimer);
             }
             
-            // 设置新的定时器，延迟800ms保存（在用户停止输入后）
+            // Set new timer, delay 800ms (after user stops typing)
             autoSaveTimer = window.setTimeout(async () => {
                 let pathToSave = value.trim();
                 if (pathToSave === '') {
-                    pathToSave = 'DailyTasks'; // 默认存放目录
+                    pathToSave = 'DailyTasks'; // Default storage directory
                 }
                 
-                // 实际保存设置
+                // Actual save settings
                 await this.settingsManager.updateSettings({ rootDir: pathToSave });
                 this.dirtySettings = false;
                 
-                // 显示保存成功的视觉反馈
+                // Show visual feedback for successful save
                 saveIndicator.classList.add('save-indicator-visible');
                 saveIndicator.classList.remove('save-indicator-hidden');
                 window.setTimeout(() => {
@@ -201,10 +201,10 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             (singleFilePathSetting as any).settingEl.style.display = 'none';
         }
         
-        // 语言设置
-        // TODO: 应该使用Obsidian API的app.i18n.locale获取系统语言设置
-        // 需要在manifest.json中设置minAppVersion: "1.8.0"或更高
-        // 可以移除此设置并修改SettingsManager.getCurrentLanguage()方法
+        // Language settings
+        // TODO: Should use Obsidian API app.i18n.locale to get system language
+        // Need to set minAppVersion: "1.8.0" or higher in manifest.json
+        // Can remove this setting and modify SettingsManager.getCurrentLanguage()
         new Setting(containerEl)
             .setName(getTranslation('settings.language'))
             .setDesc(getTranslation('settings.language.desc'))
@@ -217,7 +217,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                     .setValue(settings.language)
                     .onChange(async (value) => {
                         await this.settingsManager.updateSettings({ language: value as Language });
-                        // 需要重新加载设置页面以更新翻译
+                        // Need to reload settings page to update translations
                         this.display();
                     });
             });
@@ -225,7 +225,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         // Horizontal line before template settings
         containerEl.createEl('hr', { cls: 'daily-task-divider' });
         
-        // 添加模板变量说明
+        // Add template variables description
         const templateVariablesEl = document.createElement('div');
         templateVariablesEl.classList.add('template-variables');
 
@@ -245,23 +245,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         varList.style.fontSize = '0.85em';
         varList.textContent = getTranslation('settings.template.vars.desc');
         varSection.appendChild(varList);
-        variablesGrid.appendChild(varSection);
-
-        const tagSection = document.createElement('div');
-        const tagTitle = document.createElement('div');
-        tagTitle.style.fontWeight = 'bold';
-        tagTitle.style.marginBottom = '5px';
-        tagTitle.textContent = getTranslation('settings.template.tags');
-        tagSection.appendChild(tagTitle);
-        const tagList = document.createElement('div');
-        tagList.style.fontSize = '0.85em';
-        tagList.textContent = getTranslation('settings.template.tags.desc');
-        tagSection.appendChild(tagList);
-        variablesGrid.appendChild(tagSection);
-
-        containerEl.appendChild(templateVariablesEl);
-        
-        // 单一模板设置
+           // Single template settings
         const templateSetting = new Setting(containerEl)
             .setName(getTranslation('settings.template'))
             .setClass('template-setting');
@@ -269,7 +253,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         const templateContainer = document.createElement('div');
         templateContainer.classList.add('template-container', 'full-width-container');
         
-        // 获取当前模板内容
+        // Get current template content
         const currentTemplate = this.settingsManager.hasCustomTemplate() ? 
             this.settingsManager.getSettings().customTemplate : 
             this.settingsManager.getTemplateByLanguage();
@@ -277,10 +261,10 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         const textarea = new TextAreaComponent(templateContainer)
             .setValue(currentTemplate)
             .setPlaceholder(this.settingsManager.getCurrentLanguage() === 'zh' ? 
-                '在此处输入任务模板...' : 
+                'Enter task template here...' : 
                 'Enter task template here...')
             .onChange(async (value) => {
-                // 更新为自定义模板
+                // Update to custom template
                 await this.settingsManager.updateSettings({ 
                     customTemplate: value,
                     hasCustomTemplate: true
@@ -288,77 +272,77 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                 this.updatePreview(this.previewEl, value);
             });
         
-        // 添加样式类
+        // Add style classes
         textarea.inputEl.classList.add('template-editor');
         
-        // 预览标题，使用flex布局居中
+        // Preview header, centered using flex layout
         const previewHeader = document.createElement('div');
         previewHeader.classList.add('template-preview-header');
         
-        // 预览按钮容器 - 左侧
+        // Preview button container - Left
         const previewBtnContainer = document.createElement('div');
         previewBtnContainer.classList.add('button-container');
         
-        // 重置按钮容器 - 右侧
+        // Reset button container - Right
         const resetBtnContainer = document.createElement('div');
         resetBtnContainer.classList.add('button-container');
         
-        // 预览按钮 - 改进样式
+        // Preview button - Improved style
         const toggleButton = new ButtonComponent(previewBtnContainer)
             .setButtonText(getTranslation('settings.template.preview'));
         
-        // 添加样式类
+        // Add style classes
         toggleButton.buttonEl.addClass(TextCenterCSS);
         toggleButton.buttonEl.addClass('daily-task-button-common');
         toggleButton.buttonEl.addClass('daily-task-button-md');
         
-        // 手动添加眼睛图标
+        // Manually add eye icon
         const eyeIcon = document.createElement('span');
         eyeIcon.classList.add('svg-icon', 'lucide-eye');
         toggleButton.buttonEl.prepend(eyeIcon);
         
-        // 重置按钮 - 改进样式
+        // Reset button - Improved style
         const resetBtn = new ButtonComponent(resetBtnContainer)
             .setButtonText(getTranslation('settings.resetDefault'));
         
-        // 添加样式类
+        // Add style classes
         resetBtn.buttonEl.addClass(TextCenterCSS);
         resetBtn.buttonEl.addClass('daily-task-button-common');
         resetBtn.buttonEl.addClass('daily-task-button-lg');
         
-        // 添加重置图标
+        // Add reset icon
         const resetIcon = document.createElement('span');
         resetIcon.classList.add('svg-icon', 'lucide-refresh-cw');
         resetBtn.buttonEl.prepend(resetIcon);
         
-        // 添加重置事件
+        // Add reset event
         resetBtn.onClick(async () => {
-            // 将自定义模板设置为空，回到使用默认模板
+            // Set custom template to empty, revert to default template
             await this.settingsManager.updateSettings({ 
                 customTemplate: '',
                 hasCustomTemplate: false
             });
             
-            // 获取当前语言的默认模板
+            // Get default template for current language
             const defaultTemplate = this.settingsManager.getTemplateByLanguage();
             
-            // 更新输入框和预览
+            // Update input box and preview
             textarea.setValue(defaultTemplate);
             this.updatePreview(this.previewEl, defaultTemplate);
             
-            // 显示成功提示动画
+            // Show success animation
             resetBtn.buttonEl.classList.add('success-button');
             window.setTimeout(() => {
                 resetBtn.buttonEl.classList.remove('success-button');
             }, 1000);
         });
 
-        // 将按钮添加到各自的容器
+        // Add buttons to their respective containers
         previewHeader.appendChild(previewBtnContainer);
         previewHeader.appendChild(resetBtnContainer);
         templateContainer.appendChild(previewHeader);
         
-        // 预览区域
+        // Preview area
         this.previewEl = document.createElement('div');
         this.previewEl.classList.add('template-preview');
         this.updatePreview(this.previewEl, currentTemplate);
@@ -366,7 +350,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         
         toggleButton.onClick(() => {
             this.togglePreview(this.previewEl);
-            // 切换图标和按钮文本
+            // Toggle icon and button text
             if (this.previewEl && this.previewEl.classList.contains('visible')) {
                 eyeIcon.className = 'svg-icon lucide-eye-off';
                 toggleButton.setButtonText(getTranslation('settings.template.hide'));
@@ -382,33 +366,33 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         (templateSetting as any).settingEl.style.borderBottom = 'none';
         (templateSetting as any).settingEl.appendChild(templateContainer);
 
-        // 恢复默认设置 - 创建容器让按钮右对齐
+        // Restore default settings - Create container for right-aligned button
         const resetContainer = document.createElement('div');
         resetContainer.classList.add('button-container');
         containerEl.appendChild(resetContainer);
         
-        // 恢复默认设置按钮
+        // Restore default settings button
         const resetDefaultBtn = new ButtonComponent(resetContainer)
             .setButtonText(getTranslation('settings.resetToDefault'));
 
-        // 添加样式类
+        // Add style classes
         resetDefaultBtn.buttonEl.addClass(TextCenterCSS);
         resetDefaultBtn.buttonEl.addClass('danger-button');
         resetDefaultBtn.buttonEl.addClass('daily-task-button-common');
         resetDefaultBtn.buttonEl.addClass('daily-task-button-lg');
         
-        // 添加重置图标
+        // Add reset icon
         const resetIcon2 = document.createElement('span');
         resetIcon2.classList.add('svg-icon', 'lucide-refresh-cw');
         resetDefaultBtn.buttonEl.prepend(resetIcon2);
         
-        // 为全局重置按钮添加事件处理
+        // Event handler for global reset button
         resetDefaultBtn.onClick(async () => {
             await this.settingsManager.resetToDefaults();
             this.display();
         });
         
-        // 手动添加今日任务按钮 - 右对齐显示
+        // Manually add today's tasks button - Right aligned
         const addTaskContainer = document.createElement('div');
         addTaskContainer.classList.add('button-container');
         containerEl.appendChild(addTaskContainer);
@@ -417,30 +401,30 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             .setButtonText(getTranslation('settings.addTaskButton'))
             .setCta();
 
-        // 添加样式类 - 确保按钮文字居中
+        // Add style classes - Ensure button text is centered
         if (this.addTaskButton && this.addTaskButton.buttonEl) {
             this.addTaskButton.buttonEl.addClass(TextCenterCSS);
             this.addTaskButton.buttonEl.addClass('daily-task-button-common');
         }
 
-        // 手动添加任务按钮事件处理
+        // Event handler for manual add task button
         this.addTaskButton.onClick(async () => {
-            // 检查目录设置
+            // Check directory settings
             const rootDir = this.settingsManager.getSettings().rootDir;
             
-            // 添加loading状态
+            // Add loading state
             if (this.addTaskButton && this.addTaskButton.buttonEl) {
                 this.addTaskButton.buttonEl.classList.add('loading');
             }
             this.addTaskButton?.setDisabled(true);
             
             try {
-                // 添加任务
+                // Add task
                 await this.taskGenerator.addTaskManually();
             } catch (e) {
-                new Notice(`添加任务失败: ${e.message || e}`);
+                new Notice(`Add task failed: ${e.message || e}`);
             } finally {
-                // 移除loading状态
+                // Remove loading state
                 window.setTimeout(() => {
                     if (this.addTaskButton && this.addTaskButton.buttonEl) {
                         this.addTaskButton.buttonEl.classList.remove('loading');
@@ -450,14 +434,14 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             }
         });
 
-        // 添加图标
+        // Add icon
         const calendarIcon = document.createElement('span');
         calendarIcon.classList.add('svg-icon', 'lucide-calendar-plus');
         this.addTaskButton.buttonEl.prepend(calendarIcon);
     }
     
     /**
-     * 更新模板预览
+     * Update template preview
      */
     private updatePreview(previewEl: HTMLElement | null, template: string): void {
         if (!previewEl) return;
@@ -474,7 +458,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
     }
     
     /**
-     * 切换预览的显示/隐藏
+     * Toggle preview show/hide
      */
     private togglePreview(previewEl: HTMLElement | null): void {
         if (!previewEl) return;
@@ -490,8 +474,8 @@ export class TaskoratorSettingTab extends PluginSettingTab {
 }
 
 /**
- * 设置管理器
- * 负责加载、保存和提供设置访问接口
+ * Settings Manager
+ * Responsible for loading, saving, and providing settings access interface
  */
 export class SettingsManager {
     private plugin: Plugin;
@@ -503,15 +487,15 @@ export class SettingsManager {
     }
 
     /**
-     * 获取当前设置
+     * Get current settings
      */
     getSettings(): TaskoratorSettings {
         return this.settings;
     }
 
     /**
-     * 更新设置并保存
-     * @param settings 要更新的设置
+     * Update settings and save
+     * @param settings Settings to update
      */
     async updateSettings(settings: Partial<TaskoratorSettings>): Promise<void> {
         this.settings = {
@@ -520,52 +504,52 @@ export class SettingsManager {
         };
         await this.saveSettings();
         
-        // 更新当前语言
+        // Update current language
         this.updateCurrentLanguage();
     }
 
     /**
-     * 保存设置到数据存储
+     * Save settings to data storage
      */
     async saveSettings(): Promise<void> {
         await (this.plugin as TaskoratorPlugin).saveData(this.settings);
     }
 
     /**
-     * 加载设置
+     * Load settings
      */
     async loadSettings(): Promise<void> {
         const loadedData = await (this.plugin as TaskoratorPlugin).loadData();
         if (loadedData) {
-            // 合并默认设置和已保存的设置
+            // Merge default settings and saved settings
             this.settings = {
                 ...DEFAULT_SETTINGS,
                 ...loadedData
             };
             
-            // 确保在升级插件后，新增的设置项也有默认值
+            // Ensure completeness of settings after plugin upgrade
             this.ensureSettingsCompleteness();
         } else {
-            // 如果没有加载到数据，使用默认设置
+            // Use default settings if no data loaded
             this.settings = {
                 ...DEFAULT_SETTINGS,
                 autoGenerateMode: AutoGenerateMode.DAILY
             };
         }
         
-        // 更新当前语言
+        // Update current language
         this.updateCurrentLanguage();
     }
 
     /**
-     * 确保设置完整性，为新增的设置项提供默认值
+     * Ensure settings completeness, provide default values for new items
      */
     private ensureSettingsCompleteness(): void {
         const defaultKeys = Object.keys(DEFAULT_SETTINGS);
         defaultKeys.forEach(key => {
-            // 如果当前设置中缺少某个默认设置项，添加默认值
+            // Add default value if a setting item is missing
             if (!(key in this.settings)) {
-                // 先将对象转换为unknown，再转换为Record<string, unknown>
+                // Convert object to unknown then to Record<string, unknown>
                 ((this.settings as unknown) as Record<string, unknown>)[key] = 
                     ((DEFAULT_SETTINGS as unknown) as Record<string, unknown>)[key];
             }
@@ -573,38 +557,38 @@ export class SettingsManager {
     }
 
     /**
-     * 恢复默认设置
+     * Restore default settings
      */
     async resetToDefaults(): Promise<void> {
         this.settings = Object.assign({}, DEFAULT_SETTINGS);
         await this.saveSettings();
         
-        // 更新当前语言
+        // Update current language
         this.updateCurrentLanguage();
     }
 
     /**
-     * 根据语言获取当前使用的模板
-     * 如果当前模板不是默认模板，则不再区分语言
+     * Get currently used template according to language
+     * If custom, no distinction by language
      */
     getCurrentTemplate(): string {
         const language = this.getCurrentLanguage();
         
-        // 中文环境
+        // Chinese environment
         if (language === 'zh') {
             if (this.settings.templateZh !== DEFAULT_TEMPLATE_ZH) return this.settings.templateZh;
             if (this.settings.templateEn !== DEFAULT_TEMPLATE_EN) return this.settings.templateEn;
             if (this.settings.templateAr !== DEFAULT_TEMPLATE_AR) return this.settings.templateAr;
             return this.settings.templateZh;
         } 
-        // 阿拉伯语环境
+        // Arabic environment
         else if (language === 'ar') {
             if (this.settings.templateAr !== DEFAULT_TEMPLATE_AR) return this.settings.templateAr;
             if (this.settings.templateEn !== DEFAULT_TEMPLATE_EN) return this.settings.templateEn;
             if (this.settings.templateZh !== DEFAULT_TEMPLATE_ZH) return this.settings.templateZh;
             return this.settings.templateAr;
         }
-        // 英文环境
+        // English environment
         else {
             if (this.settings.templateEn !== DEFAULT_TEMPLATE_EN) return this.settings.templateEn;
             if (this.settings.templateZh !== DEFAULT_TEMPLATE_ZH) return this.settings.templateZh;
@@ -614,11 +598,11 @@ export class SettingsManager {
     }
     
     /**
-     * 获取当前语言设置
+     * Get current language setting
      */
     getCurrentLanguage(): string {
         if (this.settings.language === Language.AUTO) {
-            // 自动检测系统语言
+            // Automatically detect system language
             const systemLanguage = window.navigator.language.toLowerCase();
             if (systemLanguage.startsWith('zh')) return 'zh';
             if (systemLanguage.startsWith('ar')) return 'ar';
@@ -628,7 +612,7 @@ export class SettingsManager {
     }
     
     /**
-     * 更新当前语言
+     * Update current language
      */
     private updateCurrentLanguage(): void {
         const language = this.getCurrentLanguage();
@@ -636,26 +620,26 @@ export class SettingsManager {
     }
 
     /**
-     * 获取当前语言的模板
+     * Get template for the current language
      */
     getTemplateByLanguage(): string {
         const language = this.getCurrentLanguage();
         
-        // 中文环境
+        // Chinese environment
         if (language === 'zh') {
             if (this.settings.templateZh !== DEFAULT_TEMPLATE_ZH) return this.settings.templateZh;
             if (this.settings.templateEn !== DEFAULT_TEMPLATE_EN) return this.settings.templateEn;
             if (this.settings.templateAr !== DEFAULT_TEMPLATE_AR) return this.settings.templateAr;
             return this.settings.templateZh;
         } 
-        // 阿拉伯语环境
+        // Arabic environment
         else if (language === 'ar') {
             if (this.settings.templateAr !== DEFAULT_TEMPLATE_AR) return this.settings.templateAr;
             if (this.settings.templateEn !== DEFAULT_TEMPLATE_EN) return this.settings.templateEn;
             if (this.settings.templateZh !== DEFAULT_TEMPLATE_ZH) return this.settings.templateZh;
             return this.settings.templateAr;
         }
-        // 英文环境
+        // English environment
         else {
             if (this.settings.templateEn !== DEFAULT_TEMPLATE_EN) return this.settings.templateEn;
             if (this.settings.templateZh !== DEFAULT_TEMPLATE_ZH) return this.settings.templateZh;
@@ -665,7 +649,7 @@ export class SettingsManager {
     }
 
     /**
-     * 检查是否存在自定义模板
+     * Check if custom template exists
      */
     hasCustomTemplate(): boolean {
         return !!this.settings.customTemplate;

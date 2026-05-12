@@ -1,10 +1,10 @@
-/* 基础样式 */
+/* Base Styles */
 .daily-task-setting-tab {
     padding: 10px 30px;
     margin: 0 auto;
 }
 
-/* 设置页面标题 */
+/* Settings Page Title */
 .daily-task-setting-tab h2 {
     margin-bottom: 20px;
     padding-bottom: 10px;
@@ -17,7 +17,7 @@
     border-bottom: 1px solid var(--background-modifier-border);
 }
 
-/* 三选滑块 */
+/* Toggle slider */
 .daily-task-setting-tab .mode-toggle-container {
     display: flex;
     border: 1px solid var(--background-modifier-border);
@@ -61,7 +61,7 @@
 .slider-position-2 { left: 50%; }
 .slider-position-3 { left: 75%; }
 
-/* 设置项样式 */
+/* Setting Item Styles */
 .daily-task-setting-tab .setting-item {
     margin-bottom: 12px;
     border: none;
@@ -81,7 +81,7 @@
     margin-bottom: 0;
 }
 
-/* 设置项标题和描述 */
+/* Setting Item Title and Description */
 .daily-task-setting-tab .setting-item-info {
     padding-right: 15px;
     margin-bottom: 0;
@@ -99,7 +99,7 @@
     font-size: 0.9em;
 }
 
-/* 设置控件布局 */
+/* Setting Control Layout */
 .daily-task-setting-tab .setting-item-control {
     margin-top: 0;
     display: flex;
@@ -111,7 +111,7 @@
     min-width: 150px;
 }
 
-/* 输入框样式优化 */
+/* Input field optimization */
 .daily-task-setting-tab .setting-item-control input[type="text"] {
     width: 100%;
     max-width: 100%;
@@ -119,7 +119,7 @@
     border-radius: 4px;
 }
 
-/* 按钮基本样式 */
+/* Basic button styles */
 .daily-task-setting-tab button {
     display: flex;
     align-items: center;
@@ -128,21 +128,21 @@
     text-align: center;
 }
 
-/* 保存按钮 - Obsidian紫色 */
+/* Save button - Obsidian purple */
 .daily-task-setting-tab .save-button {
     background-color: var(--interactive-accent) !important;
     color: var(--text-on-accent) !important;
     font-weight: 500;
 }
 
-/* 危险操作按钮 - 红色 */
+/* Danger action button - Red */
 .daily-task-setting-tab .danger-button {
     background-color: #e53935 !important;
     color: white !important;
     font-weight: 500;
 }
 
-/* 添加任务按钮 */
+/* Add Task Button */
 .daily-task-setting-tab .add-task-button {
     display: inline-flex !important;
     align-items: center;
@@ -154,7 +154,7 @@
     border-radius: 4px;
     cursor: pointer;
     font-weight: 500;
-    margin-top: 20px; /* 增加顶部间距 */
+    margin-top: 20px; /* Increase top spacing */
     text-align: center;
 }
 
@@ -194,7 +194,7 @@
     to { transform: rotate(360deg); }
 }
 
-/* 通知样式 */
+/* Notice Styles */
 .notice.daily-task-success-notice,
 .notice.daily-task-warning-notice,
 .notice.daily-task-error-notice {
@@ -250,7 +250,7 @@
     }
 }
 
-/* 模板预览容器 */
+/* Template Preview Container */
 .daily-task-setting-tab .template-preview {
     background-color: var(--background-primary);
     padding: 15px;
@@ -265,7 +265,7 @@
     display: block;
 }
 
-/* 模板编辑区域 */
+/* Template Editor Area */
 .daily-task-setting-tab .template-editor {
     height: 600px;
     width: 100%;
@@ -400,7 +400,7 @@
     box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.2);
 }
 
-/* 模板设置容器样式 */
+/* Template Settings Container */
 .daily-task-setting-tab .template-setting {
     display: flex;
     flex-direction: column;
@@ -440,12 +440,12 @@
     width: 100%;
 }
 
-/* 模板容器宽度 */
+/* Template Container Width */
 .daily-task-setting-tab .template-setting > div {
     width: 100%;
 }
 
-/* 元素悬停效果 - 保持简单色彩变化 */
+/* Hover state - Simple color changes */
 .daily-task-setting-tab .clickable-icon:hover, 
 .daily-task-setting-tab button:hover, 
 .daily-task-setting-tab .setting-item-control > *:not(.disabled):hover {
@@ -458,7 +458,7 @@
     opacity: 0.7;
 }
 
-/* 禁用动画 */
+/* Disable Animations */
 .daily-task-no-animations * {
     animation: none !important;
     transition: none !important;
@@ -466,7 +466,7 @@
     box-shadow: none !important;
 }
 
-/* 模板预览头部样式 */
+/* Template Preview Header Styles */
 .daily-task-setting-tab .template-preview-header {
     display: flex;
     justify-content: center !important;
@@ -493,7 +493,7 @@
     height: 16px;
 }
 
-/* 图标样式 - 严格限定在插件设置面板中 */
+/* Icon styles - Strictly limited to plugin settings panel */
 .daily-task-setting-tab .svg-icon {
     display: inline-block;
     width: 16px;
@@ -502,7 +502,7 @@
     color: currentColor;
 }
 
-/* 移动端适配 */
+/* Mobile adaptation */
 @media (max-width: 768px) {
     .daily-task-setting-tab {
         padding: 10px 15px;
