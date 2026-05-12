@@ -15,6 +15,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -35,9 +37,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           mkdir -p taskorator
-          cp main.js manifest.json styles.css taskorator/ 2>/dev/null || :
-          # Check if styles.css exists before copying, or just copy what's there
-          # manifest.json and main.js are mandatory
+          cp build/main.js build/manifest.json build/styles.css taskorator/ 2>/dev/null || :
           zip -r Taskorator.zip taskorator
 
       - name: Upload Release Assets
@@ -45,9 +45,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            main.js
-            manifest.json
-            styles.css
+            build/main.js
+            build/manifest.json
+            build/styles.css
             Taskorator.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
