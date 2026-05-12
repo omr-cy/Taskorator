@@ -4,7 +4,7 @@
 	"version": "2026.05.11",
 	"minAppVersion": "1.8.0",
 	"description": "Automatically generate daily tasks based on customizable templates and schedule tags.",
-	"author": "Omar Ashraf (omr)",
+	"author": "omr-cy",
 	"authorUrl": "",
 	"isDesktopOnly": false
 } 

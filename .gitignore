@@ -7,7 +7,7 @@ main.js.map
 dist/
 build/
 data.json
-# 忽略所有由TypeScript编译生成的JS文件
+# TypeScript
 src/**/*.js
 src/**/*.js.map
 
@@ -19,7 +19,7 @@ src/**/*.js.map
 .DS_Store
 Thumbs.db
 
-# AI Studio specific files
+# other
 metadata.json
 .env.example
 docs/
