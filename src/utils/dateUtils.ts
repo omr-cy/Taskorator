@@ -199,33 +199,3 @@ export function getCurrentWeekdayName(): string {
   const day = new Date().getDay();
   return getLocalizedWeekday(day);
 }
-
-/**
- * Calculate current year progress percentage
- * @returns Year progress percentage
- */
-export function getYearProgress(): number {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 1); // Jan 1st of current year
-  const end = new Date(now.getFullYear() + 1, 0, 1); // Jan 1st of next year
-
-  const totalDays = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
-  const passedDays = (now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
-
-  return Math.round((passedDays / totalDays) * 100);
-}
-
-/**
- * Calculate current month progress percentage
- * @returns Month progress percentage
- */
-export function getMonthProgress(): number {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), now.getMonth(), 1); // 1st of current month
-  const end = new Date(now.getFullYear(), now.getMonth() + 1, 1); // 1st of next month
-
-  const totalDays = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
-  const passedDays = (now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
-
-  return Math.round((passedDays / totalDays) * 100);
-}

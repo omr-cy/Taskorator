@@ -1,8 +1,6 @@
 import { 
     getCurrentDate, 
     getCurrentWeekdayName, 
-    getYearProgress, 
-    getMonthProgress, 
     getCurrentDateWithIcon 
 } from "./dateUtils";
 
@@ -57,7 +55,7 @@ function isTodayIncluded(daysListStr: string): boolean {
         if (segment === 'all' || segment === 'everyday' || segment === 'every-day') return true;
         
         // Workday and Weekend shortcuts
-        if (segment === 'workday' || segment === 'workdays' || segment === 'weekday' || segment === 'weekdays') {
+        if (segment === 'workday' || segment === 'workdays' || segment === 'weekday' || segment === 'weekdays' || segment === 'every-workday') {
             if (today >= 1 && today <= 5) return true;
             continue;
         }
@@ -106,6 +104,11 @@ export function filterTemplateByDay(template: string): string {
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         
+        // Skip commented lines (starting with //)
+        if (line.trim().startsWith('//')) {
+            continue;
+        }
+        
         // Match heading
         const headerMatch = line.match(/^(#{1,6})\s/);
         
@@ -122,16 +125,36 @@ export function filterTemplateByDay(template: string): string {
                 continue;
             }
             
-            // Check for #every tag - handles #every mon, #every(mon), #every (mon), #every-day
+            // Check for #every tag - handles #every mon, #every(mon), #every (mon), #every-day, #every-workday
             const everyDayMatch = line.match(/#every-day/i);
+            const everyWorkdayMatch = line.match(/#every-workday/i);
+            
             if (everyDayMatch) {
                 result.push(line.replace(/\s*#every-day/i, ''));
+                continue;
+            }
+            
+            if (everyWorkdayMatch) {
+                const now = new Date();
+                const today = now.getDay();
+                if (today >= 1 && today <= 5) {
+                    result.push(line.replace(/\s*#every-workday/i, ''));
+                } else {
+                    skipHeaderLevel = level;
+                }
                 continue;
             }
 
             const tagMatch = line.match(/#every\s*(?:\(([\w\s,()-]+)\)|([\w\s,()-]+))/i);
             if (tagMatch) {
                 const args = tagMatch[1] || tagMatch[2];
+                // Explicitly check for 'workday' in generic tagMatch to avoid confusion, but we prefer every-workday
+                if (args.toLowerCase().includes('workday') && !args.toLowerCase().includes('every-workday')) {
+                    // if they still use #every(workday), we skip it to force #every-workday as requested
+                    skipHeaderLevel = level;
+                    continue;
+                }
+                
                 if (!isTodayIncluded(args)) {
                     skipHeaderLevel = level;
                     continue; // Skip heading
@@ -152,15 +175,31 @@ export function filterTemplateByDay(template: string): string {
         }
         
         // Handle #every on regular lines
-        const everyDayMatch = line.match(/#every-day/i);
-        if (everyDayMatch) {
+        const everyDayMatchLine = line.match(/#every-day/i);
+        const everyWorkdayMatchLine = line.match(/#every-workday/i);
+        
+        if (everyDayMatchLine) {
             result.push(line.replace(/\s*#every-day/i, ''));
+            continue;
+        }
+        
+        if (everyWorkdayMatchLine) {
+            const now = new Date();
+            const today = now.getDay();
+            if (today >= 1 && today <= 5) {
+                result.push(line.replace(/\s*#every-workday/i, ''));
+            }
             continue;
         }
 
         const tagMatch = line.match(/#every\s*(?:\(([\w\s,()-]+)\)|([\w\s,()-]+))/i);
         if (tagMatch) {
             const args = tagMatch[1] || tagMatch[2];
+            // Force #every-workday by ignoring 'workday' in general #every tag
+            if (args.toLowerCase().includes('workday') && !args.toLowerCase().includes('every-workday')) {
+                continue;
+            }
+            
             if (!isTodayIncluded(args)) {
                 continue; // Skip line
             } else {
@@ -191,8 +230,6 @@ export function renderTemplate(template: string): string {
         'date': getCurrentDate(),
         'dateWithIcon': getCurrentDateWithIcon(),
         'weekday': getCurrentWeekdayName(),
-        'yearProgress': getYearProgress(),
-        'monthProgress': getMonthProgress(),
         'time': getCurrentTime()
     };
     
@@ -217,8 +254,6 @@ export function getTemplateVariables(): Record<string, string> {
         'date': 'Current date (YYYY-MM-DD)',
         'dateWithIcon': 'Current date with daily icon',
         'weekday': 'Current weekday',
-        'yearProgress': 'Year progress percentage',
-        'monthProgress': 'Month progress percentage',
         'time': 'Current time (HH:MM)'
     };
 }

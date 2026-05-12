@@ -1,7 +1,7 @@
 {
 	"id": "taskorator",
 	"name": "Taskorator",
-	"version": "2026.05.11",
+	"version": "2026.05.13",
 	"minAppVersion": "1.8.0",
 	"description": "Automatically generate daily tasks based on customizable templates and schedule tags.",
 	"author": "omr-cy",

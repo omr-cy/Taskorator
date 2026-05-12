@@ -384,11 +384,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
 
         // Action buttons container at the bottom
         const actionsContainer = document.createElement('div');
-        actionsContainer.style.display = 'flex';
-        actionsContainer.style.justifyContent = 'flex-end';
-        actionsContainer.style.gap = '12px';
-        actionsContainer.style.marginTop = '25px';
-        actionsContainer.style.marginBottom = '15px';
+        actionsContainer.classList.add('daily-task-footer-actions');
         containerEl.appendChild(actionsContainer);
         
         // Restore default settings button
@@ -399,7 +395,6 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         resetDefaultBtn.buttonEl.addClass(TextCenterCSS);
         resetDefaultBtn.buttonEl.addClass('danger-button');
         resetDefaultBtn.buttonEl.addClass('daily-task-button-common');
-        resetDefaultBtn.buttonEl.addClass('daily-task-button-lg');
         
         // Add reset icon
         const resetIcon2 = document.createElement('span');
@@ -420,8 +415,8 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         // Add style classes - Ensure button text is centered
         if (this.addTaskButton && this.addTaskButton.buttonEl) {
             this.addTaskButton.buttonEl.addClass(TextCenterCSS);
+            this.addTaskButton.buttonEl.addClass('add-task-button');
             this.addTaskButton.buttonEl.addClass('daily-task-button-common');
-            this.addTaskButton.buttonEl.addClass('daily-task-button-lg');
             // Remove the margin top as it's now in the container
             this.addTaskButton.buttonEl.style.marginTop = '0';
         }

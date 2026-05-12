@@ -126,36 +126,96 @@
     justify-content: center;
     white-space: nowrap;
     text-align: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 /* Save button - Obsidian purple */
 .daily-task-setting-tab .save-button {
     background-color: var(--interactive-accent) !important;
     color: var(--text-on-accent) !important;
-    font-weight: 500;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Danger action button - Red */
+.daily-task-setting-tab .save-button:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Danger action button - Gray subtle to Red */
 .daily-task-setting-tab .danger-button {
+    background-color: var(--background-modifier-border) !important;
+    color: var(--text-muted) !important;
+    font-weight: 500;
+    border: 1px solid var(--background-modifier-border);
+}
+
+.daily-task-setting-tab .danger-button:hover {
     background-color: #e53935 !important;
     color: white !important;
-    font-weight: 500;
+    border-color: #e53935 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(229, 57, 53, 0.2);
 }
 
-/* Add Task Button */
+/* Add Task Button - Vibrant accent */
 .daily-task-setting-tab .add-task-button {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     color: var(--text-on-accent);
     background-color: var(--interactive-accent);
-    padding: 8px 16px;
-    border-radius: 4px;
+    padding: 10px 24px !important;
+    border-radius: 8px !important;
     cursor: pointer;
-    font-weight: 500;
-    margin-top: 20px; /* Increase top spacing */
-    text-align: center;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 10px rgba(var(--interactive-accent-rgb), 0.3) !important;
+    font-size: 1.05em !important;
+}
+
+.daily-task-setting-tab .add-task-button:hover {
+    background-color: var(--interactive-accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(var(--interactive-accent-rgb), 0.4) !important;
+}
+
+.daily-task-setting-tab .add-task-button:active {
+    transform: translateY(0);
+}
+
+/* Specific button layout classes */
+.daily-task-button-common {
+    min-height: 40px !important;
+}
+
+.daily-task-button-lg {
+    padding: 12px 24px !important;
+}
+
+/* Container for bottom actions */
+.daily-task-footer-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--background-modifier-border);
+}
+
+@media (max-width: 480px) {
+    .daily-task-footer-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .daily-task-footer-actions button {
+        width: 100%;
+    }
 }
 
 .daily-task-setting-tab .add-task-button:hover {
