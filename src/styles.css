@@ -201,11 +201,42 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
-    margin-top: 40px;
+    gap: 16px;
+    margin-top: 35px;
     margin-bottom: 20px;
-    padding-top: 20px;
+    padding-top: 25px;
     border-top: 1px solid var(--background-modifier-border);
+}
+
+/* Template textarea styling for "Code Editor" feel */
+.daily-task-setting-tab .template-setting textarea {
+    font-family: var(--font-monospace) !important;
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+    padding: 15px !important;
+    border-radius: 6px !important;
+    background-color: var(--background-secondary) !important;
+    border: 1px solid var(--background-modifier-border) !important;
+    width: 100% !important;
+    min-height: 250px !important;
+    max-height: 800px !important;
+    resize: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    color: var(--text-normal);
+    overflow-y: auto;
+}
+
+.daily-task-setting-tab .template-setting textarea:focus {
+    border-color: var(--interactive-accent) !important;
+    box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.1) !important;
+    background-color: var(--background-primary) !important;
+}
+
+/* Style for comments in the preview */
+.daily-task-preview-comment {
+    color: var(--text-faint);
+    font-style: italic;
+    opacity: 0.8;
 }
 
 @media (max-width: 480px) {
@@ -327,20 +358,20 @@
 
 /* Template Editor Area */
 .daily-task-setting-tab .template-editor {
-    height: 600px;
     width: 100%;
     font-family: var(--font-monospace);
     border: 1.5px solid var(--background-modifier-border);
     border-radius: 6px;
     padding: 15px;
-    resize: vertical;
-    min-height: 400px;
-    max-height: 1000px;
+    resize: none;
+    min-height: 250px;
+    max-height: 800px;
     box-sizing: border-box;
     margin-bottom: 12px;
     background-color: var(--background-primary);
     line-height: 1.6;
     font-size: 14px;
+    overflow-y: auto;
 }
 
 /* Horizontal divider */

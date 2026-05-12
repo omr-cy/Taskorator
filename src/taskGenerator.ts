@@ -71,7 +71,7 @@ export class TaskGenerator {
                 template = this.settingsManager.getTemplateByLanguage();
             }
             
-            const renderedContent = renderTemplate(template);
+            const renderedContent = renderTemplate(template, this.settingsManager.getCurrentOutputLanguage());
             const fullContent = renderedContent;
             
             const dateRegex = new RegExp(`## [^\\n]*${date}[^\\n]*\\n`);

@@ -49,6 +49,8 @@ export type TranslationKey =
     | 'settings.outputMode.traditional'
     | 'settings.outputMode.singleFile'
     | 'settings.outputMode.both'
+    | 'settings.outputLanguage'
+    | 'settings.outputLanguage.desc'
     | 'settings.singleFilePath'
     | 'settings.singleFilePath.desc'
     
@@ -118,6 +120,8 @@ const translationsZH: Record<TranslationKey, string> = {
     'settings.outputMode.traditional': '📂 按月归档',
     'settings.outputMode.singleFile': '📄 覆盖单一文件',
     'settings.outputMode.both': '🔄 两者同时进行',
+    'settings.outputLanguage': '📄 输出格式 (语言)',
+    'settings.outputLanguage.desc': '选择生成的任务笔记中日期和星期的显示语言',
     'settings.singleFilePath': '📝 单一任务文件路径',
     'settings.singleFilePath.desc': '如果设为空，将默认为Daily Task.md在根目录下',
     'settings.template.variables': '可用变量',
@@ -182,6 +186,8 @@ const translationsEN: Record<TranslationKey, string> = {
     'settings.outputMode.traditional': '📂 Monthly Archive',
     'settings.outputMode.singleFile': '📄 Overwrite Single File',
     'settings.outputMode.both': '🔄 Both Together',
+    'settings.outputLanguage': '📄 Output Format (Language)',
+    'settings.outputLanguage.desc': 'Select the language for dates and weekdays in the generated task notes',
     'settings.singleFilePath': '📝 Single Task File Path',
     'settings.singleFilePath.desc': 'If left empty, defaults to Daily Task.md in root directory',
     'settings.template.variables': 'Available Variables',
@@ -246,6 +252,8 @@ const translationsAR: Record<TranslationKey, string> = {
     'settings.outputMode.traditional': '📂 أرشفة شهرية',
     'settings.outputMode.singleFile': '📄 ملف واحد متجدد',
     'settings.outputMode.both': '🔄 كلاهما معاً',
+    'settings.outputLanguage': '📄 تنسيق الإخراج (اللغة)',
+    'settings.outputLanguage.desc': 'اختر لغة التاريخ واليوم في ملاحظات المهام المولدة',
     'settings.singleFilePath': '📄 مسار ملف المهام الموحد',
     'settings.singleFilePath.desc': 'إذا ترك فارغاً، سيتم تعيين Daily Task.md في المجلد الرئيسي كافتراضي',
     'settings.template.variables': '📋 المتغيرات المتاحة',
@@ -317,9 +325,10 @@ export function getTranslation(key: TranslationKey, fallbackLanguage?: string): 
 /**
  * Get localized weekday name
  * @param dayOfWeek Day of week as number (0-6, 0 for Sunday)
+ * @param language Optional specific language
  * @returns Localized weekday name
  */
-export function getLocalizedWeekday(dayOfWeek: number): string {
+export function getLocalizedWeekday(dayOfWeek: number, language?: string): string {
     const weekdayKeys: TranslationKey[] = [
         'weekday.sun', 'weekday.mon', 'weekday.tue',
         'weekday.wed', 'weekday.thu', 'weekday.fri', 'weekday.sat'
@@ -327,5 +336,5 @@ export function getLocalizedWeekday(dayOfWeek: number): string {
     
     // Ensure dayOfWeek is in valid range
     const normalizedDayOfWeek = ((dayOfWeek % 7) + 7) % 7;
-    return getTranslation(weekdayKeys[normalizedDayOfWeek]);
+    return getTranslation(weekdayKeys[normalizedDayOfWeek], language);
 }

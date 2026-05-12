@@ -221,6 +221,23 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                         this.display();
                     });
             });
+
+        // Output format (language) settings
+        new Setting(containerEl)
+            .setName(getTranslation('settings.outputLanguage'))
+            .setDesc(getTranslation('settings.outputLanguage.desc'))
+            .addDropdown(dropdown => {
+                dropdown
+                    .addOption(Language.AUTO, getTranslation('settings.language.auto'))
+                    .addOption(Language.ZH, getTranslation('settings.language.zh'))
+                    .addOption(Language.EN, getTranslation('settings.language.en'))
+                    .addOption(Language.AR, getTranslation('settings.language.ar'))
+                    .setValue(settings.outputLanguage || Language.AUTO)
+                    .onChange(async (value) => {
+                        await this.settingsManager.updateSettings({ outputLanguage: value as Language });
+                        this.updatePreview(this.previewEl, textarea.getValue());
+                    });
+            });
         
         // Horizontal line before template settings
         containerEl.createEl('hr', { cls: 'daily-task-divider' });
@@ -286,10 +303,22 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                     hasCustomTemplate: true
                 });
                 this.updatePreview(this.previewEl, value);
+                
+                // Auto resize textarea
+                const el = textarea.inputEl;
+                el.style.height = 'auto';
+                el.style.height = (el.scrollHeight) + 'px';
             });
         
         // Add style classes
         textarea.inputEl.classList.add('template-editor');
+        
+        // Initial resize
+        window.setTimeout(() => {
+            const el = textarea.inputEl;
+            el.style.height = 'auto';
+            el.style.height = (el.scrollHeight) + 'px';
+        }, 100);
         
         // Preview header, centered using flex layout
         const previewHeader = document.createElement('div');
@@ -460,7 +489,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
     private updatePreview(previewEl: HTMLElement | null, template: string): void {
         if (!previewEl) return;
         
-        const renderedContent = renderTemplate(template);
+        const renderedContent = renderTemplate(template, this.settingsManager.getCurrentOutputLanguage(), true);
         
         previewEl.empty();
         MarkdownRenderer.renderMarkdown(
@@ -623,6 +652,16 @@ export class SettingsManager {
             return 'en';
         }
         return this.settings.language;
+    }
+
+    /**
+     * Get current output language setting
+     */
+    getCurrentOutputLanguage(): string {
+        if (!this.settings.outputLanguage || this.settings.outputLanguage === Language.AUTO) {
+            return this.getCurrentLanguage();
+        }
+        return this.settings.outputLanguage;
     }
     
     /**

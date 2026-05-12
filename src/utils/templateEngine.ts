@@ -94,8 +94,10 @@ function isTodayIncluded(daysListStr: string): boolean {
 
 /**
  * Filter template depending on the #every(...) tags
+ * @param template Template content
+ * @param isPreview Whether to style skipped lines for preview
  */
-export function filterTemplateByDay(template: string): string {
+export function filterTemplateByDay(template: string, isPreview: boolean = false): string {
     const lines = template.split(/\r?\n/);
     const result: string[] = [];
     
@@ -104,8 +106,12 @@ export function filterTemplateByDay(template: string): string {
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         
-        // Skip commented lines (starting with //)
+        // Handle comments (starting with //)
         if (line.trim().startsWith('//')) {
+            if (isPreview) {
+                // In preview, we wrap comments in a styled span to look like a code editor
+                result.push(`<span class="daily-task-preview-comment">${line}</span>`);
+            }
             continue;
         }
         
@@ -219,17 +225,19 @@ export function filterTemplateByDay(template: string): string {
 /**
  * Render template content, replacing its variables
  * @param template Template content
+ * @param outputLanguage Optional language for localized variables
+ * @param isPreview Optional flag to style comments instead of skipping them
  * @returns Rendered content
  */
-export function renderTemplate(template: string): string {
+export function renderTemplate(template: string, outputLanguage?: string, isPreview: boolean = false): string {
     // 1. Filter out days based on #every tag
-    let filteredTemplate = filterTemplateByDay(template);
+    let filteredTemplate = filterTemplateByDay(template, isPreview);
 
     // 2. Define variable mapping
     const variableMap: Record<string, string | number> = {
         'date': getCurrentDate(),
-        'dateWithIcon': getCurrentDateWithIcon(),
-        'weekday': getCurrentWeekdayName(),
+        'dateWithIcon': getCurrentDateWithIcon(outputLanguage),
+        'weekday': getCurrentWeekdayName(outputLanguage),
         'time': getCurrentTime()
     };
     

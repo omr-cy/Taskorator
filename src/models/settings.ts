@@ -36,6 +36,7 @@ export interface TaskoratorSettings {
     rootDir: string;               // Root directory for task files (traditional mode)
     autoGenerateMode: AutoGenerateMode; // Auto-generation mode
     language: string;            // UI language
+    outputLanguage: string;      // Output (generation) language
 
     // Template configuration
     templateZh: string;            // Chinese task template
@@ -58,17 +59,16 @@ export const DEFAULT_TEMPLATE_ZH = `## {{dateWithIcon}}（{{weekday}}）
 
 > 🕒 生成时间：{{time}}
 
-### 🧘 每日必做
+### ✨ 每日必做
 ---
 
-- [ ] 🧘 冥想 10 分钟 #every-day
+- [ ] 🪥 刷牙 #every-day
 - [ ] 💧 喝 8 杯水 #every-day
 - [ ] 📝 复盘今日进度 #every-day
 
 ### 💼 工作任务 #every-workday
 ---
 
-- [ ] 整理今日待办清单 #every-day
 - [ ] 检查并回复邮件 #every-day
 - [ ] 团队站会 #every mon, wed, fri
 - [ ] 周报更新 #every fri
@@ -78,7 +78,6 @@ export const DEFAULT_TEMPLATE_ZH = `## {{dateWithIcon}}（{{weekday}}）
 
 - [ ] 📚 阅读 30 分钟 #every mon, tue, wed, thu, fri
 - [ ] 🏋️ 健身房锻炼 #every(mon, wed, fri)
-- [ ] 🏸 羽毛球 #every sat
 - [ ] 🧺 整理桌面 #every sun
 - [ ] 🍛 尝试新餐厅 #every(month(1, 15))
 
@@ -94,17 +93,16 @@ export const DEFAULT_TEMPLATE_EN = `## {{dateWithIcon}} ({{weekday}})
 
 > 🕒 Generated At: {{time}}
 
-### 🧘 Daily Routine
+### ✨ Daily Routine
 ---
 
-- [ ] 🧘 Meditation 10 min #every-day
+- [ ] 🪥 Brush teeth #every-day
 - [ ] 💧 Drink 2L of water #every-day
 - [ ] 📝 Review today's goals #every-day
 
 ### 💼 Work Tasks #every-workday
 ---
 
-- [ ] Organize today's task list #every-day
 - [ ] Check and reply to emails #every-day
 - [ ] Team sync meeting #every(mon, wed, fri)
 - [ ] Weekly report update #every fri
@@ -114,7 +112,6 @@ export const DEFAULT_TEMPLATE_EN = `## {{dateWithIcon}} ({{weekday}})
 
 - [ ] 📚 Read for 30 minutes #every(mon, tue, wed, thu, fri)
 - [ ] 🏋️ Gym workout #every(mon, wed, fri)
-- [ ] 🏸 Badminton #every sat
 - [ ] 🧺 Organize desk #every sun
 - [ ] 🍛 Try a new restaurant #every(month(1, 15))
 
@@ -130,17 +127,16 @@ export const DEFAULT_TEMPLATE_AR = `## {{dateWithIcon}} ({{weekday}})
 
 > 🕒 وقت التوليد: {{time}}
 
-### 🧘 الروتين اليومي
+### ✨ الروتين اليومي
 ---
 
-- [ ] 🧘 تأمل لمدة 10 دقائق #every-day
+- [ ] 🪥 تنظيف الأسنان #every-day
 - [ ] 💧 شرب 2 لتر من الماء #every-day
 - [ ] 📝 مراجعة أهداف اليوم #every-day
 
 ### 💼 مهام العمل #every-workday
 ---
 
-- [ ] تنظيم قائمة مهام اليوم #every-day
 - [ ] مراجعة والرد على رسائل البريد #every-day
 - [ ] اجتماع المزامنة #every(mon, wed, fri)
 - [ ] تحديث التقرير الأسبوعي #every fri
@@ -150,7 +146,6 @@ export const DEFAULT_TEMPLATE_AR = `## {{dateWithIcon}} ({{weekday}})
 
 - [ ] 📚 القراءة لمدة 30 دقيقة #every(mon, tue, wed, thu, fri)
 - [ ] 🏋️ تمرين رياضي #every(mon, wed, fri)
-- [ ] 🏸 رياضة الريشة #every sat
 - [ ] 🧺 ترتيب المكتب #every sun
 - [ ] 🍛 تجربة مطعم جديد #every(month(1, 15))
 
@@ -166,6 +161,7 @@ export const DEFAULT_SETTINGS: TaskoratorSettings = {
     rootDir: 'Tasks',
     autoGenerateMode: AutoGenerateMode.DAILY,
     language: Language.AUTO,
+    outputLanguage: Language.AUTO,
     templateZh: DEFAULT_TEMPLATE_ZH,
     templateEn: DEFAULT_TEMPLATE_EN,
     templateAr: DEFAULT_TEMPLATE_AR,

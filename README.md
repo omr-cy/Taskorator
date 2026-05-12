@@ -4,8 +4,9 @@
 
 ---
 
-### 📦 [View All Releases](https://github.com/omr-cyber/Taskorator/releases)
-[![GitHub All Releases](https://img.shields.io/github/downloads/omr-cyber/Taskorator/total?style=for-the-badge)](https://github.com/omr-cyber/Taskorator/releases)
+### 📦 [View All Releases](https://github.com/omr-cy/Taskorator/releases)
+[![Latest Release](https://img.shields.io/github/v/release/omr-cy/Taskorator?label=latest%20release&style=for-the-badge)](https://github.com/omr-cy/Taskorator/releases/latest)
+[![GitHub All Releases](https://img.shields.io/github/downloads/omr-cy/Taskorator/total?style=for-the-badge)](https://github.com/omr-cy/Taskorator/releases)
 
 ---
 
@@ -23,6 +24,7 @@
     - **Monthly Archive**: Organizes tasks elegantly in `Year/Month.md`.
     - **Single File Focus**: Keep your "Today" view in one dedicated file (e.g., `Today.md`).
 - 🎨 **Powerful Templates**: Fully customize your layouts with dynamic variables.
+- 🌐 **Independent Output Language**: Choose a different language for your generated tasks than your UI (English, Arabic, or Chinese).
 - 📆 **Conditional Logic**: Use `#every` tags to schedule tasks for specific days, months, or workdays.
 - 💬 **Comment Support**: Ignore any line by starting it with `//`.
 
@@ -48,7 +50,7 @@ Add these at the end of a line or a heading to control when they appear:
 
 ### 📥 Installation
 
-1. Download `main.js`, `manifest.json`, and `styles.css` from the **[Latest Release](https://github.com/omr-cyber/Taskorator/releases)**.
+1. Download `main.js`, `manifest.json`, and `styles.css` from the **[Releases](https://github.com/omr-cy/Taskorator/releases)**.
 2. Create `vault/.obsidian/plugins/taskorator/` and place the files there.
 3. Enable "Taskorator" in **Settings > Community Plugins**.
 
@@ -64,6 +66,7 @@ Add these at the end of a line or a heading to control when they appear:
     - **أرشيف شهري**: تنظيم المهام بشكل أنيق في مسار `السنة/الشهر.md`.
     - **ملف واحد مركز**: احتفظ برؤية "اليوم" في ملف واحد مخصص (مثل `Today.md`).
 - 🎨 **قوالب قوية**: خصص تخطيطاتك بالكامل باستخدام متغيرات ديناميكية.
+- 🌐 **لغة إخراج مستقلة**: اختر لغة مختلفة لمهامك المولدة عن لغة الواجهة (الإنجليزية، العربية، أو الصينية).
 - 📆 **منطق شرطي**: استخدم وسوم `#every` لجدولة المهام في أيام أو أشهر محددة.
 - 💬 **دعم التعليقات**: تجاهل أي سطر ببدئه بـ `//`.
 
@@ -89,7 +92,7 @@ Add these at the end of a line or a heading to control when they appear:
 
 ### 📥 التثبيت
 
-1. قم بتحميل `main.js` و `manifest.json` و `styles.css` من **[صفحة الإصدارات](https://github.com/omr-cyber/Taskorator/releases)**.
+1. قم بتحميل `main.js` و `manifest.json` و `styles.css` من **[صفحة الإصدارات](https://github.com/omr-cy/Taskorator/releases)**.
 2. أنشئ مجلد `vault/.obsidain/plugins/taskorator/` وضع الملفات فيه.
 3. فعل "Taskorator" من **الإعدادات > الإضافات الخارجية**.
 
@@ -105,6 +108,7 @@ Add these at the end of a line or a heading to control when they appear:
     - **按月归档**: 按 `年份/月份.md` 优雅地组织任务。
     - **单一文件聚焦**: 将“今日”视图保持在一个专用文件中（例如 `Today.md`）。
 - 🎨 **强大模板**: 使用动态变量完全自定义您的布局。
+- 🌐 **独立输出语言**: 为生成的任务选择与界面不同的语言（英语、阿拉伯语或中文）。
 - 📆 **条件逻辑**: 使用 `#every` 标签安排特定日期、月份或工作日的任务。
 - 💬 **注释支持**: 通过以 `//` 开头来忽略任何行。
 
@@ -130,7 +134,7 @@ Add these at the end of a line or a heading to control when they appear:
 
 ### 📥 安装
 
-1. 从 **[发布页面](https://github.com/omr-cyber/Taskorator/releases)** 下载 `main.js`、`manifest.json` 和 `styles.css`。
+1. 从 **[发布页面](https://github.com/omr-cy/Taskorator/releases)** 下载 `main.js`、`manifest.json` 和 `styles.css`。
 2. 创建 `vault/.obsidian/plugins/taskorator/` 文件夹并将文件放入其中。
 3. 在 **设置 > 社区插件** 中启用 "Taskorator"。
 

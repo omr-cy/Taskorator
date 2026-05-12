@@ -174,9 +174,10 @@ export function getCurrentDate(): string {
 
 /**
  * Get current full date with icon
+ * @param language Optional language code
  * @returns Full date with icon, e.g., 🌕 2025-04-16
  */
-export function getCurrentDateWithIcon(): string {
+export function getCurrentDateWithIcon(language?: string): string {
   const icon = getDayIcon();
   return `${icon} ${getCurrentDate()}`;
 }
@@ -192,10 +193,11 @@ export function isWorkday(): boolean {
 }
 
 /**
- * Get localized weekday name
+ * Get current localized weekday name
+ * @param language Optional language code
  * @returns Localized weekday name
  */
-export function getCurrentWeekdayName(): string {
+export function getCurrentWeekdayName(language?: string): string {
   const day = new Date().getDay();
-  return getLocalizedWeekday(day);
+  return getLocalizedWeekday(day, language);
 }
