@@ -245,7 +245,23 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         varList.style.fontSize = '0.85em';
         varList.textContent = getTranslation('settings.template.vars.desc');
         varSection.appendChild(varList);
-           // Single template settings
+        variablesGrid.appendChild(varSection);
+
+        const tagSection = document.createElement('div');
+        const tagTitle = document.createElement('div');
+        tagTitle.style.fontWeight = 'bold';
+        tagTitle.style.marginBottom = '5px';
+        tagTitle.textContent = getTranslation('settings.template.tags');
+        tagSection.appendChild(tagTitle);
+        const tagList = document.createElement('div');
+        tagList.style.fontSize = '0.85em';
+        tagList.textContent = getTranslation('settings.template.tags.desc');
+        tagSection.appendChild(tagList);
+        variablesGrid.appendChild(tagSection);
+
+        containerEl.appendChild(templateVariablesEl);
+
+        // Single template settings
         const templateSetting = new Setting(containerEl)
             .setName(getTranslation('settings.template'))
             .setClass('template-setting');
@@ -366,13 +382,17 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         (templateSetting as any).settingEl.style.borderBottom = 'none';
         (templateSetting as any).settingEl.appendChild(templateContainer);
 
-        // Restore default settings - Create container for right-aligned button
-        const resetContainer = document.createElement('div');
-        resetContainer.classList.add('button-container');
-        containerEl.appendChild(resetContainer);
+        // Action buttons container at the bottom
+        const actionsContainer = document.createElement('div');
+        actionsContainer.style.display = 'flex';
+        actionsContainer.style.justifyContent = 'flex-end';
+        actionsContainer.style.gap = '12px';
+        actionsContainer.style.marginTop = '25px';
+        actionsContainer.style.marginBottom = '15px';
+        containerEl.appendChild(actionsContainer);
         
         // Restore default settings button
-        const resetDefaultBtn = new ButtonComponent(resetContainer)
+        const resetDefaultBtn = new ButtonComponent(actionsContainer)
             .setButtonText(getTranslation('settings.resetToDefault'));
 
         // Add style classes
@@ -392,12 +412,8 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             this.display();
         });
         
-        // Manually add today's tasks button - Right aligned
-        const addTaskContainer = document.createElement('div');
-        addTaskContainer.classList.add('button-container');
-        containerEl.appendChild(addTaskContainer);
-        
-        this.addTaskButton = new ButtonComponent(addTaskContainer)
+        // Manually add today's tasks button
+        this.addTaskButton = new ButtonComponent(actionsContainer)
             .setButtonText(getTranslation('settings.addTaskButton'))
             .setCta();
 
@@ -405,6 +421,9 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         if (this.addTaskButton && this.addTaskButton.buttonEl) {
             this.addTaskButton.buttonEl.addClass(TextCenterCSS);
             this.addTaskButton.buttonEl.addClass('daily-task-button-common');
+            this.addTaskButton.buttonEl.addClass('daily-task-button-lg');
+            // Remove the margin top as it's now in the container
+            this.addTaskButton.buttonEl.style.marginTop = '0';
         }
 
         // Event handler for manual add task button
