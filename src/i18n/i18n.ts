@@ -46,6 +46,8 @@ export type TranslationKey =
     | 'settings.template.manual'
     | 'settings.template.graphical'
     | 'settings.template.graphical.desc'
+    | 'settings.template.addVariable'
+    | 'settings.template.addSection'
     
     // Output Mode
     | 'settings.outputMode'
@@ -131,11 +133,13 @@ const translationsZH: Record<TranslationKey, string> = {
     'settings.template.variables': '可用变量',
     'settings.template.tags': '可用标签',
     'settings.template.tags.desc': '支持：#every-day, #every-workday, #every-workday-ar, #every(mon, sun), #every(jan(1,15))',
-    'settings.template.vars.desc': '{{date}} - 日期, {{dateWithIcon}} - 图标日期, {{weekday}} - 星期, {{time}} - 时间',
+    'settings.template.vars.desc': '{{date}} - 日期, {{dateWithIcon}} - 图标日期, {{weekday}} - 星期, {{time}} - 时间, {{weekday_ar}} - 阿拉伯语星期, {{weekday_zh}} - 中文星期, {{month_ar}} - 阿拉伯语月份, {{month_zh}} - 中文月份',
     'settings.template.placeholder': '在这里输入任务模板...',
     'settings.template.manual': '手动输入',
-    'settings.template.graphical': '图形化输入',
-    'settings.template.graphical.desc': '图形化编辑器即将推出... 请先使用手动输入。',
+    'settings.template.graphical': '图形化构建器',
+    'settings.template.graphical.desc': '通过添加变量和区块轻松构建您的模板。',
+    'settings.template.addVariable': '添加变量',
+    'settings.template.addSection': '添加区块',
     'commands.addDailyTask': '手动添加今日任务',
     'notification.taskAdded': '今日任务已添加',
     'notification.taskExists': '今日任务已存在',
@@ -201,11 +205,13 @@ const translationsEN: Record<TranslationKey, string> = {
     'settings.template.variables': 'Available variables',
     'settings.template.tags': 'Available tags',
     'settings.template.tags.desc': 'Support: #every-day, #every-workday, #every-workday-ar, #every(mon, sun), #every(month(1,15))',
-    'settings.template.vars.desc': '{{date}} - Date, {{dateWithIcon}} - Icon date, {{weekday}} - Weekday, {{time}} - Time',
+    'settings.template.vars.desc': '{{date}} - Date, {{dateWithIcon}} - Icon date, {{weekday}} - Weekday, {{time}} - Time, {{weekday_ar}} - Arabic weekday, {{weekday_zh}} - Chinese weekday, {{month_ar}} - Arabic month, {{month_zh}} - Chinese month',
     'settings.template.placeholder': 'Enter your task template here...',
     'settings.template.manual': 'Manual input',
-    'settings.template.graphical': 'Graphical input',
-    'settings.template.graphical.desc': 'Graphical builder coming soon... Use manual input for now.',
+    'settings.template.graphical': 'Graphical builder',
+    'settings.template.graphical.desc': 'Easily build your template by adding variables and sections.',
+    'settings.template.addVariable': 'Add variable',
+    'settings.template.addSection': 'Add section',
     'commands.addDailyTask': "Add today's task manually",
     'notification.taskAdded': "Today's task has been added",
     'notification.taskExists': "Today's task already exists",
@@ -271,11 +277,13 @@ const translationsAR: Record<TranslationKey, string> = {
     'settings.template.variables': 'المتغيرات المتاحة',
     'settings.template.tags': 'الوسوم المتاحة',
     'settings.template.tags.desc': 'دعم: #every-day, #every-workday, #every-workday-ar, #every(mon, sun), #every(month(1,15))',
-    'settings.template.vars.desc': '{{date}} - التاريخ, {{dateWithIcon}} - أيقونة التاريخ, {{weekday}} - اليوم, {{time}} - الوقت',
+    'settings.template.vars.desc': '{{date}} - التاريخ, {{dateWithIcon}} - أيقونة التاريخ, {{weekday}} - اليوم, {{time}} - الوقت, {{weekday_ar}} - اليوم بالعربية, {{weekday_zh}} - اليوم بالصينية, {{month_ar}} - الشهر بالعربية, {{month_zh}} - الشهر بالصينية',
     'settings.template.placeholder': 'أدخل قالب المهام هنا...',
     'settings.template.manual': 'إدخال يدوي',
-    'settings.template.graphical': 'إدخال رسومي',
-    'settings.template.graphical.desc': 'المحرر الرسومي قادم قريباً... استخدم الإدخال اليدوي حالياً.',
+    'settings.template.graphical': 'البناء الرسومي',
+    'settings.template.graphical.desc': 'ابنِ قالبك بسهولة عن طريق إضافة المتغيرات والأقسام.',
+    'settings.template.addVariable': 'إضافة متغير',
+    'settings.template.addSection': 'إضافة قسم',
     'commands.addDailyTask': 'إضافة مهمة اليوم يدوياً',
     'notification.taskAdded': 'تم إضافة مهمة اليوم',
     'notification.taskExists': 'مهمة اليوم موجودة بالفعل',

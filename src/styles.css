@@ -486,6 +486,66 @@
     color: var(--text-muted);
 }
 
+.daily-task-setting-tab .graphical-builder-container {
+    padding: 15px;
+    background-color: var(--background-secondary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 0 0 4px 4px;
+    margin-bottom: 20px;
+}
+
+.daily-task-setting-tab .graphical-toolbar {
+    margin-bottom: 20px;
+}
+
+.daily-task-setting-tab .graphical-toolbar-title {
+    font-size: 0.9em;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.daily-task-setting-tab .graphical-tool-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.daily-task-setting-tab .graphical-button {
+    background-color: var(--background-primary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-normal);
+}
+
+.daily-task-setting-tab .graphical-button:hover {
+    background-color: var(--background-modifier-hover);
+    border-color: var(--text-accent);
+    color: var(--text-accent);
+}
+
+.daily-task-setting-tab .graphical-variable-button {
+    border-color: rgba(var(--interactive-accent-rgb), 0.3);
+}
+
+.daily-task-setting-tab .graphical-section-button {
+    border-style: dashed;
+}
+
+.daily-task-setting-tab .graphical-help-info {
+    font-size: 0.8em;
+    color: var(--text-faint);
+    font-style: italic;
+    margin-top: 10px;
+    text-align: center;
+}
+
 .daily-task-setting-tab .template-preview.visible {
     display: block !important;
 }

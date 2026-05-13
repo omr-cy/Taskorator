@@ -75,12 +75,28 @@ declare module "obsidian" {
         setName(name: string): this;
         setDesc(desc: string): this;
         setClass(cls: string): this;
+        setHeading(): this;
         addText(cb: (text: TextComponent) => void): this;
         addButton(cb: (button: ButtonComponent) => void): this;
         addTextArea(cb: (text: TextAreaComponent) => void): this;
         addToggle(cb: (toggle: ToggleComponent) => void): this;
         addDropdown(cb: (dropdown: DropdownComponent) => void): this;
         controlEl: HTMLElement;
+        nameEl: HTMLElement;
+        descEl: HTMLElement;
+        infoEl: HTMLElement;
+        settingEl: HTMLElement;
+    }
+
+    export class Component {}
+
+    export class MarkdownRenderer {
+        static renderMarkdown(
+            markdown: string,
+            el: HTMLElement,
+            sourcePath: string,
+            component: Component
+        ): Promise<void>;
     }
 
     export class ButtonComponent {
@@ -123,6 +139,7 @@ declare module "obsidian" {
     }
 
     export function addIcon(iconId: string, svgContent: string): void;
+    export function setIcon(el: HTMLElement, iconId: string): void;
     
     export class Notice {
         constructor(message: string, timeout?: number);

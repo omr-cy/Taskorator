@@ -1,7 +1,8 @@
 import { 
     getCurrentDate, 
     getCurrentWeekdayName, 
-    getCurrentDateWithIcon 
+    getCurrentDateWithIcon,
+    getLocalizedMonthName
 } from "./dateUtils";
 
 /**
@@ -260,6 +261,13 @@ export function renderTemplate(template: string, outputLanguage?: string, isPrev
         'date': getCurrentDate(),
         'dateWithIcon': getCurrentDateWithIcon(outputLanguage),
         'weekday': getCurrentWeekdayName(outputLanguage),
+        'weekday_en': getCurrentWeekdayName('en'),
+        'weekday_zh': getCurrentWeekdayName('zh'),
+        'weekday_ar': getCurrentWeekdayName('ar'),
+        'month': getLocalizedMonthName(outputLanguage),
+        'month_en': getLocalizedMonthName('en'),
+        'month_zh': getLocalizedMonthName('zh'),
+        'month_ar': getLocalizedMonthName('ar'),
         'time': getCurrentTime()
     };
     
@@ -284,6 +292,13 @@ export function getTemplateVariables(): Record<string, string> {
         'date': 'Current date (YYYY-MM-DD)',
         'dateWithIcon': 'Current date with daily icon',
         'weekday': 'Current weekday',
+        'weekday_en': 'English weekday',
+        'weekday_zh': 'Chinese weekday',
+        'weekday_ar': 'Arabic weekday',
+        'month': 'Current month',
+        'month_en': 'English month',
+        'month_zh': 'Chinese month',
+        'month_ar': 'Arabic month',
         'time': 'Current time (HH:MM)'
     };
 }
