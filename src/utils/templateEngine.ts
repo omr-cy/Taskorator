@@ -59,6 +59,10 @@ function isTodayIncluded(daysListStr: string): boolean {
             if (today >= 1 && today <= 5) return true;
             continue;
         }
+        if (segment === 'every-workday-ar') {
+            if (today >= 0 && today <= 4) return true; // Sun-Thu
+            continue;
+        }
         if (segment === 'weekend' || segment === 'weekends') {
             if (today === 0 || today === 6) return true;
             continue;
@@ -127,12 +131,24 @@ export function filterTemplateByDay(template: string, isPreview: boolean = false
                 continue;
             }
             
-            // Check for #every tag - handles #every mon, #every(mon), #every (mon), #every-day, #every-workday
+            // Check for #every tag - handles #every mon, #every(mon), #every (mon), #every-day, #every-workday variants
             const everyDayMatch = line.match(/#every-day/i);
+            const everyWorkdayARMatch = line.match(/#every-workday-ar/i);
             const everyWorkdayMatch = line.match(/#every-workday/i);
             
             if (everyDayMatch) {
                 result.push(line.replace(/\s*#every-day/i, ''));
+                continue;
+            }
+
+            if (everyWorkdayARMatch) {
+                const now = new Date();
+                const today = now.getDay();
+                if (today >= 0 && today <= 4) { // Sun-Thu
+                    result.push(line.replace(/\s*#every-workday-ar/i, ''));
+                } else {
+                    skipHeaderLevel = level;
+                }
                 continue;
             }
             
@@ -178,10 +194,20 @@ export function filterTemplateByDay(template: string, isPreview: boolean = false
         
         // Handle #every on regular lines
         const everyDayMatchLine = line.match(/#every-day/i);
+        const everyWorkdayARMatchLine = line.match(/#every-workday-ar/i);
         const everyWorkdayMatchLine = line.match(/#every-workday/i);
         
         if (everyDayMatchLine) {
             result.push(line.replace(/\s*#every-day/i, ''));
+            continue;
+        }
+
+        if (everyWorkdayARMatchLine) {
+            const now = new Date();
+            const today = now.getDay();
+            if (today >= 0 && today <= 4) { // Sun-Thu
+                result.push(line.replace(/\s*#every-workday-ar/i, ''));
+            }
             continue;
         }
         

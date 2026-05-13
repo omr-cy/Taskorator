@@ -183,11 +183,19 @@ export function getCurrentDateWithIcon(language?: string): string {
 }
 
 /**
- * Determine if the current day is a workday (Mon-Fri)
+ * Determine if the current day is a workday
  * @returns Whether it's a workday
  */
 export function isWorkday(): boolean {
   const day = new Date().getDay();
+  const currentLang = getCurrentLanguage();
+  
+  if (currentLang === 'ar') {
+    // 0 is Sunday, 1-4 is Mon-Thu, 5 is Friday, 6 is Saturday
+    // Sun-Thu: 0, 1, 2, 3, 4
+    return day >= 0 && day <= 4;
+  }
+  
   // 0 is Sunday, 1-5 is Mon-Fri, 6 is Saturday
   return day >= 1 && day <= 5;
 }

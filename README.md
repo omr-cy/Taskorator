@@ -38,10 +38,11 @@
 | `{{weekday}}` | Localized day of the week |
 | `{{time}}` | Current rendering time (HH:MM) |
 
-#### Smart Scheduling Tags (`#every`):
+#### Smart Scheduling Tags:
 Add these at the end of a line or a heading to control when they appear:
 - `#every-day`: Appear every single day.
 - `#every-workday`: Appear only Monday through Friday.
+- `#every-workday-ar`: Appear Sunday through Thursday (Arabic region).
 - `#every(mon, wed)`: Appear only on specific days.
 - `#every(jan(1,15))`: Appear on specific days of a specific month.
 - `#every(month(1))`: Appear on a specific day of every month.
@@ -80,10 +81,11 @@ Add these at the end of a line or a heading to control when they appear:
 | `{{weekday}}` | اسم اليوم الحالي |
 | `{{time}}` | وقت التوليد الحالي (HH:MM) |
 
-#### وسوم الجدولة الذكية (`#every`):
+#### وسوم الجدولة الذكية:
 أضف هذه الوسوم في نهاية السطر أو العنوان للتحكم في وقت ظهورها:
 - `#every-day`: تظهر كل يوم.
 - `#every-workday`: تظهر من الاثنين إلى الجمعة فقط.
+- `#every-workday-ar`: تظهر من الأحد إلى الخميس فقط (منطقة العرب).
 - `#every(mon, wed)`: تظهر في أيام محددة فقط.
 - `#every(jan(1,15))`: تظهر في أيام محددة من شهر محدد.
 - `#every(month(1))`: تظهر في يوم محدد من كل شهر.
@@ -122,10 +124,11 @@ Add these at the end of a line or a heading to control when they appear:
 | `{{weekday}}` | 当地星期几 |
 | `{{time}}` | 当前渲染时间 (HH:MM) |
 
-#### 智能调度标签 (`#every`):
+#### 智能调度标签:
 在行尾或标题末尾添加这些标签以控制其显示时间：
 - `#every-day`: 每天显示。
 - `#every-workday`: 仅在周一至周五显示。
+- `#every-workday-ar`: 仅在周日至周四显示（阿拉伯地区）。
 - `#every(mon, wed)`: 仅在特定日期显示。
 - `#every(jan(1,15))`: 在特定月份的特定日期显示。
 - `#every(month(1))`: 在每月的特定日期显示。

@@ -1,5 +1,5 @@
 // @ts-ignore
-import { App, ButtonComponent, DropdownComponent, Notice, Plugin, PluginSettingTab, Setting, TextAreaComponent, TextComponent, ToggleComponent, MarkdownRenderer, Component } from 'obsidian';
+import { App, ButtonComponent, DropdownComponent, Notice, Plugin, PluginSettingTab, Setting, TextAreaComponent, TextComponent, ToggleComponent, MarkdownRenderer, Component, setIcon } from 'obsidian';
 import { AutoGenerateMode, DEFAULT_SETTINGS, DEFAULT_TEMPLATE_EN, DEFAULT_TEMPLATE_ZH, DEFAULT_TEMPLATE_AR, TaskoratorSettings, Language, StorageMode } from '../models/settings';
 import { getTranslation, setCurrentLanguage } from '../i18n/i18n';
 import { renderTemplate } from '../utils/templateEngine';
@@ -86,8 +86,9 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         
         const storageModeSetting = new Setting(containerEl)
             .setName(getTranslation('settings.outputMode'))
-            .setDesc(getTranslation('settings.outputMode.desc'))
-            .addDropdown(dropdown => {
+            .setDesc(getTranslation('settings.outputMode.desc'));
+        setIcon((storageModeSetting as any).nameEl, 'archive');
+        storageModeSetting.addDropdown(dropdown => {
                 dropdown
                     .addOption(StorageMode.TRADITIONAL, getTranslation('settings.outputMode.traditional'))
                     .addOption(StorageMode.SINGLE_FILE, getTranslation('settings.outputMode.singleFile'))
@@ -114,6 +115,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         rootDirSetting = new Setting(containerEl)
             .setName(getTranslation('settings.rootDir'))
             .setDesc(getTranslation('settings.rootDir.desc'));
+        setIcon((rootDirSetting as any).nameEl, 'folder');
             
         // Create input container to allow extra elements
         const inputContainer = document.createElement('div');
@@ -145,7 +147,8 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         
         // Create save success icon
         const saveSuccessIcon = document.createElement('span');
-        saveSuccessIcon.classList.add('svg-icon', 'lucide-check', SuccessIconCSS);
+        saveSuccessIcon.classList.add(SuccessIconCSS);
+        setIcon(saveSuccessIcon, 'check');
         saveIndicator.appendChild(saveSuccessIcon);
 
         // Record auto-save timer
@@ -183,8 +186,9 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         // Single file path input
         singleFilePathSetting = new Setting(containerEl)
             .setName(getTranslation('settings.singleFilePath'))
-            .setDesc(getTranslation('settings.singleFilePath.desc'))
-            .addText(text => {
+            .setDesc(getTranslation('settings.singleFilePath.desc'));
+        setIcon((singleFilePathSetting as any).nameEl, 'file-text');
+        singleFilePathSetting.addText(text => {
                 text.setValue(settings.singleFilePath)
                     .onChange(async (value) => {
                         await this.settingsManager.updateSettings({ singleFilePath: value });
@@ -203,12 +207,11 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         
         // Language settings
         // TODO: Should use Obsidian API app.i18n.locale to get system language
-        // Need to set minAppVersion: "1.8.0" or higher in manifest.json
-        // Can remove this setting and modify SettingsManager.getCurrentLanguage()
-        new Setting(containerEl)
+        const languageSetting = new Setting(containerEl)
             .setName(getTranslation('settings.language'))
-            .setDesc(getTranslation('settings.language.desc'))
-            .addDropdown(dropdown => {
+            .setDesc(getTranslation('settings.language.desc'));
+        setIcon((languageSetting as any).nameEl, 'languages');
+        languageSetting.addDropdown(dropdown => {
                 dropdown
                     .addOption(Language.AUTO, getTranslation('settings.language.auto'))
                     .addOption(Language.ZH, getTranslation('settings.language.zh'))
@@ -223,10 +226,11 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             });
 
         // Output format (language) settings
-        new Setting(containerEl)
+        const outputLanguageSetting = new Setting(containerEl)
             .setName(getTranslation('settings.outputLanguage'))
-            .setDesc(getTranslation('settings.outputLanguage.desc'))
-            .addDropdown(dropdown => {
+            .setDesc(getTranslation('settings.outputLanguage.desc'));
+        setIcon((outputLanguageSetting as any).nameEl, 'globe');
+        outputLanguageSetting.addDropdown(dropdown => {
                 dropdown
                     .addOption(Language.AUTO, getTranslation('settings.language.auto'))
                     .addOption(Language.ZH, getTranslation('settings.language.zh'))
@@ -282,6 +286,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         const templateSetting = new Setting(containerEl)
             .setName(getTranslation('settings.template'))
             .setClass('template-setting');
+        setIcon((templateSetting as any).nameEl, 'file-code');
         
         const templateContainer = document.createElement('div');
         templateContainer.classList.add('template-container', 'full-width-container');
@@ -298,12 +303,14 @@ export class TaskoratorSettingTab extends PluginSettingTab {
 
         const manualTab = document.createElement('div');
         manualTab.classList.add('template-tab', 'active');
-        manualTab.textContent = getTranslation('settings.template.manual') || 'Manual Input';
+        setIcon(manualTab, 'pencil');
+        manualTab.appendChild(document.createTextNode(' ' + (getTranslation('settings.template.manual') || 'Manual Input')));
         tabsContainer.appendChild(manualTab);
 
         const graphicalTab = document.createElement('div');
         graphicalTab.classList.add('template-tab');
-        graphicalTab.textContent = getTranslation('settings.template.graphical') || 'Graphical Input';
+        setIcon(graphicalTab, 'wand-2');
+        graphicalTab.appendChild(document.createTextNode(' ' + (getTranslation('settings.template.graphical') || 'Graphical Input')));
         tabsContainer.appendChild(graphicalTab);
 
         // Content areas
@@ -318,7 +325,13 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         // Graphical editor placeholder
         const graphicalPlaceholder = document.createElement('div');
         graphicalPlaceholder.classList.add('graphical-placeholder');
-        graphicalPlaceholder.innerHTML = `<span class="graphical-icon">🛠️</span><p>${getTranslation('settings.template.graphical.desc') || 'Graphical builder coming soon... Use manual input for now.'}</p>`;
+        const graphicalIcon = document.createElement('div');
+        graphicalIcon.classList.add('graphical-icon');
+        setIcon(graphicalIcon, 'wand-2');
+        graphicalPlaceholder.appendChild(graphicalIcon);
+        const graphicalText = document.createElement('p');
+        graphicalText.textContent = getTranslation('settings.template.graphical.desc') || 'Graphical builder coming soon... Use manual input for now.';
+        graphicalPlaceholder.appendChild(graphicalText);
         graphicalContent.appendChild(graphicalPlaceholder);
 
         // Tab switching logic
@@ -350,7 +363,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                 // Auto resize textarea
                 const el = textarea.inputEl;
                 el.style.height = 'auto';
-                const newHeight = Math.min(Math.max(el.scrollHeight, 250), 500);
+                const newHeight = Math.max(el.scrollHeight, 250);
                 el.style.height = newHeight + 'px';
             });
         
@@ -362,7 +375,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             const el = textarea.inputEl;
             if (el) {
                 el.style.height = 'auto';
-                const newHeight = Math.min(Math.max(el.scrollHeight, 250), 500);
+                const newHeight = Math.max(el.scrollHeight, 250);
                 el.style.height = newHeight + 'px';
             }
         }, 100);
@@ -390,7 +403,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         
         // Manually add eye icon
         const eyeIcon = document.createElement('span');
-        eyeIcon.classList.add('svg-icon', 'lucide-eye');
+        setIcon(eyeIcon, 'eye');
         toggleButton.buttonEl.prepend(eyeIcon);
         
         // Reset button - Improved style
@@ -404,7 +417,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         
         // Add reset icon
         const resetIcon = document.createElement('span');
-        resetIcon.classList.add('svg-icon', 'lucide-refresh-cw');
+        setIcon(resetIcon, 'refresh-cw');
         resetBtn.buttonEl.prepend(resetIcon);
         
         // Add reset event
@@ -426,7 +439,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             const el = textarea.inputEl;
             if (el) {
                 el.style.height = 'auto';
-                const newHeight = Math.min(Math.max(el.scrollHeight, 250), 500);
+                const newHeight = Math.max(el.scrollHeight, 250);
                 el.style.height = newHeight + 'px';
             }
             
@@ -452,11 +465,11 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             this.togglePreview(this.previewEl);
             // Toggle icon and button text
             if (this.previewEl && this.previewEl.classList.contains('visible')) {
-                eyeIcon.className = 'svg-icon lucide-eye-off';
+                setIcon(eyeIcon, 'eye-off');
                 toggleButton.setButtonText(getTranslation('settings.template.hide'));
                 toggleButton.buttonEl.classList.add('success-button');
             } else {
-                eyeIcon.className = 'svg-icon lucide-eye';
+                setIcon(eyeIcon, 'eye');
                 toggleButton.setButtonText(getTranslation('settings.template.preview'));
                 toggleButton.buttonEl.classList.remove('success-button');
             }
@@ -482,7 +495,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         
         // Add reset icon
         const resetIcon2 = document.createElement('span');
-        resetIcon2.classList.add('svg-icon', 'lucide-refresh-cw');
+        setIcon(resetIcon2, 'refresh-cw');
         resetDefaultBtn.buttonEl.prepend(resetIcon2);
         
         // Event handler for global reset button
@@ -534,7 +547,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
 
         // Add icon
         const calendarIcon = document.createElement('span');
-        calendarIcon.classList.add('svg-icon', 'lucide-calendar-plus');
+        setIcon(calendarIcon, 'calendar-plus');
         this.addTaskButton.buttonEl.prepend(calendarIcon);
     }
     

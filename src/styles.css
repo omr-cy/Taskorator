@@ -88,9 +88,18 @@
 }
 
 .daily-task-setting-tab .setting-item-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-weight: 600;
     font-size: 1.1em;
     color: var(--text-normal);
+}
+
+.daily-task-setting-tab .setting-item-name svg {
+    width: 18px;
+    height: 18px;
+    color: var(--text-accent);
 }
 
 .daily-task-setting-tab .setting-item-description {
@@ -350,6 +359,8 @@
     margin-bottom: 0.8em;
     font-weight: var(--font-bold);
     color: var(--header-color);
+    padding-left: 0;
+    margin-left: 0;
 }
 
 .daily-task-setting-tab .template-preview h1 { font-size: 1.8em; border-bottom: 1px solid var(--background-modifier-border); padding-bottom: 0.3em; }
@@ -374,7 +385,7 @@
 
 .daily-task-setting-tab .template-preview ul, 
 .daily-task-setting-tab .template-preview ol {
-    padding-left: 20px;
+    padding-left: 28px;
     margin: 15px 0;
 }
 
@@ -400,15 +411,22 @@
 /* Template Tabs */
 .daily-task-setting-tab .template-tabs-container {
     display: flex;
+    justify-content: center;
     gap: 2px;
     margin-bottom: -1px;
-    padding: 0 5px;
+    padding: 0;
     position: relative;
     z-index: 2;
+    width: 100%;
 }
 
 .daily-task-setting-tab .template-tab {
-    padding: 8px 16px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
     font-size: 13px;
     font-weight: 500;
     color: var(--text-muted);
@@ -418,6 +436,11 @@
     border-radius: 6px 6px 0 0;
     background-color: transparent;
     transition: all 0.2s ease;
+}
+
+.daily-task-setting-tab .template-tab svg {
+    width: 16px;
+    height: 16px;
 }
 
 .daily-task-setting-tab .template-tab:hover {
@@ -452,9 +475,15 @@
 }
 
 .daily-task-setting-tab .graphical-placeholder .graphical-icon {
-    font-size: 32px;
-    display: block;
+    display: flex;
+    justify-content: center;
     margin-bottom: 12px;
+}
+
+.daily-task-setting-tab .graphical-placeholder .graphical-icon svg {
+    width: 32px;
+    height: 32px;
+    color: var(--text-muted);
 }
 
 .daily-task-setting-tab .template-preview.visible {
@@ -483,7 +512,6 @@
     overflow-y: auto;
     transition: border-color 0.2s ease;
     min-height: 250px;
-    max-height: 500px;
 }
 
 .daily-task-setting-tab .template-editor:focus {
@@ -556,12 +584,16 @@
 .daily-task-rtl .template-preview ul, 
 .daily-task-rtl .template-preview ol {
     padding-left: 0;
-    padding-right: 25px;
+    padding-right: 28px;
 }
 
 .daily-task-rtl .template-preview .task-list-item {
-    margin-left: 0;
-    margin-right: -5px;
+    margin-right: 0;
+}
+
+.daily-task-rtl .template-preview input[type="checkbox"] {
+    margin-right: 0;
+    margin-left: 8px;
 }
 
 .daily-task-rtl .mode-toggle-container {
@@ -686,7 +718,7 @@
 /* Template Preview Header Styles */
 .daily-task-setting-tab .template-preview-header {
     display: flex;
-    justify-content: flex-start !important;
+    justify-content: center !important;
     align-items: center;
     gap: 12px;
     margin-top: 20px;
