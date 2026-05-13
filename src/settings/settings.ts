@@ -77,58 +77,6 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             containerEl.classList.remove('daily-task-rtl');
         }
 
-        // Setting sections titles
-        containerEl.createEl('h2', { text: getTranslation('settings.basicSettings') });
-        
-        // Language settings
-        // TODO: Should use Obsidian API app.i18n.locale to get system language
-        const languageSetting = new Setting(containerEl)
-            .setDesc(getTranslation('settings.language.desc'));
-        
-        const languageNameEl = (languageSetting as any).nameEl;
-        languageNameEl.empty();
-        setIcon(languageNameEl, 'languages');
-        languageNameEl.createSpan({ text: ' ' + getTranslation('settings.language') });
-
-        languageSetting.addDropdown(dropdown => {
-                dropdown
-                    .addOption(Language.AUTO, getTranslation('settings.language.auto'))
-                    .addOption(Language.ZH, getTranslation('settings.language.zh'))
-                    .addOption(Language.EN, getTranslation('settings.language.en'))
-                    .addOption(Language.AR, getTranslation('settings.language.ar'))
-                    .setValue(settings.language)
-                    .onChange(async (value) => {
-                        await this.settingsManager.updateSettings({ language: value as Language });
-                        // Need to reload settings page to update translations
-                        this.display();
-                    });
-            });
-
-        // Output format (language) settings
-        const outputLanguageSetting = new Setting(containerEl)
-            .setDesc(getTranslation('settings.outputLanguage.desc'));
-        
-        const outputLanguageNameEl = (outputLanguageSetting as any).nameEl;
-        outputLanguageNameEl.empty();
-        setIcon(outputLanguageNameEl, 'globe');
-        outputLanguageNameEl.createSpan({ text: ' ' + getTranslation('settings.outputLanguage') });
-
-        outputLanguageSetting.addDropdown(dropdown => {
-                dropdown
-                    .addOption(Language.AUTO, getTranslation('settings.language.auto'))
-                    .addOption(Language.ZH, getTranslation('settings.language.zh'))
-                    .addOption(Language.EN, getTranslation('settings.language.en'))
-                    .addOption(Language.AR, getTranslation('settings.language.ar'))
-                    .setValue(settings.outputLanguage || Language.AUTO)
-                    .onChange(async (value) => {
-                        await this.settingsManager.updateSettings({ outputLanguage: value as Language });
-                        const template = this.settingsManager.hasCustomTemplate() ? 
-                            this.settingsManager.getSettings().customTemplate : 
-                            this.settingsManager.getTemplateByLanguage();
-                        this.updatePreview(this.previewEl, template);
-                    });
-            });
-
         // Output mode settings
         let singleFilePathSetting: Setting | null = null;
         let rootDirSetting: Setting | null = null;
@@ -244,6 +192,54 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         } else {
             (singleFilePathSetting as any).settingEl.style.display = 'none';
         }
+
+        // Language settings (Interface)
+        const languageSetting = new Setting(containerEl)
+            .setDesc(getTranslation('settings.language.desc'));
+        
+        const languageNameEl = (languageSetting as any).nameEl;
+        languageNameEl.empty();
+        setIcon(languageNameEl, 'languages');
+        languageNameEl.createSpan({ text: ' ' + getTranslation('settings.language') });
+
+        languageSetting.addDropdown(dropdown => {
+                dropdown
+                    .addOption(Language.AUTO, getTranslation('settings.language.auto'))
+                    .addOption(Language.ZH, getTranslation('settings.language.zh'))
+                    .addOption(Language.EN, getTranslation('settings.language.en'))
+                    .addOption(Language.AR, getTranslation('settings.language.ar'))
+                    .setValue(settings.language)
+                    .onChange(async (value) => {
+                        await this.settingsManager.updateSettings({ language: value as Language });
+                        // Need to reload settings page to update translations
+                        this.display();
+                    });
+            });
+
+        // Output format (language) settings - Last before divider
+        const outputLanguageSetting = new Setting(containerEl)
+            .setDesc(getTranslation('settings.outputLanguage.desc'));
+        
+        const outputLanguageNameEl = (outputLanguageSetting as any).nameEl;
+        outputLanguageNameEl.empty();
+        setIcon(outputLanguageNameEl, 'globe');
+        outputLanguageNameEl.createSpan({ text: ' ' + getTranslation('settings.outputLanguage') });
+
+        outputLanguageSetting.addDropdown(dropdown => {
+                dropdown
+                    .addOption(Language.AUTO, getTranslation('settings.language.auto'))
+                    .addOption(Language.ZH, getTranslation('settings.language.zh'))
+                    .addOption(Language.EN, getTranslation('settings.language.en'))
+                    .addOption(Language.AR, getTranslation('settings.language.ar'))
+                    .setValue(settings.outputLanguage || Language.AUTO)
+                    .onChange(async (value) => {
+                        await this.settingsManager.updateSettings({ outputLanguage: value as Language });
+                        const template = this.settingsManager.hasCustomTemplate() ? 
+                            this.settingsManager.getSettings().customTemplate : 
+                            this.settingsManager.getTemplateByLanguage();
+                        this.updatePreview(this.previewEl, template);
+                    });
+            });
         
         // Horizontal line before template settings
         containerEl.createEl('hr', { cls: 'daily-task-divider' });
