@@ -55,24 +55,27 @@ export interface TaskoratorSettings {
  */
 export const DEFAULT_TEMPLATE_ZH = `## {{dateWithIcon}}（{{weekday}}）
 // 这是一个默认模板。你可以根据自己的需求自定义。
-// lines starting with // will be skipped
+// 以 // 开头的行在生成的笔记中将被跳过。
 
 > 🕒 生成时间：{{time}}
 
-### ✨ 每日必做
+// 每天都会出现的自动化任务
+### ✨ Daily Routine #every-day
 ---
 
-- [ ] 🪥 刷牙 #every-day
-- [ ] 💧 喝 8 杯水 #every-day
-- [ ] 📝 复盘今日进度 #every-day
+- [ ] 🪥 刷牙
+- [ ] 💧 喝 8 杯水
+- [ ] 📝 复盘今日进度
 
+// 仅在工作日（周一至周五）显示的任务
 ### 💼 工作任务 #every-workday
 ---
 
-- [ ] 检查并回复邮件 #every-day
+- [ ] 检查并回复邮件
 - [ ] 团队站会 #every mon, wed, fri
 - [ ] 周报更新 #every fri
 
+// 按周、天或日期进行高级调度的示例
 ### 🎨 个人兴趣
 ---
 
@@ -93,20 +96,23 @@ export const DEFAULT_TEMPLATE_EN = `## {{dateWithIcon}} ({{weekday}})
 
 > 🕒 Generated At: {{time}}
 
-### ✨ Daily Routine
+// Automated tasks appearing every single day
+### ✨ Daily Routine #every-day
 ---
 
-- [ ] 🪥 Brush teeth #every-day
-- [ ] 💧 Drink 2L of water #every-day
-- [ ] 📝 Review today's goals #every-day
+- [ ] 🪥 Brush teeth
+- [ ] 💧 Drink 2L of water
+- [ ] 📝 Review today's goals
 
+// Tasks shown only on workdays (Mon-Fri)
 ### 💼 Work Tasks #every-workday
 ---
 
-- [ ] Check and reply to emails #every-day
+- [ ] Check and reply to emails
 - [ ] Team sync meeting #every(mon, wed, fri)
 - [ ] Weekly report update #every fri
 
+// Examples of advanced scheduling by week, day, or date
 ### 🎨 Personal & Hobbies
 ---
 
@@ -127,20 +133,23 @@ export const DEFAULT_TEMPLATE_AR = `## {{dateWithIcon}} ({{weekday}})
 
 > 🕒 وقت التوليد: {{time}}
 
-### ✨ الروتين اليومي
+// مهام مؤتمتة تظهر كل يوم
+### ✨ الروتين اليومي #every-day
 ---
 
-- [ ] 🪥 تنظيف الأسنان #every-day
-- [ ] 💧 شرب 2 لتر من الماء #every-day
-- [ ] 📝 مراجعة أهداف اليوم #every-day
+- [ ] 🪥 تنظيف الأسنان
+- [ ] 💧 شرب 2 لتر من الماء
+- [ ] 📝 مراجعة أهداف اليوم
 
+// المهام التي تظهر فقط في أيام العمل (الاثنين - الجمعة)
 ### 💼 مهام العمل #every-workday
 ---
 
-- [ ] مراجعة والرد على رسائل البريد #every-day
+- [ ] مراجعة والرد على رسائل البريد
 - [ ] اجتماع المزامنة #every(mon, wed, fri)
 - [ ] تحديث التقرير الأسبوعي #every fri
 
+// أمثلة على الجدولة المتقدمة حسب الأسبوع أو اليوم أو التاريخ
 ### 🎨 الهوايات والاهتمامات
 ---
 

@@ -307,7 +307,8 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                 // Auto resize textarea
                 const el = textarea.inputEl;
                 el.style.height = 'auto';
-                el.style.height = (el.scrollHeight) + 'px';
+                const newHeight = Math.min(Math.max(el.scrollHeight, 250), 800);
+                el.style.height = newHeight + 'px';
             });
         
         // Add style classes
@@ -316,8 +317,11 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         // Initial resize
         window.setTimeout(() => {
             const el = textarea.inputEl;
-            el.style.height = 'auto';
-            el.style.height = (el.scrollHeight) + 'px';
+            if (el) {
+                el.style.height = 'auto';
+                const newHeight = Math.min(Math.max(el.scrollHeight, 250), 800);
+                el.style.height = newHeight + 'px';
+            }
         }, 100);
         
         // Preview header, centered using flex layout
@@ -374,6 +378,14 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             // Update input box and preview
             textarea.setValue(defaultTemplate);
             this.updatePreview(this.previewEl, defaultTemplate);
+            
+            // Auto resize textarea after reset
+            const el = textarea.inputEl;
+            if (el) {
+                el.style.height = 'auto';
+                const newHeight = Math.min(Math.max(el.scrollHeight, 250), 800);
+                el.style.height = newHeight + 'px';
+            }
             
             // Show success animation
             resetBtn.buttonEl.classList.add('success-button');
@@ -505,14 +517,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
      */
     private togglePreview(previewEl: HTMLElement | null): void {
         if (!previewEl) return;
-        
-        if (previewEl.classList.contains('hidden-element')) {
-            previewEl.classList.remove('hidden-element');
-            previewEl.classList.add('visible-element', 'visible');
-        } else {
-            previewEl.classList.add('hidden-element');
-            previewEl.classList.remove('visible-element', 'visible');
-        }
+        previewEl.classList.toggle('visible');
     }
 }
 

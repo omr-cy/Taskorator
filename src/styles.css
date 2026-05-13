@@ -239,6 +239,29 @@
     opacity: 0.8;
 }
 
+/* Remove default borders from headers in preview */
+.daily-task-setting-tab .template-preview h1,
+.daily-task-setting-tab .template-preview h2,
+.daily-task-setting-tab .template-preview h3,
+.daily-task-setting-tab .template-preview h4,
+.daily-task-setting-tab .template-preview h5,
+.daily-task-setting-tab .template-preview h6 {
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+}
+
+.daily-task-setting-tab .template-preview h3 {
+    margin-bottom: 5px !important;
+}
+
+.hidden-element {
+    display: none !important;
+}
+
+.visible-element {
+    display: block !important;
+}
+
 @media (max-width: 480px) {
     .daily-task-footer-actions {
         flex-direction: column;
@@ -348,30 +371,39 @@
     margin-top: 20px;
     max-height: 400px;
     overflow-y: auto;
-    display: none;
     border-top: 1px solid var(--background-modifier-border);
 }
 
 .daily-task-setting-tab .template-preview.visible {
-    display: block;
+    display: block !important;
 }
 
-/* Template Editor Area */
+.daily-task-setting-tab .template-preview:not(.visible) {
+    display: none !important;
+}
+
+/* Template Editor Area - Code Editor Look */
 .daily-task-setting-tab .template-editor {
     width: 100%;
-    font-family: var(--font-monospace);
-    border: 1.5px solid var(--background-modifier-border);
-    border-radius: 6px;
-    padding: 15px;
-    resize: none;
-    min-height: 250px;
-    max-height: 800px;
+    font-family: var(--font-monospace) !important;
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+    padding: 15px !important;
+    border-radius: 6px !important;
+    background-color: var(--background-secondary) !important;
+    border: 1px solid var(--background-modifier-border) !important;
     box-sizing: border-box;
     margin-bottom: 12px;
-    background-color: var(--background-primary);
-    line-height: 1.6;
-    font-size: 14px;
+    color: var(--text-normal);
+    resize: none;
     overflow-y: auto;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.daily-task-setting-tab .template-editor:focus {
+    border-color: var(--interactive-accent) !important;
+    box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.1) !important;
+    background-color: var(--background-primary) !important;
 }
 
 /* Horizontal divider */
@@ -484,11 +516,6 @@
 .daily-task-rtl .template-preview-header .svg-icon {
     margin-left: 0;
     margin-right: 4px;
-}
-
-.template-editor:focus {
-    border-color: var(--interactive-accent);
-    box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.2);
 }
 
 /* Template Settings Container */
