@@ -106,12 +106,8 @@ export function filterTemplateByDay(template: string, isPreview: boolean = false
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         
-        // Handle comments (starting with //)
+        // Handle comments (starting with //) - we skip them in the rendered output
         if (line.trim().startsWith('//')) {
-            if (isPreview) {
-                // In preview, we wrap comments in a styled span to look like a code editor
-                result.push(`<span class="daily-task-preview-comment">${line}</span>`);
-            }
             continue;
         }
         

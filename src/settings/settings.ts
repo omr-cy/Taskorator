@@ -303,7 +303,9 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         
         // Function to apply highlighting
         const applyHighlighting = (text: string) => {
-            // Escape HTML and handle newlines
+            if (!highlighter) return;
+            
+            // Escape HTML
             let highlighted = text
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
@@ -319,13 +321,15 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             const lines = highlighted.split('\n');
             const processedLines = lines.map(line => {
                 const trimmed = line.trim();
-                if (trimmed.startsWith('//') || trimmed.startsWith('&lt;!--') || trimmed.startsWith('/*')) {
+                // Match // or <!--
+                if (trimmed.startsWith('//') || trimmed.startsWith('&lt;!--')) {
                     return `<span class="hl-comment">${line}</span>`;
                 }
                 return line;
             });
             
-            highlighter.innerHTML = processedLines.join('\n') + '\n';
+            // Add a trailing newline to ensure the height is correct when typing at the end
+            highlighter.innerHTML = processedLines.join('\n') + (text.endsWith('\n') ? '\n ' : '');
         };
 
         const textarea = new TextAreaComponent(wrapper)
