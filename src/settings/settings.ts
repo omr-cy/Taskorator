@@ -326,22 +326,17 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                     return `<span class="hl-comment">${line}</span>`;
                 }
                 
-                // Wrap regular text segments that aren't already highlighted
-                // We use a simple approach: if it's not a comment, and parts of it are highlighted,
-                // we wrap the plain parts. But a simpler way is to wrap the whole line if no highlighting is present,
-                // or just leave it to inherit color.
-                // Actually, the most reliable way since we use innerHTML is to ensure everything has a class.
-                
-                // Let's split the line by existing tags and wrap the pieces
+                // Split line into parts: already highlighted spans and plain text
                 const parts = line.split(/(<span class="hl-[^"]+">.*?<\/span>)/g);
                 return parts.map(part => {
                     if (part.startsWith('<span class="hl-')) return part;
                     if (!part) return '';
+                    // Wrap plain text in hl-normal to ensure it's visible with our transparent textarea trick
                     return `<span class="hl-normal">${part}</span>`;
                 }).join('');
             });
             
-            // Add a trailing newline to ensure the height is correct when typing at the end
+            // Add a trailing newline space to handle scrolling/height correctly at the very bottom
             highlighter.innerHTML = processedLines.join('\n') + (text.endsWith('\n') ? '\n ' : '');
         };
 
