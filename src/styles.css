@@ -208,30 +208,6 @@
     border-top: 1px solid var(--background-modifier-border);
 }
 
-/* Template textarea styling for "Code Editor" feel */
-.daily-task-setting-tab .template-setting textarea {
-    font-family: var(--font-monospace) !important;
-    font-size: 13px !important;
-    line-height: 1.6 !important;
-    padding: 15px !important;
-    border-radius: 6px !important;
-    background-color: var(--background-secondary) !important;
-    border: 1px solid var(--background-modifier-border) !important;
-    width: 100% !important;
-    min-height: 250px !important;
-    max-height: 800px !important;
-    resize: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    color: var(--text-normal);
-    overflow-y: auto;
-}
-
-.daily-task-setting-tab .template-setting textarea:focus {
-    border-color: var(--interactive-accent) !important;
-    box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.1) !important;
-    background-color: var(--background-primary) !important;
-}
-
 /* Style for comments in the preview */
 .daily-task-preview-comment {
     color: var(--text-faint);
@@ -348,14 +324,15 @@
 /* Template Preview Container */
 .daily-task-setting-tab .template-preview {
     background-color: var(--background-primary);
-    padding: 25px;
-    margin-top: 20px;
+    padding: 24px;
+    margin-top: 15px;
+    margin-bottom: 20px;
     max-height: 500px;
     overflow-y: auto;
     border: 1px solid var(--background-modifier-border);
     border-radius: 8px;
-    text-align: left;
-    line-height: 1.6;
+    line-height: var(--line-height-normal);
+    color: var(--text-normal);
     font-size: 15px;
 }
 
@@ -369,46 +346,50 @@
 .daily-task-setting-tab .template-preview h4,
 .daily-task-setting-tab .template-preview h5,
 .daily-task-setting-tab .template-preview h6 {
-    margin-top: 1em;
-    margin-bottom: 0.5em;
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
     font-weight: var(--font-bold);
-    line-height: var(--h1-line-height);
-    border-bottom: none !important;
-    padding-bottom: 0 !important;
+    color: var(--header-color);
 }
 
-.daily-task-setting-tab .template-preview h1 { font-size: var(--h1-size); color: var(--h1-color); }
-.daily-task-setting-tab .template-preview h2 { font-size: var(--h2-size); color: var(--h2-color); }
-.daily-task-setting-tab .template-preview h3 { font-size: var(--h3-size); color: var(--h3-color); }
-.daily-task-setting-tab .template-preview h4 { font-size: var(--h4-size); color: var(--h4-color); }
-.daily-task-setting-tab .template-preview h5 { font-size: var(--h5-size); color: var(--h5-color); }
-.daily-task-setting-tab .template-preview h6 { font-size: var(--h6-size); color: var(--h6-color); }
+.daily-task-setting-tab .template-preview h1 { font-size: 1.8em; border-bottom: 1px solid var(--background-modifier-border); padding-bottom: 0.3em; }
+.daily-task-setting-tab .template-preview h2 { font-size: 1.5em; border-bottom: 1px solid var(--background-modifier-border); padding-bottom: 0.3em; }
+.daily-task-setting-tab .template-preview h3 { font-size: 1.25em; }
+.daily-task-setting-tab .template-preview h4 { font-size: 1.1em; }
+.daily-task-setting-tab .template-preview h5 { font-size: 1em; }
+.daily-task-setting-tab .template-preview h6 { font-size: 0.9em; }
+
+.daily-task-setting-tab .template-preview p,
+.daily-task-setting-tab .template-preview ul,
+.daily-task-setting-tab .template-preview ol {
+    margin-bottom: 1em;
+}
 
 .daily-task-setting-tab .template-preview blockquote {
-    margin: 1.5em 0;
-    padding: 10px 20px;
+    margin: 1em 0;
+    padding: 0 1.2em;
     border-left: 4px solid var(--interactive-accent);
     color: var(--text-muted);
-    background-color: var(--background-secondary);
-    border-radius: 0 4px 4px 0;
 }
 
 .daily-task-setting-tab .template-preview ul, 
 .daily-task-setting-tab .template-preview ol {
-    padding-left: 25px;
+    padding-left: 20px;
     margin: 15px 0;
 }
 
 .daily-task-setting-tab .template-preview li {
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .daily-task-setting-tab .template-preview .task-list-item {
     list-style-type: none;
     padding-left: 0;
-    margin-left: -5px;
-    display: flex;
-    align-items: flex-start;
+    margin-left: 0;
+}
+
+.daily-task-setting-tab .template-preview input[type="checkbox"] {
+    margin-right: 8px;
 }
 
 .daily-task-setting-tab .template-preview.visible {
@@ -419,100 +400,31 @@
     display: none !important;
 }
 
-/* Template Editor Area - Code Editor Look with Syntax Highlighting Support */
-.daily-task-setting-tab .editor-container {
-    position: relative;
-    width: 100%;
-    margin-bottom: 12px;
-    border-radius: 6px;
-    border: 1px solid var(--background-modifier-border);
-    overflow: hidden;
-    background-color: var(--background-secondary);
-}
-
-.daily-task-setting-tab .editor-container:focus-within {
-    border-color: var(--interactive-accent);
-    box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.1);
-}
-
-.daily-task-setting-tab .template-editor-wrapper {
-    position: relative;
-    width: 100%;
-    /* Parent handles border/background */
-}
-
-/* The highlighter layer (behind the textarea) */
-.daily-task-setting-tab .template-highlighter {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding: 15px;
-    margin: 0;
-    box-sizing: border-box;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    color: var(--text-normal);
-    font-family: var(--font-monospace) !important;
-    font-size: 13px !important;
-    line-height: 1.6 !important;
-    pointer-events: none;
-    overflow-y: hidden; 
-    z-index: 1;
-    background-color: var(--background-secondary);
-}
-
-/* The textarea layer (on top) */
+/* Template Editor Area - Code Editor Look */
 .daily-task-setting-tab .template-editor {
-    position: relative;
     width: 100% !important;
     font-family: var(--font-monospace) !important;
-    font-size: 13px !important;
-    line-height: 1.6 !important;
-    padding: 15px !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    padding: 12px 15px !important;
+    border-radius: 4px !important;
+    background-color: var(--background-secondary) !important;
+    border: 1px solid var(--background-modifier-border) !important;
     box-sizing: border-box;
-    margin-bottom: 0 !important;
-    border: none !important;
-    background-color: transparent !important;
-    color: transparent !important; /* BACK TO TRANSPARENT: Let highlighter handle text colors */
-    caret-color: var(--text-normal) !important;
-    resize: none;
+    margin-bottom: 15px;
+    color: var(--text-normal) !important;
+    caret-color: var(--text-accent) !important;
+    resize: vertical;
     overflow-y: auto;
-    z-index: 2;
+    transition: border-color 0.2s ease;
     min-height: 250px;
     max-height: 800px;
-    display: block;
-}
-
-/* Specific Highlight: Comment */
-.daily-task-setting-tab .template-highlighter .hl-comment {
-    color: var(--text-faint);
-    opacity: 0.7;
-    font-style: italic;
-}
-
-/* Specific Highlight: Tags */
-.daily-task-setting-tab .template-highlighter .hl-tag {
-    color: var(--text-accent);
-    font-weight: 600;
-}
-
-/* Specific Highlight: Variables */
-.daily-task-setting-tab .template-highlighter .hl-variable {
-    color: var(--text-accent-hover);
-    background-color: rgba(var(--interactive-accent-rgb), 0.1);
-    border-radius: 3px;
-    padding: 0 2px;
-}
-
-/* Specific Highlight: Regular Text */
-.daily-task-setting-tab .template-highlighter .hl-normal {
-    color: var(--text-normal) !important;
 }
 
 .daily-task-setting-tab .template-editor:focus {
-    box-shadow: none !important;
+    border-color: var(--interactive-accent) !important;
+    box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.1) !important;
+    background-color: var(--background-primary) !important;
     outline: none !important;
 }
 
@@ -604,8 +516,7 @@
     text-align: left;
 }
 
-.daily-task-rtl .template-editor,
-.daily-task-rtl .template-highlighter {
+.daily-task-rtl .template-editor {
     direction: ltr;
     text-align: left;
 }
@@ -655,7 +566,7 @@
 .daily-task-setting-tab .template-container {
     background-color: var(--background-secondary-alt);
     border-radius: 10px;
-    padding: 20px;
+    padding: 10px;
     margin-top: 15px;
     border: 1px solid var(--background-modifier-border);
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
@@ -710,11 +621,11 @@
 /* Template Preview Header Styles */
 .daily-task-setting-tab .template-preview-header {
     display: flex;
-    justify-content: center !important;
+    justify-content: flex-start !important;
     align-items: center;
     gap: 12px;
-    margin-top: 10px;
-    margin-bottom: 8px;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .daily-task-setting-tab .template-preview-header button {
