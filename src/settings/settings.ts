@@ -320,8 +320,17 @@ export class TaskoratorSettingTab extends PluginSettingTab {
 
         const textarea = new TextAreaComponent(manualContent);
         
-        // Graphical builder content
-        this.renderGraphicalBuilder(graphicalContent, textarea);
+        // Graphical editor placeholder
+        const graphicalPlaceholder = document.createElement('div');
+        graphicalPlaceholder.classList.add('graphical-placeholder');
+        const graphicalIcon = document.createElement('div');
+        graphicalIcon.classList.add('graphical-icon');
+        setIcon(graphicalIcon, 'wand-2');
+        graphicalPlaceholder.appendChild(graphicalIcon);
+        const graphicalText = document.createElement('p');
+        graphicalText.textContent = getTranslation('settings.template.graphical.desc') || 'Graphical builder coming soon... Use manual input for now.';
+        graphicalPlaceholder.appendChild(graphicalText);
+        graphicalContent.appendChild(graphicalPlaceholder);
 
         // Tab switching logic
         manualTab.onclick = () => {
@@ -563,116 +572,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         previewEl.classList.toggle('visible');
     }
 
-    /**
-     * Render Graphical Builder UI
-     */
-    private renderGraphicalBuilder(container: HTMLElement, manualTextarea: TextAreaComponent): void {
-        container.empty();
-        container.classList.add('graphical-builder-container');
 
-        const builderDesc = document.createElement('p');
-        builderDesc.classList.add('template-description');
-        builderDesc.textContent = getTranslation('settings.template.graphical.desc');
-        container.appendChild(builderDesc);
-
-        // Variables Toolbar
-        const varToolbar = document.createElement('div');
-        varToolbar.classList.add('graphical-toolbar');
-        
-        const varTitle = document.createElement('div');
-        varTitle.classList.add('graphical-toolbar-title');
-        varTitle.textContent = getTranslation('settings.template.addVariable');
-        varToolbar.appendChild(varTitle);
-
-        const varGroup = document.createElement('div');
-        varGroup.classList.add('graphical-tool-group');
-        varToolbar.appendChild(varGroup);
-
-        const variables: Record<string, string> = {
-            'date': '📅 Date',
-            'dateWithIcon': '✨ Icon Date',
-            'weekday': '🗓️ Weekday',
-            'weekday_ar': '🇸🇦 Weekday (AR)',
-            'weekday_zh': '🇨🇳 Weekday (ZH)',
-            'time': '🕒 Time',
-            'month': '📅 Month',
-            'month_ar': '🇸🇦 Month (AR)',
-            'month_zh': '🇨🇳 Month (ZH)'
-        };
-
-        Object.entries(variables).forEach(([key, label]) => {
-            const btn = document.createElement('button');
-            btn.classList.add('graphical-button', 'graphical-variable-button');
-            btn.textContent = label;
-            btn.onclick = () => {
-                this.insertAtCursor(manualTextarea.inputEl, `{{${key}}}`);
-                // Trigger manual update
-                manualTextarea.setValue(manualTextarea.inputEl.value);
-                this.updatePreview(this.previewEl, manualTextarea.inputEl.value);
-            };
-            varGroup.appendChild(btn);
-        });
-
-        container.appendChild(varToolbar);
-
-        // Sections/Blocks Toolbar
-        const sectionToolbar = document.createElement('div');
-        sectionToolbar.classList.add('graphical-toolbar');
-        
-        const sectionTitle = document.createElement('div');
-        sectionTitle.classList.add('graphical-toolbar-title');
-        sectionTitle.textContent = getTranslation('settings.template.addSection');
-        sectionToolbar.appendChild(sectionTitle);
-
-        const sectionGroup = document.createElement('div');
-        sectionGroup.classList.add('graphical-tool-group');
-        sectionToolbar.appendChild(sectionGroup);
-
-        const sections = [
-            { label: 'H1 Header', value: '# ' },
-            { label: 'H2 Header', value: '## ' },
-            { label: 'Task List', value: '- [ ] ' },
-            { label: 'Bullet Point', value: '- ' },
-            { label: 'Quote', value: '> ' },
-            { label: 'Separator', value: '\n---\n' },
-            { label: 'Every Day Tag', value: ' #every-day' },
-            { label: 'Workday Tag', value: ' #every-workday' }
-        ];
-
-        sections.forEach(sec => {
-            const btn = document.createElement('button');
-            btn.classList.add('graphical-button', 'graphical-section-button');
-            btn.textContent = sec.label;
-            btn.onclick = () => {
-                this.insertAtCursor(manualTextarea.inputEl, sec.value);
-                // Trigger manual update
-                manualTextarea.setValue(manualTextarea.inputEl.value);
-                this.updatePreview(this.previewEl, manualTextarea.inputEl.value);
-            };
-            sectionGroup.appendChild(btn);
-        });
-
-        container.appendChild(sectionToolbar);
-
-        // Help info
-        const helpInfo = document.createElement('div');
-        helpInfo.classList.add('graphical-help-info');
-        helpInfo.textContent = 'Tip: Changes made here reflect instantly in the manual input tab.';
-        container.appendChild(helpInfo);
-    }
-
-    /**
-     * Helper to insert text at cursor position in a textarea
-     */
-    private insertAtCursor(el: HTMLTextAreaElement, text: string): void {
-        const start = el.selectionStart;
-        const end = el.selectionEnd;
-        const value = el.value;
-        
-        el.value = value.substring(0, start) + text + value.substring(end);
-        el.selectionStart = el.selectionEnd = start + text.length;
-        el.focus();
-    }
 }
 
 /**

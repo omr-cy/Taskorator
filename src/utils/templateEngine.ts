@@ -259,15 +259,15 @@ export function renderTemplate(template: string, outputLanguage?: string, isPrev
     // 2. Define variable mapping
     const variableMap: Record<string, string | number> = {
         'date': getCurrentDate(),
-        'dateWithIcon': getCurrentDateWithIcon(outputLanguage),
+        'date-with-icon': getCurrentDateWithIcon(outputLanguage),
         'weekday': getCurrentWeekdayName(outputLanguage),
-        'weekday_en': getCurrentWeekdayName('en'),
-        'weekday_zh': getCurrentWeekdayName('zh'),
-        'weekday_ar': getCurrentWeekdayName('ar'),
+        'weekday-en': getCurrentWeekdayName('en'),
+        'weekday-zh': getCurrentWeekdayName('zh'),
+        'weekday-ar': getCurrentWeekdayName('ar'),
         'month': getLocalizedMonthName(outputLanguage),
-        'month_en': getLocalizedMonthName('en'),
-        'month_zh': getLocalizedMonthName('zh'),
-        'month_ar': getLocalizedMonthName('ar'),
+        'month-en': getLocalizedMonthName('en'),
+        'month-zh': getLocalizedMonthName('zh'),
+        'month-ar': getLocalizedMonthName('ar'),
         'time': getCurrentTime()
     };
     
@@ -290,15 +290,15 @@ export function renderTemplate(template: string, outputLanguage?: string, isPrev
 export function getTemplateVariables(): Record<string, string> {
     return {
         'date': 'Current date (YYYY-MM-DD)',
-        'dateWithIcon': 'Current date with daily icon',
+        'date-with-icon': 'Current date with daily icon',
         'weekday': 'Current weekday',
-        'weekday_en': 'English weekday',
-        'weekday_zh': 'Chinese weekday',
-        'weekday_ar': 'Arabic weekday',
+        'weekday-en': 'English weekday',
+        'weekday-zh': 'Chinese weekday',
+        'weekday-ar': 'Arabic weekday',
         'month': 'Current month',
-        'month_en': 'English month',
-        'month_zh': 'Chinese month',
-        'month_ar': 'Arabic month',
+        'month-en': 'English month',
+        'month-zh': 'Chinese month',
+        'month-ar': 'Arabic month',
         'time': 'Current time (HH:MM)'
     };
 }

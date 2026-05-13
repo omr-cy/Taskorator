@@ -53,7 +53,7 @@ export interface TaskoratorSettings {
 /**
  * Default Chinese template
  */
-export const DEFAULT_TEMPLATE_ZH = `## {{dateWithIcon}}（{{weekday}}）
+export const DEFAULT_TEMPLATE_ZH = `## {{date-with-icon}}（{{weekday}}）
 // 这是一个默认模板。你可以根据自己的需求自定义。
 // 以 // 开头的行在生成的笔记中将被跳过。
 
@@ -92,7 +92,7 @@ export const DEFAULT_TEMPLATE_ZH = `## {{dateWithIcon}}（{{weekday}}）
 /**
  * Default English template
  */
-export const DEFAULT_TEMPLATE_EN = `## {{dateWithIcon}} ({{weekday}})
+export const DEFAULT_TEMPLATE_EN = `## {{date-with-icon}} ({{weekday}})
 // This is a default template. You can customize it to fit your needs.
 // Lines starting with // will be ignored in the generated note.
 
@@ -131,7 +131,7 @@ export const DEFAULT_TEMPLATE_EN = `## {{dateWithIcon}} ({{weekday}})
 /**
  * Default Arabic template
  */
-export const DEFAULT_TEMPLATE_AR = `## {{dateWithIcon}} ({{weekday}})
+export const DEFAULT_TEMPLATE_AR = `## {{date-with-icon}} ({{weekday}})
 // هذا قالب افتراضي. يمكنك تخصيصه ليناسب احتياجاتك.
 // الأسطر التي تبدأ بـ // سيتم تجاهلها في الملاحظة المولدة.
 
