@@ -9,3 +9,5 @@ Or "Graphical" or "It's okay, I don't know". You see what you will write. You wi
   - A tag for the work day for Europeans or Americans  #every-workday-en
 
 - Make costome syntax hilight in template input.
+
+- Adding variables, for example, to have the output in Arabic. For example, a variable named `day_ar` for example, or `weekday_ar` Arabic, okay? And also in Chinese, okay? And that's it.
