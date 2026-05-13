@@ -291,7 +291,52 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             this.settingsManager.getSettings().customTemplate : 
             this.settingsManager.getTemplateByLanguage();
         
-        const textarea = new TextAreaComponent(templateContainer)
+        // Create tabs for the template editor
+        const tabsContainer = document.createElement('div');
+        tabsContainer.classList.add('template-tabs-container');
+        templateContainer.appendChild(tabsContainer);
+
+        const manualTab = document.createElement('div');
+        manualTab.classList.add('template-tab', 'active');
+        manualTab.textContent = getTranslation('settings.template.manual') || 'Manual Input';
+        tabsContainer.appendChild(manualTab);
+
+        const graphicalTab = document.createElement('div');
+        graphicalTab.classList.add('template-tab');
+        graphicalTab.textContent = getTranslation('settings.template.graphical') || 'Graphical Input';
+        tabsContainer.appendChild(graphicalTab);
+
+        // Content areas
+        const manualContent = document.createElement('div');
+        manualContent.classList.add('template-tab-content', 'active');
+        templateContainer.appendChild(manualContent);
+
+        const graphicalContent = document.createElement('div');
+        graphicalContent.classList.add('template-tab-content');
+        templateContainer.appendChild(graphicalContent);
+
+        // Graphical editor placeholder
+        const graphicalPlaceholder = document.createElement('div');
+        graphicalPlaceholder.classList.add('graphical-placeholder');
+        graphicalPlaceholder.innerHTML = `<span class="graphical-icon">🛠️</span><p>${getTranslation('settings.template.graphical.desc') || 'Graphical builder coming soon... Use manual input for now.'}</p>`;
+        graphicalContent.appendChild(graphicalPlaceholder);
+
+        // Tab switching logic
+        manualTab.onclick = () => {
+            manualTab.classList.add('active');
+            graphicalTab.classList.remove('active');
+            manualContent.classList.add('active');
+            graphicalContent.classList.remove('active');
+        };
+
+        graphicalTab.onclick = () => {
+            graphicalTab.classList.add('active');
+            manualTab.classList.remove('active');
+            graphicalContent.classList.add('active');
+            manualContent.classList.remove('active');
+        };
+
+        const textarea = new TextAreaComponent(manualContent)
             .setValue(currentTemplate)
             .setPlaceholder(getTranslation('settings.template.placeholder') || 'Enter task template here...')
             .onChange(async (value) => {
@@ -305,7 +350,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                 // Auto resize textarea
                 const el = textarea.inputEl;
                 el.style.height = 'auto';
-                const newHeight = Math.min(Math.max(el.scrollHeight, 250), 800);
+                const newHeight = Math.min(Math.max(el.scrollHeight, 250), 500);
                 el.style.height = newHeight + 'px';
             });
         
@@ -317,7 +362,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             const el = textarea.inputEl;
             if (el) {
                 el.style.height = 'auto';
-                const newHeight = Math.min(Math.max(el.scrollHeight, 250), 800);
+                const newHeight = Math.min(Math.max(el.scrollHeight, 250), 500);
                 el.style.height = newHeight + 'px';
             }
         }, 100);
@@ -381,7 +426,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             const el = textarea.inputEl;
             if (el) {
                 el.style.height = 'auto';
-                const newHeight = Math.min(Math.max(el.scrollHeight, 250), 800);
+                const newHeight = Math.min(Math.max(el.scrollHeight, 250), 500);
                 el.style.height = newHeight + 'px';
             }
             

@@ -386,10 +386,75 @@
     list-style-type: none;
     padding-left: 0;
     margin-left: 0;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 4px;
 }
 
 .daily-task-setting-tab .template-preview input[type="checkbox"] {
     margin-right: 8px;
+    margin-top: 5px; /* Better vertical alignment with text */
+    flex-shrink: 0;
+}
+
+/* Template Tabs */
+.daily-task-setting-tab .template-tabs-container {
+    display: flex;
+    gap: 2px;
+    margin-bottom: -1px;
+    padding: 0 5px;
+    position: relative;
+    z-index: 2;
+}
+
+.daily-task-setting-tab .template-tab {
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    background-color: transparent;
+    transition: all 0.2s ease;
+}
+
+.daily-task-setting-tab .template-tab:hover {
+    color: var(--text-normal);
+    background-color: var(--background-modifier-hover);
+}
+
+.daily-task-setting-tab .template-tab.active {
+    color: var(--interactive-accent);
+    background-color: var(--background-secondary);
+    border-color: var(--background-modifier-border);
+    border-bottom: 2px solid var(--background-secondary);
+    font-weight: 600;
+}
+
+.daily-task-setting-tab .template-tab-content {
+    display: none;
+}
+
+.daily-task-setting-tab .template-tab-content.active {
+    display: block;
+}
+
+.daily-task-setting-tab .graphical-placeholder {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--text-muted);
+    background-color: var(--background-secondary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 0 0 4px 4px;
+    margin-bottom: 15px;
+}
+
+.daily-task-setting-tab .graphical-placeholder .graphical-icon {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 12px;
 }
 
 .daily-task-setting-tab .template-preview.visible {
@@ -418,7 +483,7 @@
     overflow-y: auto;
     transition: border-color 0.2s ease;
     min-height: 250px;
-    max-height: 800px;
+    max-height: 500px;
 }
 
 .daily-task-setting-tab .template-editor:focus {
