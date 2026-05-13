@@ -115,6 +115,26 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                     });
             });
 
+        // Auto generation settings
+        const autoGenerateSetting = new Setting(containerEl)
+            .setDesc(getTranslation('settings.autoGenerate.desc'));
+        
+        const autoGenerateNameEl = (autoGenerateSetting as any).nameEl;
+        autoGenerateNameEl.empty();
+        setIcon(autoGenerateNameEl, 'zap');
+        autoGenerateNameEl.createSpan({ text: ' ' + getTranslation('settings.autoGenerate') });
+
+        autoGenerateSetting.addDropdown(dropdown => {
+            dropdown
+                .addOption(AutoGenerateMode.NONE, getTranslation('settings.mode.none'))
+                .addOption(AutoGenerateMode.DAILY, getTranslation('settings.mode.daily'))
+                .addOption(AutoGenerateMode.WORKDAY, getTranslation('settings.mode.workday'))
+                .setValue(settings.autoGenerateMode)
+                .onChange(async (value) => {
+                    await this.settingsManager.updateSettings({ autoGenerateMode: value as AutoGenerateMode });
+                });
+        });
+
         // Root directory settings
         rootDirSetting = new Setting(containerEl)
             .setDesc(getTranslation('settings.rootDir.desc'));

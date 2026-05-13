@@ -74,7 +74,7 @@ export class TaskGenerator {
             const renderedContent = renderTemplate(template, this.settingsManager.getCurrentOutputLanguage());
             const fullContent = renderedContent;
             
-            const dateRegex = new RegExp(`## [^\\n]*${date}[^\\n]*\\n`);
+            const dateRegex = new RegExp(`#{1,6} [^\\n]*${date}[^\\n]*(?:\\n|$)`);
             
             let anyNewTaskCreated = false;
             let fileToOpen: string | null = null;
@@ -87,13 +87,13 @@ export class TaskGenerator {
                 const abstractFile = this.vault.getAbstractFileByPath(item.path);
                 if (!abstractFile || !(abstractFile instanceof TFile)) continue;
                 
+                const fileContent = await this.vault.read(abstractFile);
+                if (dateRegex.test(fileContent)) {
+                    if (!fileToOpen) fileToOpen = item.path;
+                    continue;
+                }
+
                 if (item.mode === 'append') {
-                    const fileContent = await this.vault.read(abstractFile);
-                    if (dateRegex.test(fileContent)) {
-                        if (!fileToOpen) fileToOpen = item.path;
-                        continue;
-                    }
-                    
                     const success = await appendToFile(this.vault, item.path, fullContent);
                     if (success) {
                         anyNewTaskCreated = true;
