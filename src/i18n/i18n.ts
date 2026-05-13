@@ -42,6 +42,7 @@ export type TranslationKey =
     | 'settings.template.tags'
     | 'settings.template.tags.desc'
     | 'settings.template.vars.desc'
+    | 'settings.template.placeholder'
     
     // Output Mode
     | 'settings.outputMode'
@@ -128,6 +129,7 @@ const translationsZH: Record<TranslationKey, string> = {
     'settings.template.tags': '可用标签 (#every)',
     'settings.template.tags.desc': '支持：#every-day (每天), #every-workday (工作日), #every(mon, sun) (特定周几), #every(jan(1,15)) (特定日期)',
     'settings.template.vars.desc': '{{date}} - 日期, {{dateWithIcon}} - 图标日期, {{weekday}} - 星期, {{time}} - 时间',
+    'settings.template.placeholder': '在这里输入任务模板...',
     'commands.addDailyTask': '➕ 手动添加今日任务',
     'notification.taskAdded': '今日任务已添加',
     'notification.taskExists': '今日任务已存在',
@@ -194,6 +196,7 @@ const translationsEN: Record<TranslationKey, string> = {
     'settings.template.tags': 'Available Tags (#every)',
     'settings.template.tags.desc': 'Support: #every-day (Every day), #every-workday (Workdays), #every(mon, sun) (Specific days), #every(jan(1,15)) (Month/Date)',
     'settings.template.vars.desc': '{{date}} - Date, {{dateWithIcon}} - Icon Date, {{weekday}} - Weekday, {{time}} - Time',
+    'settings.template.placeholder': 'Enter your task template here...',
     'commands.addDailyTask': '➕ Add today\'s task manually',
     'notification.taskAdded': 'Today\'s task has been added',
     'notification.taskExists': 'Today\'s task already exists',
@@ -260,6 +263,7 @@ const translationsAR: Record<TranslationKey, string> = {
     'settings.template.tags': '🏷️ الوسوم المتاحة (#every)',
     'settings.template.tags.desc': 'دعم: #every-day (يومياً), #every-workday (أيام العمل), #every(mon, sun) (أيام محددة), #every(jan(1,15)) (أيام محددة في الشهر)',
     'settings.template.vars.desc': '{{date}} - التاريخ, {{dateWithIcon}} - أيقونة التاريخ, {{weekday}} - اليوم, {{time}} - الوقت',
+    'settings.template.placeholder': 'أدخل قالب المهام هنا...',
     'commands.addDailyTask': '➕ إضافة مهمة اليوم يدوياً',
     'notification.taskAdded': 'تم إضافة مهمة اليوم',
     'notification.taskExists': 'مهمة اليوم موجودة بالفعل',

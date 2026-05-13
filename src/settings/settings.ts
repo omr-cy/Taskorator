@@ -291,11 +291,46 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             this.settingsManager.getSettings().customTemplate : 
             this.settingsManager.getTemplateByLanguage();
         
-        const textarea = new TextAreaComponent(templateContainer)
+        // Container for the stylized editor
+        const editorContainer = document.createElement('div');
+        editorContainer.classList.add('editor-container');
+        
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('template-editor-wrapper');
+        
+        const highlighter = document.createElement('div');
+        highlighter.classList.add('template-highlighter');
+        
+        // Function to apply highlighting
+        const applyHighlighting = (text: string) => {
+            // Escape HTML and handle newlines
+            let highlighted = text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+
+            // Variables like {{variable}}
+            highlighted = highlighted.replace(/(\{\{[^}]+\}\})/g, '<span class="hl-variable">$1</span>');
+            
+            // Scheduling tags like #every...
+            highlighted = highlighted.replace(/(#every[^\s\n]*)/g, '<span class="hl-tag">$1</span>');
+
+            // Line-by-line comment processing
+            const lines = highlighted.split('\n');
+            const processedLines = lines.map(line => {
+                const trimmed = line.trim();
+                if (trimmed.startsWith('//') || trimmed.startsWith('&lt;!--') || trimmed.startsWith('/*')) {
+                    return `<span class="hl-comment">${line}</span>`;
+                }
+                return line;
+            });
+            
+            highlighter.innerHTML = processedLines.join('\n') + '\n';
+        };
+
+        const textarea = new TextAreaComponent(wrapper)
             .setValue(currentTemplate)
-            .setPlaceholder(this.settingsManager.getCurrentLanguage() === 'zh' ? 
-                'Enter task template here...' : 
-                'Enter task template here...')
+            .setPlaceholder(getTranslation('settings.template.placeholder') || 'Enter task template here...')
             .onChange(async (value) => {
                 // Update to custom template
                 await this.settingsManager.updateSettings({ 
@@ -304,6 +339,9 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                 });
                 this.updatePreview(this.previewEl, value);
                 
+                // Sync highlighting
+                applyHighlighting(value);
+                
                 // Auto resize textarea
                 const el = textarea.inputEl;
                 el.style.height = 'auto';
@@ -311,8 +349,17 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                 el.style.height = newHeight + 'px';
             });
         
+        // Sync scroll
+        textarea.inputEl.addEventListener('scroll', () => {
+            highlighter.scrollTop = textarea.inputEl.scrollTop;
+            highlighter.scrollLeft = textarea.inputEl.scrollLeft;
+        });
+
         // Add style classes
         textarea.inputEl.classList.add('template-editor');
+        
+        // Initial highlighting and resize
+        applyHighlighting(currentTemplate);
         
         // Initial resize
         window.setTimeout(() => {
@@ -321,8 +368,14 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                 el.style.height = 'auto';
                 const newHeight = Math.min(Math.max(el.scrollHeight, 250), 800);
                 el.style.height = newHeight + 'px';
+                // Sync scrolling again
+                highlighter.scrollTop = el.scrollTop;
             }
         }, 100);
+
+        wrapper.appendChild(highlighter);
+        editorContainer.appendChild(wrapper);
+        templateContainer.appendChild(editorContainer);
         
         // Preview header, centered using flex layout
         const previewHeader = document.createElement('div');
@@ -378,6 +431,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             // Update input box and preview
             textarea.setValue(defaultTemplate);
             this.updatePreview(this.previewEl, defaultTemplate);
+            applyHighlighting(defaultTemplate);
             
             // Auto resize textarea after reset
             const el = textarea.inputEl;
