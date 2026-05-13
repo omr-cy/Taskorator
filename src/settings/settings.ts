@@ -85,9 +85,13 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         let rootDirSetting: Setting | null = null;
         
         const storageModeSetting = new Setting(containerEl)
-            .setName(getTranslation('settings.outputMode'))
             .setDesc(getTranslation('settings.outputMode.desc'));
-        setIcon((storageModeSetting as any).nameEl, 'archive');
+        
+        const storageModeNameEl = (storageModeSetting as any).nameEl;
+        storageModeNameEl.empty();
+        setIcon(storageModeNameEl, 'archive');
+        storageModeNameEl.createSpan({ text: ' ' + getTranslation('settings.outputMode') });
+
         storageModeSetting.addDropdown(dropdown => {
                 dropdown
                     .addOption(StorageMode.TRADITIONAL, getTranslation('settings.outputMode.traditional'))
@@ -113,9 +117,12 @@ export class TaskoratorSettingTab extends PluginSettingTab {
 
         // Root directory settings
         rootDirSetting = new Setting(containerEl)
-            .setName(getTranslation('settings.rootDir'))
             .setDesc(getTranslation('settings.rootDir.desc'));
-        setIcon((rootDirSetting as any).nameEl, 'folder');
+        
+        const rootDirNameEl = (rootDirSetting as any).nameEl;
+        rootDirNameEl.empty();
+        setIcon(rootDirNameEl, 'folder');
+        rootDirNameEl.createSpan({ text: ' ' + getTranslation('settings.rootDir') });
             
         // Create input container to allow extra elements
         const inputContainer = document.createElement('div');
@@ -140,17 +147,6 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             this.rootDirInput.inputEl.placeholder = 'DailyTasks';
         }
         
-        // Add auto-save indicator
-        const saveIndicator = document.createElement('div');
-        saveIndicator.classList.add(SaveIndicatorCSS);
-        inputContainer.appendChild(saveIndicator);
-        
-        // Create save success icon
-        const saveSuccessIcon = document.createElement('span');
-        saveSuccessIcon.classList.add(SuccessIconCSS);
-        setIcon(saveSuccessIcon, 'check');
-        saveIndicator.appendChild(saveSuccessIcon);
-
         // Record auto-save timer
         let autoSaveTimer: number | null = null;
         
@@ -171,23 +167,18 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                 // Actual save settings
                 await this.settingsManager.updateSettings({ rootDir: pathToSave });
                 this.dirtySettings = false;
-                
-                // Show visual feedback for successful save
-                saveIndicator.classList.add('save-indicator-visible');
-                saveIndicator.classList.remove('save-indicator-hidden');
-                window.setTimeout(() => {
-                    saveIndicator.classList.remove('save-indicator-visible');
-                    saveIndicator.classList.add('save-indicator-hidden');
-                }, 1500);
-                
             }, 800);
         };
 
         // Single file path input
         singleFilePathSetting = new Setting(containerEl)
-            .setName(getTranslation('settings.singleFilePath'))
             .setDesc(getTranslation('settings.singleFilePath.desc'));
-        setIcon((singleFilePathSetting as any).nameEl, 'file-text');
+        
+        const singleFilePathNameEl = (singleFilePathSetting as any).nameEl;
+        singleFilePathNameEl.empty();
+        setIcon(singleFilePathNameEl, 'file-text');
+        singleFilePathNameEl.createSpan({ text: ' ' + getTranslation('settings.singleFilePath') });
+
         singleFilePathSetting.addText(text => {
                 text.setValue(settings.singleFilePath)
                     .onChange(async (value) => {
@@ -208,9 +199,13 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         // Language settings
         // TODO: Should use Obsidian API app.i18n.locale to get system language
         const languageSetting = new Setting(containerEl)
-            .setName(getTranslation('settings.language'))
             .setDesc(getTranslation('settings.language.desc'));
-        setIcon((languageSetting as any).nameEl, 'languages');
+        
+        const languageNameEl = (languageSetting as any).nameEl;
+        languageNameEl.empty();
+        setIcon(languageNameEl, 'languages');
+        languageNameEl.createSpan({ text: ' ' + getTranslation('settings.language') });
+
         languageSetting.addDropdown(dropdown => {
                 dropdown
                     .addOption(Language.AUTO, getTranslation('settings.language.auto'))
@@ -227,9 +222,13 @@ export class TaskoratorSettingTab extends PluginSettingTab {
 
         // Output format (language) settings
         const outputLanguageSetting = new Setting(containerEl)
-            .setName(getTranslation('settings.outputLanguage'))
             .setDesc(getTranslation('settings.outputLanguage.desc'));
-        setIcon((outputLanguageSetting as any).nameEl, 'globe');
+        
+        const outputLanguageNameEl = (outputLanguageSetting as any).nameEl;
+        outputLanguageNameEl.empty();
+        setIcon(outputLanguageNameEl, 'globe');
+        outputLanguageNameEl.createSpan({ text: ' ' + getTranslation('settings.outputLanguage') });
+
         outputLanguageSetting.addDropdown(dropdown => {
                 dropdown
                     .addOption(Language.AUTO, getTranslation('settings.language.auto'))
@@ -284,9 +283,12 @@ export class TaskoratorSettingTab extends PluginSettingTab {
 
         // Single template settings
         const templateSetting = new Setting(containerEl)
-            .setName(getTranslation('settings.template'))
             .setClass('template-setting');
-        setIcon((templateSetting as any).nameEl, 'file-code');
+        
+        const templateNameEl = (templateSetting as any).nameEl;
+        templateNameEl.empty();
+        setIcon(templateNameEl, 'file-code');
+        templateNameEl.createSpan({ text: ' ' + getTranslation('settings.template') });
         
         const templateContainer = document.createElement('div');
         templateContainer.classList.add('template-container', 'full-width-container');
