@@ -384,10 +384,23 @@
 
 .daily-task-setting-tab .template-preview h1,
 .daily-task-setting-tab .template-preview h2,
-.daily-task-setting-tab .template-preview h3 {
+.daily-task-setting-tab .template-preview h3,
+.daily-task-setting-tab .template-preview h4,
+.daily-task-setting-tab .template-preview h5,
+.daily-task-setting-tab .template-preview h6 {
     margin-top: 1.5em;
     margin-bottom: 0.5em;
+    font-weight: var(--font-bold);
+    color: var(--h1-color);
+    line-height: var(--h1-line-height);
 }
+
+.daily-task-setting-tab .template-preview h1 { font-size: var(--h1-size); color: var(--h1-color); }
+.daily-task-setting-tab .template-preview h2 { font-size: var(--h2-size); color: var(--h2-color); }
+.daily-task-setting-tab .template-preview h3 { font-size: var(--h3-size); color: var(--h3-color); }
+.daily-task-setting-tab .template-preview h4 { font-size: var(--h4-size); color: var(--h4-color); }
+.daily-task-setting-tab .template-preview h5 { font-size: var(--h5-size); color: var(--h5-color); }
+.daily-task-setting-tab .template-preview h6 { font-size: var(--h6-size); color: var(--h6-color); }
 
 .daily-task-setting-tab .template-preview blockquote {
     margin: 1.5em 0;
@@ -480,7 +493,7 @@
     margin-bottom: 0 !important;
     border: none !important;
     background-color: transparent !important;
-    color: var(--text-normal) !important; /* Make text visible but we'll use a trick for highlighting */
+    color: transparent !important; /* BACK TO TRANSPARENT: Let highlighter handle text colors */
     caret-color: var(--text-normal) !important;
     resize: none;
     overflow-y: auto;
@@ -488,12 +501,30 @@
     min-height: 250px;
     max-height: 800px;
     display: block;
-    mix-blend-mode: multiply; /* Allows highlighter behind to show through better if text has color */
 }
 
-/* If the editor is too messy with overlap, we'll ensure text is slightly transparent */
-.daily-task-setting-tab .template-editor {
-    color: rgba(var(--text-normal-rgb), 0.8) !important;
+/* Specific Highlight: Comment */
+.daily-task-setting-tab .template-highlighter .hl-comment {
+    color: var(--text-faint);
+    opacity: 0.8;
+    font-style: italic;
+}
+
+/* Specific Highlight: Tags */
+.daily-task-setting-tab .template-highlighter .hl-tag {
+    color: var(--text-accent);
+    font-weight: 600;
+}
+
+/* Specific Highlight: Variables */
+.daily-task-setting-tab .template-highlighter .hl-variable {
+    color: var(--text-accent-hover);
+    font-weight: 600;
+}
+
+/* Specific Highlight: Regular Text */
+.daily-task-setting-tab .template-highlighter .hl-normal {
+    color: var(--text-normal);
 }
 
 .daily-task-setting-tab .template-editor:focus {
