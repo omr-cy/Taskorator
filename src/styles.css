@@ -530,19 +530,35 @@
 }
 
 /* Template variables section */
-.daily-task-setting-tab .template-variables {
-    background-color: var(--background-secondary-alt);
-    padding: 18px;
-    border-radius: 8px;
-    font-size: 0.9em;
-    border: 1px solid var(--background-modifier-border);
-    margin-bottom: 20px;
+.daily-task-setting-tab .template-variables-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
 }
 
-.daily-task-setting-tab .template-variables strong {
-    color: var(--text-accent);
-    display: block;
-    margin-bottom: 6px;
+.daily-task-setting-tab .template-variable-section-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.daily-task-setting-tab .template-variable-section-list {
+    font-size: 0.85em;
+}
+
+.daily-task-setting-tab .template-setting-block {
+    display: block !important;
+}
+
+.daily-task-setting-tab .template-setting-no-border {
+    border-bottom: none !important;
+}
+
+.daily-task-setting-tab .u-display-none {
+    display: none !important;
+}
+
+.daily-task-setting-tab .u-display-flex {
+    display: flex !important;
 }
 
 /* RTL Support for Arabic */

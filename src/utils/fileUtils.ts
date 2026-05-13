@@ -160,7 +160,7 @@ export function getTaskFilePath(rootDir: string): string {
  * @param rootDir Root directory
  * @returns Whether it exists
  */
-export async function todayTaskExists(vault: Vault, rootDir: string): Promise<boolean> {
+export function todayTaskExists(vault: Vault, rootDir: string): boolean {
     const taskFilePath = getTaskFilePath(rootDir);
     return vault.getAbstractFileByPath(taskFilePath) !== null;
 }

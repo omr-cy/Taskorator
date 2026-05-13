@@ -3,8 +3,8 @@ declare module "obsidian" {
     export class Plugin {
         app: App;
         manifest: PluginManifest;
-        loadData(): Promise<any>;
-        saveData(data: any): Promise<void>;
+        loadData(): Promise<unknown>;
+        saveData(data: unknown): Promise<void>;
         addSettingTab(settingTab: PluginSettingTab): void;
         addCommand(command: Command): void;
     }
@@ -54,7 +54,7 @@ declare module "obsidian" {
     export interface Command {
         id: string;
         name: string;
-        callback: () => any;
+        callback: () => void;
         checkCallback?: (checking: boolean) => boolean | void;
         hotkeys?: Hotkey[];
     }
@@ -75,11 +75,11 @@ declare module "obsidian" {
         setName(name: string): this;
         setDesc(desc: string): this;
         setClass(cls: string): this;
-        addText(cb: (text: TextComponent) => any): this;
-        addButton(cb: (button: ButtonComponent) => any): this;
-        addTextArea(cb: (text: TextAreaComponent) => any): this;
-        addToggle(cb: (toggle: ToggleComponent) => any): this;
-        addDropdown(cb: (dropdown: DropdownComponent) => any): this;
+        addText(cb: (text: TextComponent) => void): this;
+        addButton(cb: (button: ButtonComponent) => void): this;
+        addTextArea(cb: (text: TextAreaComponent) => void): this;
+        addToggle(cb: (toggle: ToggleComponent) => void): this;
+        addDropdown(cb: (dropdown: DropdownComponent) => void): this;
         controlEl: HTMLElement;
     }
 
@@ -89,7 +89,7 @@ declare module "obsidian" {
         setButtonText(name: string): this;
         setDisabled(disabled: boolean): this;
         setCta(): this;
-        onClick(callback: () => any): this;
+        onClick(callback: () => void): this;
     }
 
     export class TextComponent {
@@ -97,7 +97,7 @@ declare module "obsidian" {
         inputEl: HTMLInputElement;
         setValue(value: string): this;
         getValue(): string;
-        onChange(callback: (value: string) => any): this;
+        onChange(callback: (value: string) => void): this;
     }
 
     export class TextAreaComponent {
@@ -106,20 +106,20 @@ declare module "obsidian" {
         setValue(value: string): this;
         getValue(): string;
         setPlaceholder(placeholder: string): this;
-        onChange(callback: (value: string) => any): this;
+        onChange(callback: (value: string) => void): this;
     }
 
     export class ToggleComponent {
         constructor(containerEl: HTMLElement);
         setValue(value: boolean): this;
-        onChange(callback: (value: boolean) => any): this;
+        onChange(callback: (value: boolean) => void): this;
     }
 
     export class DropdownComponent {
         constructor(containerEl: HTMLElement);
         addOption(value: string, display: string): this;
         setValue(value: string): this;
-        onChange(callback: (value: string) => any): this;
+        onChange(callback: (value: string) => void): this;
     }
 
     export function addIcon(iconId: string, svgContent: string): void;

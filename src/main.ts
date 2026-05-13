@@ -40,15 +40,15 @@ export default class TaskoratorPlugin extends Plugin {
         this.addCommand({
             id: 'add-daily-task',
             name: getTranslation('commands.addDailyTask'),
-            callback: async () => {
-                await this.taskGenerator.addTaskManually();
+            callback: () => {
+                void this.taskGenerator.addTaskManually();
             }
         });
         
         // Check if auto-generation is needed after 10 seconds
         // This ensures Obsidian is fully loaded to avoid conflicts during startup
-        setTimeout(async () => {
-            await this.checkAutoGenerate();
+        setTimeout(() => {
+            void this.checkAutoGenerate();
         }, 10000);
     }
     

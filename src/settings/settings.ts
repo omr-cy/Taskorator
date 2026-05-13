@@ -1,41 +1,22 @@
-// @ts-ignore
-import { App, ButtonComponent, DropdownComponent, Notice, Plugin, PluginSettingTab, Setting, TextAreaComponent, TextComponent, ToggleComponent, MarkdownRenderer, Component, setIcon } from 'obsidian';
-import { AutoGenerateMode, DEFAULT_SETTINGS, DEFAULT_TEMPLATE_EN, DEFAULT_TEMPLATE_ZH, DEFAULT_TEMPLATE_AR, TaskoratorSettings, Language, StorageMode } from '../models/settings';
+import { App, ButtonComponent, Notice, Plugin, PluginSettingTab, Setting, TextAreaComponent, TextComponent, MarkdownRenderer, Component, setIcon } from 'obsidian';
+import { DEFAULT_SETTINGS, TaskoratorSettings, Language, StorageMode } from '../models/settings';
 import { getTranslation, setCurrentLanguage } from '../i18n/i18n';
 import { renderTemplate } from '../utils/templateEngine';
 import { TaskGenerator } from '../taskGenerator';
-import { setTextContentByLines, createIconButton, createTextElement } from '../utils/domUtils';
 // Import main plugin type definition
 import TaskoratorPlugin from '../main';
 
-// CSS related constants (class names)
-const SettingsSectionCSS = "daily-task-settings-section";
-const ButtonCSS = "daily-task-button";
-const PreviewButtonCSS = "daily-task-preview-button";
-const ResetButtonCSS = "daily-task-reset-button";
-const EditorCSS = "daily-task-editor";
-const VerticalStackCSS = "daily-task-vertical-stack";
-const TextRightCSS = "daily-task-text-right";
-const TextCenterCSS = "daily-task-text-center";
-const ScrollbarSlimCSS = "daily-task-slim-scrollbar";
-const SaveIndicatorCSS = "daily-task-save-indicator";
-const SuccessIconCSS = "daily-task-success-icon";
-const SettingTopSpaceCSS = "daily-task-setting-top-space";
-const InputContainerCSS = "daily-task-input-container";
-const InputCSS = "daily-task-input";
-
-/**
- * Add custom plugin styles
- * Note: Styling content has now been moved to an external CSS file
- */
-function addCustomStyles() {
-    // Styles moved to src/styles.css, no need to add inline styles here
-    // Styles.css will be loaded automatically when the plugin loads
+interface TaskoratorSettingInternal extends Setting {
+    nameEl: HTMLElement;
+    settingEl: HTMLElement;
+    controlEl: HTMLElement;
+    infoEl: HTMLElement;
+    descEl: HTMLElement;
 }
 
-/**
- * Plugin settings tab
- */
+// CSS related constants (class names) - Remove unused ones
+const InputContainerCSS = "daily-task-input-container";
+const TextCenterCSS = "daily-task-text-center";
 export class TaskoratorSettingTab extends PluginSettingTab {
     plugin: Plugin;
     settingsManager: SettingsManager;
@@ -50,7 +31,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
     dirtySettings: boolean = false;
     
     // Method to auto-save directory
-    autoSaveRootDir: (value: string) => Promise<void>;
+    autoSaveRootDir: (value: string) => void;
 
     constructor(app: App, plugin: Plugin) {
         super(app, plugin);
@@ -70,6 +51,9 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         
         const settings = this.settingsManager.getSettings();
         
+        // Add main title as heading
+        new Setting(containerEl).setName(getTranslation('settings.title')).setHeading();
+
         // 设置RTL支持
         if (this.settingsManager.getCurrentLanguage() === 'ar') {
             containerEl.classList.add('daily-task-rtl');
@@ -78,13 +62,13 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         }
 
         // Output mode settings
-        let singleFilePathSetting: Setting | null = null;
-        let rootDirSetting: Setting | null = null;
+        let singleFilePathSetting: TaskoratorSettingInternal | null = null;
+        let rootDirSetting: TaskoratorSettingInternal | null = null;
         
         const storageModeSetting = new Setting(containerEl)
-            .setDesc(getTranslation('settings.outputMode.desc'));
+            .setDesc(getTranslation('settings.outputMode.desc')) as TaskoratorSettingInternal;
         
-        const storageModeNameEl = (storageModeSetting as any).nameEl;
+        const storageModeNameEl = storageModeSetting.nameEl;
         storageModeNameEl.empty();
         setIcon(storageModeNameEl, 'archive');
         storageModeNameEl.createSpan({ text: ' ' + getTranslation('settings.outputMode') });
@@ -95,28 +79,34 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                     .addOption(StorageMode.SINGLE_FILE, getTranslation('settings.outputMode.singleFile'))
                     .addOption(StorageMode.BOTH, getTranslation('settings.outputMode.both'))
                     .setValue(settings.storageMode)
-                    .onChange(async (value) => {
+                    .onChange((value) => {
                         if (singleFilePathSetting && rootDirSetting) {
                             if (value === StorageMode.SINGLE_FILE) {
-                                (singleFilePathSetting as any).settingEl.style.display = 'flex';
-                                (rootDirSetting as any).settingEl.style.display = 'none';
+                                singleFilePathSetting.settingEl.classList.remove('u-display-none');
+                                singleFilePathSetting.settingEl.classList.add('u-display-flex');
+                                rootDirSetting.settingEl.classList.add('u-display-none');
+                                rootDirSetting.settingEl.classList.remove('u-display-flex');
                             } else if (value === StorageMode.BOTH) {
-                                (singleFilePathSetting as any).settingEl.style.display = 'flex';
-                                (rootDirSetting as any).settingEl.style.display = 'flex';
+                                singleFilePathSetting.settingEl.classList.remove('u-display-none');
+                                singleFilePathSetting.settingEl.classList.add('u-display-flex');
+                                rootDirSetting.settingEl.classList.remove('u-display-none');
+                                rootDirSetting.settingEl.classList.add('u-display-flex');
                             } else {
-                                (singleFilePathSetting as any).settingEl.style.display = 'none';
-                                (rootDirSetting as any).settingEl.style.display = 'flex';
+                                singleFilePathSetting.settingEl.classList.add('u-display-none');
+                                singleFilePathSetting.settingEl.classList.remove('u-display-flex');
+                                rootDirSetting.settingEl.classList.remove('u-display-none');
+                                rootDirSetting.settingEl.classList.add('u-display-flex');
                             }
                         }
-                        await this.settingsManager.updateSettings({ storageMode: value as StorageMode });
+                        void this.settingsManager.updateSettings({ storageMode: value as StorageMode });
                     });
             });
 
         // Root directory settings
         rootDirSetting = new Setting(containerEl)
-            .setDesc(getTranslation('settings.rootDir.desc'));
+            .setDesc(getTranslation('settings.rootDir.desc')) as TaskoratorSettingInternal;
         
-        const rootDirNameEl = (rootDirSetting as any).nameEl;
+        const rootDirNameEl = rootDirSetting.nameEl;
         rootDirNameEl.empty();
         setIcon(rootDirNameEl, 'folder');
         rootDirNameEl.createSpan({ text: ' ' + getTranslation('settings.rootDir') });
@@ -128,7 +118,7 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         
         this.rootDirInput = new TextComponent(inputContainer)
             .setValue(settings.rootDir)
-            .onChange(async (value) => {
+            .onChange((value) => {
                 if (value.trim() !== '') {
                     // Settings changed, prepare for auto-save
                     this.dirtySettings = true;
@@ -140,7 +130,6 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         
         // Set class and placeholder attributes for input element
         if (this.rootDirInput && this.rootDirInput.inputEl) {
-            this.rootDirInput.inputEl.classList.add(InputCSS);
             this.rootDirInput.inputEl.placeholder = 'DailyTasks';
         }
         
@@ -148,56 +137,61 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         let autoSaveTimer: number | null = null;
         
         // Auto-save method
-        this.autoSaveRootDir = async (value: string) => {
+        this.autoSaveRootDir = (value: string) => {
             // Clear previous timer
             if (autoSaveTimer !== null) {
                 window.clearTimeout(autoSaveTimer);
             }
             
             // Set new timer, delay 800ms (after user stops typing)
-            autoSaveTimer = window.setTimeout(async () => {
+            autoSaveTimer = window.setTimeout(() => {
                 let pathToSave = value.trim();
                 if (pathToSave === '') {
                     pathToSave = 'DailyTasks'; // Default storage directory
                 }
                 
                 // Actual save settings
-                await this.settingsManager.updateSettings({ rootDir: pathToSave });
-                this.dirtySettings = false;
+                void this.settingsManager.updateSettings({ rootDir: pathToSave }).then(() => {
+                    this.dirtySettings = false;
+                });
             }, 800);
         };
 
         // Single file path input
         singleFilePathSetting = new Setting(containerEl)
-            .setDesc(getTranslation('settings.singleFilePath.desc'));
+            .setDesc(getTranslation('settings.singleFilePath.desc')) as TaskoratorSettingInternal;
         
-        const singleFilePathNameEl = (singleFilePathSetting as any).nameEl;
+        const singleFilePathNameEl = singleFilePathSetting.nameEl;
         singleFilePathNameEl.empty();
         setIcon(singleFilePathNameEl, 'file-text');
         singleFilePathNameEl.createSpan({ text: ' ' + getTranslation('settings.singleFilePath') });
 
         singleFilePathSetting.addText(text => {
                 text.setValue(settings.singleFilePath)
-                    .onChange(async (value) => {
-                        await this.settingsManager.updateSettings({ singleFilePath: value });
+                    .onChange((value) => {
+                        void this.settingsManager.updateSettings({ singleFilePath: value });
                     });
             });
             
         if (settings.storageMode === StorageMode.SINGLE_FILE) {
-            (rootDirSetting as any).settingEl.style.display = 'none';
+            rootDirSetting.settingEl.classList.add('u-display-none');
+            rootDirSetting.settingEl.classList.remove('u-display-flex');
         } else if (settings.storageMode === StorageMode.BOTH) {
             // Both shown
-            (rootDirSetting as any).settingEl.style.display = 'flex';
-            (singleFilePathSetting as any).settingEl.style.display = 'flex';
+            rootDirSetting.settingEl.classList.add('u-display-flex');
+            rootDirSetting.settingEl.classList.remove('u-display-none');
+            singleFilePathSetting.settingEl.classList.add('u-display-flex');
+            singleFilePathSetting.settingEl.classList.remove('u-display-none');
         } else {
-            (singleFilePathSetting as any).settingEl.style.display = 'none';
+            singleFilePathSetting.settingEl.classList.add('u-display-none');
+            singleFilePathSetting.settingEl.classList.remove('u-display-flex');
         }
 
         // Language settings (Interface)
         const languageSetting = new Setting(containerEl)
-            .setDesc(getTranslation('settings.language.desc'));
+            .setDesc(getTranslation('settings.language.desc')) as TaskoratorSettingInternal;
         
-        const languageNameEl = (languageSetting as any).nameEl;
+        const languageNameEl = languageSetting.nameEl;
         languageNameEl.empty();
         setIcon(languageNameEl, 'languages');
         languageNameEl.createSpan({ text: ' ' + getTranslation('settings.language') });
@@ -209,18 +203,19 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                     .addOption(Language.EN, getTranslation('settings.language.en'))
                     .addOption(Language.AR, getTranslation('settings.language.ar'))
                     .setValue(settings.language)
-                    .onChange(async (value) => {
-                        await this.settingsManager.updateSettings({ language: value as Language });
-                        // Need to reload settings page to update translations
-                        this.display();
+                    .onChange((value) => {
+                        void this.settingsManager.updateSettings({ language: value as Language }).then(() => {
+                            // Need to reload settings page to update translations
+                            this.display();
+                        });
                     });
             });
 
         // Output format (language) settings - Last before divider
         const outputLanguageSetting = new Setting(containerEl)
-            .setDesc(getTranslation('settings.outputLanguage.desc'));
+            .setDesc(getTranslation('settings.outputLanguage.desc')) as TaskoratorSettingInternal;
         
-        const outputLanguageNameEl = (outputLanguageSetting as any).nameEl;
+        const outputLanguageNameEl = outputLanguageSetting.nameEl;
         outputLanguageNameEl.empty();
         setIcon(outputLanguageNameEl, 'globe');
         outputLanguageNameEl.createSpan({ text: ' ' + getTranslation('settings.outputLanguage') });
@@ -232,48 +227,48 @@ export class TaskoratorSettingTab extends PluginSettingTab {
                     .addOption(Language.EN, getTranslation('settings.language.en'))
                     .addOption(Language.AR, getTranslation('settings.language.ar'))
                     .setValue(settings.outputLanguage || Language.AUTO)
-                    .onChange(async (value) => {
-                        await this.settingsManager.updateSettings({ outputLanguage: value as Language });
-                        const template = this.settingsManager.hasCustomTemplate() ? 
-                            this.settingsManager.getSettings().customTemplate : 
-                            this.settingsManager.getTemplateByLanguage();
-                        this.updatePreview(this.previewEl, template);
+                    .onChange((value) => {
+                        void this.settingsManager.updateSettings({ outputLanguage: value as Language }).then(() => {
+                            const template = this.settingsManager.hasCustomTemplate() ? 
+                                this.settingsManager.getSettings().customTemplate : 
+                                this.settingsManager.getTemplateByLanguage();
+                            this.updatePreview(this.previewEl, template);
+                        });
                     });
             });
         
         // Horizontal line before template settings
         containerEl.createEl('hr', { cls: 'daily-task-divider' });
         
+        // Add templates section heading
+        new Setting(containerEl).setName(getTranslation('settings.templateSettings')).setHeading();
+
         // Add template variables description
         const templateVariablesEl = document.createElement('div');
         templateVariablesEl.classList.add('template-variables');
 
         const variablesGrid = document.createElement('div');
-        variablesGrid.style.display = 'grid';
-        variablesGrid.style.gridTemplateColumns = '1fr 1fr';
-        variablesGrid.style.gap = '15px';
+        variablesGrid.classList.add('template-variables-grid');
         templateVariablesEl.appendChild(variablesGrid);
 
         const varSection = document.createElement('div');
         const varTitle = document.createElement('div');
-        varTitle.style.fontWeight = 'bold';
-        varTitle.style.marginBottom = '5px';
+        varTitle.classList.add('template-variable-section-title');
         varTitle.textContent = getTranslation('settings.template.variables');
         varSection.appendChild(varTitle);
         const varList = document.createElement('div');
-        varList.style.fontSize = '0.85em';
+        varList.classList.add('template-variable-section-list');
         varList.textContent = getTranslation('settings.template.vars.desc');
         varSection.appendChild(varList);
         variablesGrid.appendChild(varSection);
 
         const tagSection = document.createElement('div');
         const tagTitle = document.createElement('div');
-        tagTitle.style.fontWeight = 'bold';
-        tagTitle.style.marginBottom = '5px';
+        tagTitle.classList.add('template-variable-section-title');
         tagTitle.textContent = getTranslation('settings.template.tags');
         tagSection.appendChild(tagTitle);
         const tagList = document.createElement('div');
-        tagList.style.fontSize = '0.85em';
+        tagList.classList.add('template-variable-section-list');
         tagList.textContent = getTranslation('settings.template.tags.desc');
         tagSection.appendChild(tagList);
         variablesGrid.appendChild(tagSection);
@@ -282,9 +277,9 @@ export class TaskoratorSettingTab extends PluginSettingTab {
 
         // Single template settings
         const templateSetting = new Setting(containerEl)
-            .setClass('template-setting');
+            .setClass('template-setting') as TaskoratorSettingInternal;
         
-        const templateNameEl = (templateSetting as any).nameEl;
+        const templateNameEl = templateSetting.nameEl;
         templateNameEl.empty();
         setIcon(templateNameEl, 'file-code');
         templateNameEl.createSpan({ text: ' ' + getTranslation('settings.template') });
@@ -353,9 +348,9 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         const textarea = new TextAreaComponent(manualContent)
             .setValue(currentTemplate)
             .setPlaceholder(getTranslation('settings.template.placeholder') || 'Enter task template here...')
-            .onChange(async (value) => {
+            .onChange((value) => {
                 // Update to custom template
-                await this.settingsManager.updateSettings({ 
+                void this.settingsManager.updateSettings({ 
                     customTemplate: value,
                     hasCustomTemplate: true
                 });
@@ -422,33 +417,33 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         resetBtn.buttonEl.prepend(resetIcon);
         
         // Add reset event
-        resetBtn.onClick(async () => {
+        resetBtn.onClick(() => {
             // Set custom template to empty, revert to default template
-            await this.settingsManager.updateSettings({ 
+            void this.settingsManager.updateSettings({ 
                 customTemplate: '',
                 hasCustomTemplate: false
+            }).then(() => {
+                // Get default template for current language
+                const defaultTemplate = this.settingsManager.getTemplateByLanguage();
+                
+                // Update input box and preview
+                textarea.setValue(defaultTemplate);
+                this.updatePreview(this.previewEl, defaultTemplate);
+                
+                // Auto resize textarea after reset
+                const el = textarea.inputEl;
+                if (el) {
+                    el.style.height = 'auto';
+                    const newHeight = Math.max(el.scrollHeight, 250);
+                    el.style.height = newHeight + 'px';
+                }
+                
+                // Show success animation
+                resetBtn.buttonEl.classList.add('success-button');
+                window.setTimeout(() => {
+                    resetBtn.buttonEl.classList.remove('success-button');
+                }, 1000);
             });
-            
-            // Get default template for current language
-            const defaultTemplate = this.settingsManager.getTemplateByLanguage();
-            
-            // Update input box and preview
-            textarea.setValue(defaultTemplate);
-            this.updatePreview(this.previewEl, defaultTemplate);
-            
-            // Auto resize textarea after reset
-            const el = textarea.inputEl;
-            if (el) {
-                el.style.height = 'auto';
-                const newHeight = Math.max(el.scrollHeight, 250);
-                el.style.height = newHeight + 'px';
-            }
-            
-            // Show success animation
-            resetBtn.buttonEl.classList.add('success-button');
-            window.setTimeout(() => {
-                resetBtn.buttonEl.classList.remove('success-button');
-            }, 1000);
         });
 
         // Add buttons to their respective containers
@@ -476,9 +471,9 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             }
         });
         
-        (templateSetting as any).settingEl.style.display = 'block';
-        (templateSetting as any).settingEl.style.borderBottom = 'none';
-        (templateSetting as any).settingEl.appendChild(templateContainer);
+        templateSetting.settingEl.classList.add('template-setting-block');
+        templateSetting.settingEl.classList.add('template-setting-no-border');
+        templateSetting.settingEl.appendChild(templateContainer);
 
         // Action buttons container at the bottom
         const actionsContainer = document.createElement('div');
@@ -500,9 +495,10 @@ export class TaskoratorSettingTab extends PluginSettingTab {
         resetDefaultBtn.buttonEl.prepend(resetIcon2);
         
         // Event handler for global reset button
-        resetDefaultBtn.onClick(async () => {
-            await this.settingsManager.resetToDefaults();
-            this.display();
+        resetDefaultBtn.onClick(() => {
+            void this.settingsManager.resetToDefaults().then(() => {
+                this.display();
+            });
         });
         
         // Manually add today's tasks button
@@ -515,14 +511,12 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             this.addTaskButton.buttonEl.addClass(TextCenterCSS);
             this.addTaskButton.buttonEl.addClass('add-task-button');
             this.addTaskButton.buttonEl.addClass('daily-task-button-common');
-            // Remove the margin top as it's now in the container
-            this.addTaskButton.buttonEl.style.marginTop = '0';
         }
 
         // Event handler for manual add task button
-        this.addTaskButton.onClick(async () => {
+        this.addTaskButton.onClick(() => {
             // Check directory settings
-            const rootDir = this.settingsManager.getSettings().rootDir;
+            // const rootDir = this.settingsManager.getSettings().rootDir;
             
             // Add loading state
             if (this.addTaskButton && this.addTaskButton.buttonEl) {
@@ -530,20 +524,19 @@ export class TaskoratorSettingTab extends PluginSettingTab {
             }
             this.addTaskButton?.setDisabled(true);
             
-            try {
-                // Add task
-                await this.taskGenerator.addTaskManually();
-            } catch (e) {
-                new Notice(`Add task failed: ${e.message || e}`);
-            } finally {
-                // Remove loading state
-                window.setTimeout(() => {
-                    if (this.addTaskButton && this.addTaskButton.buttonEl) {
-                        this.addTaskButton.buttonEl.classList.remove('loading');
-                    }
-                    this.addTaskButton?.setDisabled(false);
-                }, 500);
-            }
+            void this.taskGenerator.addTaskManually()
+                .catch((e) => {
+                    new Notice(`Add task failed: ${e.message || e}`);
+                })
+                .finally(() => {
+                    // Remove loading state
+                    window.setTimeout(() => {
+                        if (this.addTaskButton && this.addTaskButton.buttonEl) {
+                            this.addTaskButton.buttonEl.classList.remove('loading');
+                        }
+                        this.addTaskButton?.setDisabled(false);
+                    }, 500);
+                });
         });
 
         // Add icon
